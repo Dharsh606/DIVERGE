@@ -1,7 +1,7 @@
 // DIVERGE — API Service Layer
 // Typed fetch wrapper for the Go backend
 
-const BASE = '/api';
+const BASE = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_URL) || '/api';
 
 class APIError extends Error {
   constructor(public status: number, message: string) {
