@@ -36,19 +36,26 @@
 </svelte:head>
 
 <div class="auth-wrap">
-  <div class="auth-card card glass">
+  <!-- Atmospheric background glowing orbs -->
+  <div class="auth-orb auth-orb-1" aria-hidden="true"></div>
+  <div class="auth-orb auth-orb-2" aria-hidden="true"></div>
+
+  <!-- Centered Glassmorphic Card -->
+  <div class="auth-card glass">
     <div class="auth-header">
       <a href="/" class="brand-link" aria-label="DIVERGE home">
-        <svg viewBox="0 0 40 40" width="36" height="36" fill="none">
-          <path d="M8 6 L8 34 L22 34 Q36 34 36 20 Q36 6 22 6 Z" fill="url(#reg-grad)" />
-          <path d="M15 13 L15 27 L28 20 Z" fill="#111019" />
-          <defs>
-            <linearGradient id="reg-grad" x1="8" y1="6" x2="36" y2="34" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stop-color="#B19AFF"/>
-              <stop offset="100%" stop-color="#FF796C"/>
-            </linearGradient>
-          </defs>
-        </svg>
+        <div class="logo-wrapper">
+          <svg viewBox="0 0 40 40" width="44" height="44" fill="none">
+            <path d="M8 6 L8 34 L22 34 Q36 34 36 20 Q36 6 22 6 Z" fill="url(#reg-grad)" />
+            <path d="M15 13 L15 27 L28 20 Z" fill="#111019" />
+            <defs>
+              <linearGradient id="reg-grad" x1="8" y1="6" x2="36" y2="34" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#B19AFF"/>
+                <stop offset="100%" stop-color="#FF796C"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
         <span class="brand-text">DIVERGE</span>
       </a>
       <h2>Take the uncommon route</h2>
@@ -57,56 +64,74 @@
 
     {#if errorMsg}
       <div class="alert-error" role="alert">
-        {errorMsg}
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" class="error-icon">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <span>{errorMsg}</span>
       </div>
     {/if}
 
     <form on:submit={handleSubmit} class="auth-form">
       <div class="form-group">
         <label for="reg-username">Username</label>
-        <input
-          id="reg-username"
-          type="text"
-          required
-          class="input"
-          placeholder="your_handle"
-          bind:value={username}
-        />
+        <div class="input-wrap">
+          <input
+            id="reg-username"
+            type="text"
+            required
+            class="input auth-input"
+            placeholder="your_handle"
+            bind:value={username}
+          />
+        </div>
       </div>
 
       <div class="form-group">
         <label for="reg-email">Email</label>
-        <input
-          id="reg-email"
-          type="email"
-          required
-          class="input"
-          placeholder="your.email@example.com"
-          bind:value={email}
-        />
+        <div class="input-wrap">
+          <input
+            id="reg-email"
+            type="email"
+            required
+            class="input auth-input"
+            placeholder="your.email@example.com"
+            bind:value={email}
+          />
+        </div>
       </div>
 
       <div class="form-group">
         <label for="reg-password">Password</label>
-        <input
-          id="reg-password"
-          type="password"
-          required
-          minlength="6"
-          class="input"
-          placeholder="••••••••"
-          bind:value={password}
-        />
+        <div class="input-wrap">
+          <input
+            id="reg-password"
+            type="password"
+            required
+            minlength="6"
+            class="input auth-input"
+            placeholder="••••••••"
+            bind:value={password}
+          />
+        </div>
+        <span class="input-hint text-faint">Must be at least 6 characters</span>
       </div>
 
       <button type="submit" class="btn btn-primary submit-btn" disabled={submitting}>
-        {submitting ? 'Creating account...' : 'Create Account'}
+        {#if submitting}
+          <span class="btn-spinner" aria-hidden="true"></span>
+          <span>Creating account...</span>
+        {:else}
+          <span>Create Account</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+          </svg>
+        {/if}
       </button>
     </form>
 
     <div class="auth-footer text-muted">
       <span>Already have an account?</span>
-      <a href="/login">Log in</a>
+      <a href="/login" class="auth-link">Log in</a>
     </div>
 
     <div class="legal-links text-faint">
@@ -125,13 +150,78 @@
     justify-content: center;
     padding: 1.5rem;
     background: var(--color-bg);
+    position: relative;
+    overflow: hidden;
   }
 
+  /* Atmospheric glowing orbs */
+  .auth-orb {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .auth-orb-1 {
+    width: 440px;
+    height: 440px;
+    top: 15%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(177, 154, 255, 0.15) 0%, transparent 70%);
+    filter: blur(60px);
+    animation: orb-drift-1 14s ease-in-out infinite alternate;
+  }
+
+  .auth-orb-2 {
+    width: 380px;
+    height: 380px;
+    bottom: 15%;
+    right: 20%;
+    transform: translate(50%, 50%);
+    background: radial-gradient(circle, rgba(255, 121, 108, 0.11) 0%, transparent 70%);
+    filter: blur(60px);
+    animation: orb-drift-2 16s ease-in-out infinite alternate;
+  }
+
+  @keyframes orb-drift-1 {
+    0%   { transform: translate(-50%, -50%) scale(0.95); }
+    100% { transform: translate(-42%, -42%) scale(1.1); }
+  }
+
+  @keyframes orb-drift-2 {
+    0%   { transform: translate(50%, 50%) scale(1.05); }
+    100% { transform: translate(40%, 40%) scale(0.9); }
+  }
+
+  /* Centered Glassmorphic Card */
   .auth-card {
+    position: relative;
+    z-index: 1;
     width: 100%;
-    max-width: 420px;
-    padding: 2.25rem;
+    max-width: 450px;
+    padding: 2.75rem 2.25rem;
     border-radius: var(--radius-xl);
+    background: rgba(27, 24, 39, 0.65);
+    backdrop-filter: blur(36px) saturate(190%);
+    -webkit-backdrop-filter: blur(36px) saturate(190%);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    box-shadow:
+      0 28px 70px rgba(0, 0, 0, 0.6),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15),
+      inset 0 0 28px rgba(177, 154, 255, 0.03);
+    animation: card-entrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes card-entrance {
+    from {
+      opacity: 0;
+      transform: translateY(18px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
   }
 
   .auth-header {
@@ -145,71 +235,174 @@
     gap: 0.75rem;
     margin-bottom: 1.25rem;
     text-decoration: none;
+    transition: transform var(--t-fast) ease;
+  }
+  .brand-link:hover {
+    transform: scale(1.04);
+  }
+
+  .logo-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: drop-shadow(0 4px 12px rgba(177, 154, 255, 0.3));
   }
 
   .brand-text {
     font-size: var(--text-base);
     font-weight: 700;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.22em;
     color: var(--color-text);
   }
 
   .auth-header h2 {
     font-size: var(--text-2xl);
     font-weight: 700;
-    margin-bottom: 0.35rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.4rem;
+    color: var(--color-text);
   }
 
   .alert-error {
     background: var(--color-accent-dim);
     color: var(--color-accent);
+    border: 1px solid rgba(255, 121, 108, 0.25);
     padding: 0.75rem 1rem;
     border-radius: var(--radius-md);
     font-size: var(--text-sm);
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    animation: shake 0.35s ease;
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-4px); }
+    40%, 80% { transform: translateX(4px); }
+  }
+
+  .error-icon {
+    flex-shrink: 0;
   }
 
   .auth-form {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1.2rem;
   }
 
   .form-group {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.45rem;
   }
 
   .form-group label {
     font-size: var(--text-xs);
     font-weight: 500;
     color: var(--color-text-muted);
+    letter-spacing: 0.02em;
+  }
+
+  .input-hint {
+    font-size: 0.72rem;
+    margin-top: 0.15rem;
+  }
+
+  .input-wrap {
+    position: relative;
+    width: 100%;
+  }
+
+  .auth-input {
+    background: rgba(17, 16, 25, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition:
+      border-color var(--t-fast) ease,
+      box-shadow var(--t-fast) ease,
+      background var(--t-fast) ease;
+  }
+
+  .auth-input:focus {
+    background: rgba(17, 16, 25, 0.85);
+    border-color: var(--color-primary);
+    box-shadow:
+      0 0 0 3px rgba(177, 154, 255, 0.18),
+      0 0 16px rgba(177, 154, 255, 0.12);
   }
 
   .submit-btn {
     margin-top: 0.5rem;
-    padding: 0.75rem;
+    padding: 0.8rem 1.25rem;
     width: 100%;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    box-shadow: 0 4px 18px rgba(177, 154, 255, 0.25);
+    transition:
+      transform var(--t-fast) ease,
+      box-shadow var(--t-fast) ease,
+      opacity var(--t-fast) ease;
   }
+
+  .submit-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 26px rgba(177, 154, 255, 0.4);
+    opacity: 0.95;
+  }
+
+  .submit-btn:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  .btn-spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(17, 16, 25, 0.3);
+    border-top-color: #111019;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
 
   .auth-footer {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 0.4rem;
     margin-top: 1.75rem;
     font-size: var(--text-sm);
   }
 
+  .auth-link {
+    color: var(--color-primary);
+    font-weight: 500;
+    text-decoration: none;
+    transition: color var(--t-fast) ease, text-decoration var(--t-fast) ease;
+  }
+  .auth-link:hover {
+    text-decoration: underline;
+    opacity: 0.9;
+  }
+
   .legal-links {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 0.5rem;
-    margin-top: 1.25rem;
+    margin-top: 1.5rem;
     font-size: var(--text-xs);
+    border-top: 1px solid var(--color-border-subtle);
+    padding-top: 1rem;
   }
   .legal-links a {
     color: var(--color-text-faint);
+    transition: color var(--t-fast) ease;
   }
   .legal-links a:hover {
     color: var(--color-text-muted);

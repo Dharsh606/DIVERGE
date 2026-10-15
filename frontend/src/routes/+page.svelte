@@ -171,13 +171,31 @@
         </div>
       </section>
     {:else if !$isLoggedIn}
-      <section class="cta-section glass" aria-label="Sign up prompt">
-        <div class="cta-inner">
-          <h2>Take the uncommon route.</h2>
-          <p>Sign in to get personalised picks, save playlists, and track your musical journey.</p>
+      <section class="cta-section" aria-label="Sign up prompt">
+        <div class="cta-glow-backdrop" aria-hidden="true"></div>
+        <div class="cta-card glass">
+          <div class="cta-emblem" aria-hidden="true">
+            <svg viewBox="0 0 40 40" width="48" height="48" fill="none">
+              <path d="M8 6 L8 34 L22 34 Q36 34 36 20 Q36 6 22 6 Z" fill="url(#cta-mark-grad)" />
+              <path d="M15 13 L15 27 L28 20 Z" fill="#111019" />
+              <defs>
+                <linearGradient id="cta-mark-grad" x1="8" y1="6" x2="36" y2="34" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#B19AFF"/>
+                  <stop offset="100%" stop-color="#FF796C"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <h2 class="cta-title">Take the uncommon route.</h2>
+          <p class="cta-desc">Sign in to get personalised picks, save playlists, and track your musical journey.</p>
           <div class="cta-actions">
-            <a href="/register" class="btn btn-primary" id="home-cta-register">Create account</a>
-            <a href="/login" class="btn btn-ghost" id="home-cta-login">Log in</a>
+            <a href="/register" class="btn btn-primary cta-btn-primary" id="home-cta-register">
+              <span>Create account</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+            <a href="/login" class="btn btn-ghost cta-btn-ghost" id="home-cta-login">Log in</a>
           </div>
         </div>
       </section>
@@ -283,24 +301,118 @@
     gap: 0;
   }
 
-  /* CTA */
+  /* Centered Glassmorphic CTA */
   .cta-section {
+    position: relative;
+    width: 100%;
+    max-width: 680px;
+    margin: 1.5rem auto 2.5rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .cta-glow-backdrop {
+    position: absolute;
+    inset: -12px;
+    border-radius: calc(var(--radius-xl) + 12px);
+    background: radial-gradient(circle at 50% 50%, rgba(177, 154, 255, 0.16) 0%, rgba(255, 121, 108, 0.08) 50%, transparent 75%);
+    filter: blur(28px);
+    pointer-events: none;
+    z-index: 0;
+    animation: cta-ambient-pulse 7s ease-in-out infinite alternate;
+  }
+
+  @keyframes cta-ambient-pulse {
+    0%   { opacity: 0.6; transform: scale(0.97); }
+    100% { opacity: 1.0; transform: scale(1.03); }
+  }
+
+  .cta-card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding: 2.75rem 2.25rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     border-radius: var(--radius-xl);
-    padding: 2rem;
+    background: rgba(27, 24, 39, 0.65);
+    backdrop-filter: blur(32px) saturate(180%);
+    -webkit-backdrop-filter: blur(32px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    box-shadow:
+      0 20px 50px rgba(0, 0, 0, 0.55),
+      inset 0 1px 0 rgba(255, 255, 255, 0.14),
+      inset 0 0 24px rgba(177, 154, 255, 0.03);
+    transition:
+      transform var(--t-normal) var(--ease-out-expo),
+      box-shadow var(--t-normal) ease,
+      border-color var(--t-normal) ease;
   }
-  .cta-inner {
-    max-width: 480px;
+
+  .cta-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(177, 154, 255, 0.28);
+    box-shadow:
+      0 26px 60px rgba(0, 0, 0, 0.65),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      0 0 30px rgba(177, 154, 255, 0.12);
   }
-  .cta-inner h2 {
-    font-size: var(--text-2xl);
-    margin-bottom: 0.5rem;
-  }
-  .cta-inner p {
+
+  .cta-emblem {
     margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform var(--t-normal) ease;
   }
+  .cta-card:hover .cta-emblem {
+    transform: scale(1.06);
+  }
+
+  .cta-title {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    margin-bottom: 0.65rem;
+    color: var(--color-text);
+  }
+
+  .cta-desc {
+    max-width: 440px;
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    margin: 0 auto 1.5rem;
+  }
+
   .cta-actions {
     display: flex;
-    gap: 0.75rem;
+    gap: 0.85rem;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .cta-btn-primary {
+    padding: 0.75rem 1.6rem;
+    box-shadow: 0 4px 18px rgba(177, 154, 255, 0.25);
+    transition: transform var(--t-fast) ease, box-shadow var(--t-fast) ease, opacity var(--t-fast) ease;
+  }
+  .cta-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(177, 154, 255, 0.4);
+    opacity: 0.95;
+  }
+
+  .cta-btn-ghost {
+    padding: 0.75rem 1.6rem;
+    transition: transform var(--t-fast) ease, background var(--t-fast) ease, border-color var(--t-fast) ease;
+  }
+  .cta-btn-ghost:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-primary);
   }
 
   @media (max-width: 600px) {
