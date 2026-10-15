@@ -97,7 +97,7 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
     bullets = [
         "Spotify-inspired core functionality with intentional discovery innovations.",
         "Engineered with Go (Fiber) backend and SvelteKit frontend.",
-        "Zero AI slop: Discovery powered by deterministic musicology attributes (BPM, Key, Energy, Valence).",
+        "Deterministic Discovery: Powered by exact musicology attributes (BPM, Key, Energy, Valence).",
         "Strict anti-vibe product visual rules: No purple gradients, no pill buttons, no fake reviews."
     ]
     for b in bullets:

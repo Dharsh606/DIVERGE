@@ -183,8 +183,8 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
         "Digital music streaming represents one of the most demanding web application paradigms. "
         "Applications must simultaneously guarantee low-latency audio transmission, persistent playback "
         "continuity across navigational transitions, and responsive multi-attribute catalog search. "
-        "DIVERGE delivers these core capabilities while exploring the uncommon route: replacing speculative "
-        "AI black-boxes with deterministic musicology metrics (BPM, musical keys, energy scores, and valence).",
+        "DIVERGE delivers these core capabilities while exploring the uncommon route: utilizing "
+        "deterministic musicology metrics (BPM, musical keys, energy scores, and valence).",
         body_style
     ))
     story.append(Spacer(1, 10))
@@ -327,7 +327,7 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
 
     story.append(Paragraph("<b>Deterministic Track DNA Formula:</b>", h2_style))
     story.append(Paragraph(
-        "Rather than utilizing stochastic AI images, Track DNA uses a deterministic FNV-1a hash of the song title, "
+        "Track DNA utilizes a deterministic FNV-1a hash of the song title, "
         "BPM, and musical key to calculate polygon petal count (3 to 7), inner radius spikiness, and orbit dots. "
         "This guarantees identical visual glyphs for any given song across sessions.",
         body_style
@@ -391,8 +391,8 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
     story.append(Paragraph("Chapter 11: Conclusion & References", h1_style))
     story.append(Paragraph(
         "DIVERGE proves that modern full-stack engineering can combine exceptional streaming performance with intentional, "
-        "anti-homogenizing discovery mechanics. Built in Go and SvelteKit without reliance on generic UI templates or "
-        "stochastic AI slop, DIVERGE fulfills all internship evaluation requirements as a production-grade digital audio service.",
+        "anti-homogenizing discovery mechanics. Built in Go and SvelteKit without reliance on generic UI templates, "
+        "DIVERGE fulfills all internship evaluation requirements as a production-grade digital audio service.",
         body_style
     ))
     story.append(Spacer(1, 8))

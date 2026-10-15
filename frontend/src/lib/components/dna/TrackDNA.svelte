@@ -3,7 +3,7 @@
    * TrackDNA — Deterministic generative glyph per song.
    * Same song always renders the same glyph.
    * Input: song metadata (bpm, energy_score, mood_score, genre, musical_key)
-   * Output: unique SVG pattern — no randomness, no AI.
+   * Output: unique deterministic SVG pattern based on acoustic properties.
    */
   import type { Song } from '$lib/types';
 

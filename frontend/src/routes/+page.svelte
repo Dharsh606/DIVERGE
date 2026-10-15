@@ -171,7 +171,7 @@
         </div>
       </section>
     {:else if !$isLoggedIn}
-      <section class="cta-section" aria-label="Sign up prompt">
+      <section class="cta-section" aria-label="Sign up banner">
         <div class="cta-glow-backdrop" aria-hidden="true"></div>
         <div class="cta-card glass">
           <div class="cta-emblem" aria-hidden="true">

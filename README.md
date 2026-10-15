@@ -159,11 +159,3 @@ JAMENDO_CLIENT_ID=
 | GET | `/api/history/trace` | Branching tree listening path | Yes |
 | GET | `/api/tags` | List user context tags | Yes |
 | POST | `/api/tags` | Attach context tag to song | Yes |
-
----
-
-## 7. Submission Deliverables
-
-* **Source Code:** Clean, modular repository in `backend/` and `frontend/`.
-* **Project Report:** Professional 16-chapter PDF documentation located in `docs/project-report.pdf`.
-* **Presentation Slides:** 12-slide PowerPoint presentation located in `docs/presentation.pptx`.
