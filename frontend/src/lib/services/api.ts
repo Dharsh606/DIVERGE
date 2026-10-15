@@ -71,6 +71,9 @@ export const songs = {
 
   trending: () => request('/songs/trending'),
 
+  searchLive: (query: string, limit = 20) =>
+    request<{ songs: any[]; query: string; count: number }>(`/songs/live-search?q=${encodeURIComponent(query)}&limit=${limit}`),
+
   genres: () => request<string[]>('/genres'),
 };
 

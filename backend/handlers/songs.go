@@ -6,6 +6,7 @@ import (
 	"github.com/diverge/backend/database"
 	"github.com/diverge/backend/middleware"
 	"github.com/diverge/backend/models"
+	"github.com/diverge/backend/services"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -125,5 +126,27 @@ func logPlay(userID, songID uint) {
 		UserID:   userID,
 		SongID:   songID,
 		Completed: false,
+	})
+}
+
+// GET /api/songs/live-search?q=...&limit=20
+func SearchLiveSongs(c *fiber.Ctx) error {
+	q := c.Query("q", "")
+	limit, _ := strconv.Atoi(c.Query("limit", "20"))
+	if limit <= 0 || limit > 30 {
+		limit = 20
+	}
+
+	songs, err := services.SearchCatalog(q, limit)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	return c.JSON(fiber.Map{
+		"songs": songs,
+		"query": q,
+		"count": len(songs),
 	})
 }

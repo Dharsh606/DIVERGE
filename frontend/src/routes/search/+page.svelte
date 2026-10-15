@@ -13,6 +13,18 @@
   let antiReason = '';
   let loading = false;
   let debounceTimer: any = null;
+  let searchScope: 'all' | 'live' = 'all';
+
+  const quickPills = [
+    { label: 'Bollywood Hits', q: 'Arijit Singh' },
+    { label: 'Tamil & South', q: 'Anirudh Ravichander' },
+    { label: 'Punjabi Beats', q: 'Diljit Dosanjh' },
+    { label: 'Telugu Melodies', q: 'Sid Sriram' },
+    { label: 'A.R. Rahman', q: 'A.R. Rahman' },
+    { label: 'World Pop', q: 'The Weeknd' },
+    { label: 'Alternative Rock', q: 'Coldplay' },
+    { label: 'Piano & Ambient', q: 'Ludovico Einaudi' }
+  ];
 
   onMount(async () => {
     try {
@@ -41,18 +53,31 @@
     debounceTimer = setTimeout(() => {
       isAntiMode = false;
       executeSearch();
-    }, 280);
+    }, 320);
   }
 
   async function executeSearch() {
     loading = true;
     try {
-      const res = await songsAPI.list({
-        search: query.trim() || undefined,
-        genre: selectedGenre || undefined,
-        limit: 30
-      }) as PaginatedSongs;
-      results = res.songs;
+      if (searchScope === 'live' || (query.trim().length > 0 && searchScope !== 'all')) {
+        const res = await songsAPI.searchLive(query.trim() || 'Indian Top Hits', 25);
+        results = res.songs || [];
+      } else {
+        // First search local PostgreSQL
+        const res = await songsAPI.list({
+          search: query.trim() || undefined,
+          genre: selectedGenre || undefined,
+          limit: 30
+        }) as PaginatedSongs;
+        
+        // If local has 0 matches and user typed a query, automatically fetch from live Indian & World catalog
+        if ((!res.songs || res.songs.length === 0) && query.trim().length > 2) {
+          const liveRes = await songsAPI.searchLive(query.trim(), 20);
+          results = liveRes.songs || [];
+        } else {
+          results = res.songs || [];
+        }
+      }
     } catch (err) {
       console.error('Search failed', err);
     } finally {
@@ -60,8 +85,23 @@
     }
   }
 
+  function setScope(scope: 'all' | 'live') {
+    searchScope = scope;
+    isAntiMode = false;
+    executeSearch();
+  }
+
+  function applyQuickPill(q: string) {
+    query = q;
+    selectedGenre = '';
+    searchScope = 'live';
+    isAntiMode = false;
+    executeSearch();
+  }
+
   async function selectGenre(g: string) {
     selectedGenre = selectedGenre === g ? '' : g;
+    searchScope = 'all';
     isAntiMode = false;
     executeSearch();
   }
@@ -83,16 +123,42 @@
 
   function resetToNormal() {
     isAntiMode = false;
+    searchScope = 'all';
     executeSearch();
   }
 </script>
 
 <svelte:head>
   <title>Search & Discover - DIVERGE</title>
-  <meta name="description" content="Search songs, filter by sonic attributes, or take the Anti-Algorithm route." />
+  <meta name="description" content="Search Indian and World songs, filter by sonic attributes, or explore live open-source music." />
 </svelte:head>
 
 <div class="search-page">
+  <!-- Top search scope switch -->
+  <div class="scope-tabs">
+    <button
+      class="scope-btn"
+      class:active={searchScope === 'all' && !isAntiMode}
+      on:click={() => setScope('all')}
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+      </svg>
+      <span>Library Catalog</span>
+    </button>
+    <button
+      class="scope-btn"
+      class:active={searchScope === 'live' && !isAntiMode}
+      on:click={() => setScope('live')}
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+        <circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+      </svg>
+      <span>Live Network (Indian & World)</span>
+    </button>
+  </div>
+
   <!-- Search input bar -->
   <div class="search-bar-wrap">
     <div class="search-input-box glass">
@@ -102,7 +168,7 @@
       <input
         type="search"
         class="search-input"
-        placeholder="Search by track title, artist, or style..."
+        placeholder={searchScope === 'live' ? "Search any song, artist (e.g. Arijit Singh, Anirudh, Diljit, The Weeknd)..." : "Search local library catalog..."}
         bind:value={query}
         on:input={handleInput}
         aria-label="Search tracks"
@@ -124,7 +190,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
         <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/>
       </svg>
-      {isAntiMode ? 'Exit Anti-Algorithm' : 'Anti-Algorithm Route'}
+      <span>{isAntiMode ? 'Exit Anti-Algorithm' : 'Anti-Algorithm Route'}</span>
     </button>
   </div>
 
@@ -135,33 +201,51 @@
     </div>
   {/if}
 
-  <!-- Genre filters -->
-  <div class="genre-filter-row" role="region" aria-label="Genre filters">
-    <button
-      class="genre-chip"
-      class:active={selectedGenre === '' && !isAntiMode}
-      on:click={() => selectGenre('')}
-    >
-      All Genres
-    </button>
-    {#each genres as g}
+  <!-- Quick discovery pills for Indian & World catalog -->
+  <div class="quick-pills-row" role="region" aria-label="Quick Indian and world music filters">
+    <span class="pills-label text-faint">Trending:</span>
+    {#each quickPills as pill}
       <button
-        class="genre-chip"
-        class:active={selectedGenre === g && !isAntiMode}
-        on:click={() => selectGenre(g)}
+        class="pill-chip"
+        class:active={query === pill.q && searchScope === 'live'}
+        on:click={() => applyQuickPill(pill.q)}
       >
-        {g.charAt(0).toUpperCase() + g.slice(1)}
+        {pill.label}
       </button>
     {/each}
   </div>
+
+  <!-- Genre filters (when in library mode) -->
+  {#if genres.length > 0 && searchScope === 'all'}
+    <div class="genre-filter-row" role="region" aria-label="Genre filters">
+      <button
+        class="genre-chip"
+        class:active={selectedGenre === '' && !isAntiMode}
+        on:click={() => selectGenre('')}
+      >
+        All Genres
+      </button>
+      {#each genres as g}
+        <button
+          class="genre-chip"
+          class:active={selectedGenre === g && !isAntiMode}
+          on:click={() => selectGenre(g)}
+        >
+          {g.charAt(0).toUpperCase() + g.slice(1)}
+        </button>
+      {/each}
+    </div>
+  {/if}
 
   <!-- Results Count -->
   <div class="results-header">
     <span class="results-count text-muted">
       {#if loading}
-        Searching...
+        Searching catalog...
       {:else if isAntiMode}
         Showing {results.length} uncommon divergence tracks
+      {:else if searchScope === 'live'}
+        Showing {results.length} live streamable tracks across Indian & World music
       {:else}
         Showing {results.length} {results.length === 1 ? 'track' : 'tracks'}
       {/if}
@@ -178,10 +262,10 @@
   {:else if results.length === 0}
     <div class="empty-state glass">
       <h3>No tracks found</h3>
-      <p class="text-muted">Try adjusting your search terms or genre selection.</p>
-      {#if isAntiMode}
-        <button class="btn btn-ghost" on:click={resetToNormal}>Return to standard catalog</button>
-      {/if}
+      <p class="text-muted">Try searching in the Live Network for any Indian or World artist.</p>
+      <button class="btn btn-primary" on:click={() => setScope('live')}>
+        Search Live Network
+      </button>
     </div>
   {:else}
     <div class="song-grid" role="list">
@@ -202,6 +286,41 @@
     padding-bottom: 2rem;
   }
 
+  .scope-tabs {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    border-bottom: 1px solid var(--color-border-subtle);
+    padding-bottom: 0.75rem;
+  }
+
+  .scope-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--t-fast) ease;
+  }
+
+  .scope-btn:hover {
+    color: var(--color-text);
+    background: var(--color-surface);
+  }
+
+  .scope-btn.active {
+    color: var(--color-text);
+    background: var(--color-surface-raised);
+    border-color: var(--color-border);
+    font-weight: 600;
+  }
+
   .search-bar-wrap {
     display: flex;
     gap: 1rem;
@@ -213,10 +332,18 @@
     display: flex;
     align-items: center;
     flex: 1;
-    min-width: 260px;
-    padding: 0.65rem 1rem;
+    min-width: 280px;
+    padding: 0.75rem 1.1rem;
     border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(27, 24, 39, 0.5);
+    backdrop-filter: blur(16px);
+    transition: border-color var(--t-fast) ease, box-shadow var(--t-fast) ease;
+  }
+
+  .search-input-box:focus-within {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(177, 154, 255, 0.15);
   }
 
   .search-icon {
@@ -232,9 +359,8 @@
     background: transparent;
     border: none;
     outline: none;
+    font-size: var(--text-sm);
     color: var(--color-text);
-    font-size: var(--text-base);
-    font-family: inherit;
   }
 
   .search-input::placeholder {
@@ -246,52 +372,93 @@
     border: none;
     color: var(--color-text-muted);
     font-size: 1.25rem;
+    line-height: 1;
     cursor: pointer;
     padding: 0 0.25rem;
+    transition: color var(--t-fast) ease;
+  }
+  .clear-btn:hover {
+    color: var(--color-text);
   }
 
   .anti-btn {
-    background: transparent;
-    border: 1px solid var(--color-accent);
-    color: var(--color-accent);
-    padding: 0.65rem 1.25rem;
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    padding: 0.75rem 1.1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: var(--text-sm);
     border-radius: var(--radius-md);
+    white-space: nowrap;
+    transition: all var(--t-fast) ease;
   }
-
   .anti-btn:hover {
-    background: var(--color-accent-dim);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
   }
-
   .anti-btn.active {
-    background: var(--color-accent);
-    color: var(--color-bg);
+    background: var(--color-primary);
+    color: #111019;
+    border-color: var(--color-primary);
+    font-weight: 600;
+    box-shadow: 0 0 16px rgba(177, 154, 255, 0.35);
   }
 
   .anti-notice {
+    padding: 1.25rem;
+    border-radius: var(--radius-lg);
+    border-left: 3px solid var(--color-primary);
     display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem 1.25rem;
-    border-radius: var(--radius-md);
-    border-left: 3px solid var(--color-accent);
+    flex-direction: column;
+    gap: 0.5rem;
   }
-
   .anti-badge {
     font-size: var(--text-xs);
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-accent);
-    background: var(--color-accent-dim);
-    padding: 0.25rem 0.5rem;
-    border-radius: var(--radius-xs);
-    white-space: nowrap;
+    color: var(--color-primary);
   }
-
   .anti-text {
     font-size: var(--text-sm);
     color: var(--color-text);
-    margin: 0;
+  }
+
+  .quick-pills-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.4rem;
+  }
+  .pills-label {
+    font-size: var(--text-xs);
+    margin-right: 0.25rem;
+    white-space: nowrap;
+  }
+  .pill-chip {
+    padding: 0.35rem 0.75rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-md);
+    color: var(--color-text-muted);
+    font-size: var(--text-xs);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all var(--t-fast) ease;
+  }
+  .pill-chip:hover {
+    background: var(--color-surface-raised);
+    color: var(--color-text);
+    border-color: var(--color-primary);
+  }
+  .pill-chip.active {
+    background: var(--color-primary);
+    color: #111019;
+    font-weight: 600;
+    border-color: var(--color-primary);
   }
 
   .genre-filter-row {
@@ -302,26 +469,25 @@
   }
 
   .genre-chip {
-    background: transparent;
+    padding: 0.4rem 0.85rem;
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
     border: 1px solid var(--color-border);
     color: var(--color-text-muted);
-    padding: 0.35rem 0.85rem;
-    border-radius: var(--radius-md);
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
     cursor: pointer;
     white-space: nowrap;
     transition: all var(--t-fast) ease;
   }
-
   .genre-chip:hover {
+    color: var(--color-text);
+    background: var(--color-surface-raised);
+  }
+  .genre-chip.active {
     background: var(--color-surface-raised);
     color: var(--color-text);
-  }
-
-  .genre-chip.active {
-    background: var(--color-primary-dim);
     border-color: var(--color-primary);
-    color: var(--color-primary);
+    font-weight: 600;
   }
 
   .results-header {
@@ -329,18 +495,40 @@
     align-items: center;
     justify-content: space-between;
   }
-
   .results-count {
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
+    letter-spacing: 0.02em;
+  }
+
+  .song-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.25rem;
   }
 
   .empty-state {
-    padding: 3rem 2rem;
+    padding: 3.5rem 2rem;
     text-align: center;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-xl);
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.75rem;
+  }
+  .empty-state h3 {
+    font-size: var(--text-xl);
+    font-weight: 700;
+  }
+  .empty-state p {
+    font-size: var(--text-sm);
+    max-width: 400px;
+    margin-bottom: 0.5rem;
+  }
+
+  @media (max-width: 600px) {
+    .song-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.85rem;
+    }
   }
 </style>

@@ -59,6 +59,7 @@ func main() {
 	songs := api.Group("/songs")
 	songs.Get("/", middleware.OptionalAuth(), handlers.GetSongs)
 	songs.Get("/trending", handlers.GetTrending)
+	songs.Get("/live-search", handlers.SearchLiveSongs)
 	songs.Get("/:id", middleware.OptionalAuth(), handlers.GetSong)
 	songs.Get("/:id/stream", middleware.OptionalAuth(), handlers.StreamSong)
 	songs.Get("/:id/dna", handlers.GetSongDNA)
