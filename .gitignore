@@ -1,0 +1,25 @@
+# DIVERGE — Root .gitignore
+
+# Database binaries and local cluster data
+pgsql/
+pg16.zip
+
+# Backend binaries and environment
+backend/diverge_backend.exe
+backend/*.exe
+backend/.env
+
+# Frontend artifacts
+frontend/node_modules/
+frontend/.svelte-kit/
+frontend/build/
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+# Logs and runtime caches
+*.log
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db

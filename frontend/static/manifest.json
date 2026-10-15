@@ -1,0 +1,16 @@
+{
+  "name": "DIVERGE",
+  "short_name": "DIVERGE",
+  "description": "Music streaming service taking the uncommon route",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#111019",
+  "theme_color": "#111019",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
