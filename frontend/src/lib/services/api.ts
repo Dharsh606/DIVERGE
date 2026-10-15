@@ -1,7 +1,7 @@
 // DIVERGE — API Service Layer
 // Typed fetch wrapper for the Go backend
 
-const BASE = 'http://localhost:8080/api';
+const BASE = '/api';
 
 class APIError extends Error {
   constructor(public status: number, message: string) {
