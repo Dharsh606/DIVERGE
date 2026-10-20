@@ -15,7 +15,7 @@
 * **Role / Title:** Software Developer
 * **Program:** **Tech Vedhu Internship Project Submission**
 * **Primary Track:** Full-Stack Web Development (Go, SvelteKit, PostgreSQL)
-* **Project Scope:** Core Music Streaming, Sound Canvas, Diverge Sessions, Track DNA, Anti-Algorithm, Offline Storage
+* **Project Scope:** Core Music Streaming, Diverge Sessions, Track DNA, Anti-Algorithm, Trace Journey, Offline Storage
 * **Development Timeline:** Initiated October 10, 2026 | 45-Day Capstone Milestone
 * **Submission Date:** October 30, 2026
 * **Version:** 1.0 Production Candidate
@@ -68,13 +68,13 @@ DIVERGE is an asynchronous, high-throughput digital audio platform engineered wi
 * **Offline Playback:** Browser-native caching leveraging IndexedDB and a custom Service Worker for offline track storage and quota inspection.
 * **Social Sharing:** Unique share tokens for songs and playlists allowing direct playback links without requiring recipient authentication.
 
-### The Six Distinct Discovery Systems
-1. **Sound Canvas:** An interactive 2D spatial exploration interface mapping all tracks along Energy (X-axis) and Mood Valence (Y-axis). Users can explore, inspect audio metadata, and queue entire mood quadrants.
+### Signature Discovery Systems
+1. **Anti-Algorithm:** A discovery mode designed to break algorithmic echo chambers by serving tracks structurally dissimilar to the user's primary listening profile.
 2. **Diverge Sessions:** Collaborative group listening rooms with shared queues and synchronized playback indicators.
 3. **Track DNA:** A deterministic generative SVG glyph produced per song based strictly on its musical attributes (BPM, musical key, energy, and mood). No random values; the same song always renders its unique geometric signature.
-4. **Anti-Algorithm:** A discovery mode designed to break algorithmic echo chambers by serving tracks structurally dissimilar to the user's primary listening profile.
-5. **Trace:** A branching tree graph mapping personal listening paths over time, visually delineating sequential plays from divergent musical leaps.
-6. **Context Tags:** Contextual tagging allowing listeners to associate songs with listening environments (e.g., `#midnight`, `#deep-focus`) and retrieve context-filtered recommendations.
+4. **Trace Journey:** A branching tree graph mapping personal listening paths over time, visually delineating sequential plays from divergent musical leaps.
+5. **Context Tags:** Contextual tagging allowing listeners to associate songs with listening environments (e.g., `#midnight`, `#deep-focus`) and retrieve context-filtered recommendations.
+6. **Live Multi-Attribute Search:** Debounced instant catalog search across artists, genres, and titles with authentic studio preview audio.
 
 ---
 
@@ -160,7 +160,7 @@ JAMENDO_CLIENT_ID=
 
 ## 6. Future Platform Roadmap
 
-1. **Cross-Platform Mobile Applications:** Native iOS and Android application releases using Capacitor/Flutter to bring DIVERGE's Sound Canvas, offline playback sync, and lock-screen media controls directly to mobile devices.
+1. **Cross-Platform Mobile Applications:** Native iOS and Android application releases using Capacitor/Flutter to bring DIVERGE's offline playback sync, lock-screen media controls, and listening rooms directly to mobile devices.
 2. **Native Desktop Executable (.exe):** Standalone Windows executable packaged with low-latency audio engine, global system media hotkeys, and system tray minimization.
 3. **Cloud Edge Deployment:** Production hosting strategy leveraging Vercel for zero-cold-start frontend edge delivery, Render/Fly.io for the containerized Go API, and Neon serverless PostgreSQL for elastic database scaling.
 4. **WebAssembly DSP Engine:** In-browser Fast Fourier Transform (FFT) for direct audio frequency spectrum analysis and reactive waveforms.
@@ -189,7 +189,6 @@ JAMENDO_CLIENT_ID=
 | GET | `/api/share/playlist/:token` | Public playlist resolver | No |
 | GET | `/api/recommendations` | Standard history-based recommendations | Optional |
 | GET | `/api/recommendations/anti` | Anti-Algorithm comfort-zone breaking songs | Optional |
-| GET | `/api/recommendations/canvas` | 2D Sound Canvas spatial coordinates | No |
 | GET | `/api/recommendations/context` | Context-tag-based recommendations | Yes |
 | POST | `/api/history` | Log track playback event | Yes |
 | GET | `/api/history/trace` | Branching tree listening path | Yes |

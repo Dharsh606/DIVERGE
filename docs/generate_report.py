@@ -184,7 +184,7 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
         [Paragraph("<b>Role / Title:</b>", meta_style), Paragraph("Software Developer", meta_style)],
         [Paragraph("<b>Program / Evaluation:</b>", meta_style), Paragraph("Tech Vedhu Internship Project Submission", meta_style)],
         [Paragraph("<b>Primary Track:</b>", meta_style), Paragraph("Full-Stack Web Development (Go, SvelteKit, PostgreSQL)", meta_style)],
-        [Paragraph("<b>Project Scope:</b>", meta_style), Paragraph("Core Music Streaming, Sound Canvas, Diverge Sessions, Track DNA, Anti-Algorithm, Offline Storage", meta_style)],
+        [Paragraph("<b>Project Scope:</b>", meta_style), Paragraph("Core Music Streaming, Diverge Sessions, Track DNA, Anti-Algorithm, Trace Journey, Offline Storage", meta_style)],
         [Paragraph("<b>Development Timeline:</b>", meta_style), Paragraph("Initiated October 10, 2026 | 45-Day Capstone Milestone", meta_style)],
         [Paragraph("<b>Submission Date:</b>", meta_style), Paragraph("October 30, 2026", meta_style)],
         [Paragraph("<b>Project Version:</b>", meta_style), Paragraph("1.0 Production Candidate", meta_style)],
@@ -230,9 +230,8 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
         "Modern digital audio platforms frequently subject listeners to recommendation feedback loops "
         "and algorithmic homogenization. DIVERGE is a full-stack web application engineered using Go (Fiber) "
         "and SvelteKit that reimagines digital audio discovery. Supporting high-fidelity audio streaming via "
-        "HTTP 206 Partial Content Range requests with full-length multi-minute audio streams (replacing restrictive "
-        "30-second snippets), DIVERGE features a unified relational schema in PostgreSQL 16, IndexedDB-driven "
-        "offline playback, and six signature architectural innovations: the 2D spatial Sound Canvas, "
+        "HTTP 206 Partial Content Range requests with authentic master recordings, DIVERGE features a unified relational schema in PostgreSQL 16, IndexedDB-driven "
+        "offline playback, and signature architectural innovations: "
         "synchronized Diverge Sessions, deterministic Track DNA glyphs, the comfort-zone breaking Anti-Algorithm, "
         "branching Trace tree history visualization, and user-defined Context Tags. Benchmarks confirm rapid "
         "sub-10ms API responses, deterministic rendering, and resilient offline capability under low-bandwidth networks.",
@@ -271,7 +270,7 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
     story.append(Paragraph("&bull; Develop an idiomatic Go backend utilizing Fiber and GORM capable of serving full-length audio streams with HTTP Range requests.", bullet_style))
     story.append(Paragraph("&bull; Construct a modular SvelteKit client implementing client-side routing, responsive UI, and persistent audio state across all route transitions.", bullet_style))
     story.append(Paragraph("&bull; Implement local offline caching via browser IndexedDB and Service Workers for zero-network playback.", bullet_style))
-    story.append(Paragraph("&bull; Deliver all six unique divergence features: Sound Canvas, Sessions, DNA, Anti-Algorithm, Trace, and Context Tags.", bullet_style))
+    story.append(Paragraph("&bull; Deliver signature divergence features: Diverge Sessions, Track DNA, Anti-Algorithm, Trace Journey, and Context Tags.", bullet_style))
     story.append(Spacer(1, 10))
 
     # ─────────────────────────────────────────────────────────────────────────
@@ -280,8 +279,8 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
     story.append(Paragraph("Chapter 4: Existing System vs. Proposed System", h1_style))
     comparison_data = [
         ["Dimension", "Existing Systems (e.g. Spotify clone)", "DIVERGE Proposed System"],
-        ["Streaming Technique", "Full memory blob loading (often 30s clips)", "HTTP 206 Partial Content Range streaming of full-length tracks"],
-        ["Recommendation Model", "Echo chamber collaborative filter", "Anti-Algorithm & 2D Sound Canvas spatial energy mapping"],
+        ["Streaming Technique", "Full memory blob loading", "HTTP 206 Partial Content Range streaming of authentic master audio"],
+        ["Recommendation Model", "Echo chamber collaborative filter", "Anti-Algorithm centroid inversion & musicology attribute mapping"],
         ["Audio Identity", "Generic album art only", "Deterministic generative Track DNA glyphs"],
         ["History Visualization", "Flat linear list of timestamps", "Branching Trace tree of divergent genre and mood shifts"],
         ["Offline Architecture", "Proprietary DRM or absent in web clients", "Open IndexedDB blob storage + Service Worker app shell"],
@@ -363,7 +362,7 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
     story.append(Paragraph("Chapter 7: Module Descriptions", h1_style))
     story.append(Paragraph("<b>1. Authentication Module:</b> Implements registration and login with bcrypt hashing (cost factor 10) and JSON Web Tokens stored in secure HTTP-only cookies.", body_style))
     story.append(Paragraph("<b>2. Audio Streaming Engine:</b> Handles incoming HTTP Range headers (e.g. `bytes=0-1048575`). It streams discrete audio blocks with HTTP 206 status codes, enabling instant scrubbing across full songs.", body_style))
-    story.append(Paragraph("<b>3. Sound Canvas Engine:</b> Aggregates all catalog tracks into a 2D spatial coordinate system based on calculated energy and mood valence scores.", body_style))
+    story.append(Paragraph("<b>3. Discovery & Search Engine:</b> Provides debounced multi-attribute search across artists, genres, and track titles with instant preview playback.", body_style))
     story.append(Paragraph("<b>4. Anti-Algorithm Module:</b> Examines user listening history to calculate the user's centroid (mean BPM, mood, and dominant genre) and generates inverted discovery playlists.", body_style))
     story.append(Paragraph("<b>5. Trace Module:</b> Traverses chronological listening entries to produce a tree data structure with branch flags whenever the user changes musical genres.", body_style))
     story.append(Paragraph("<b>6. Offline Storage Engine:</b> Client-side module managing IndexedDB transactions and caching audio blobs for offline playback.", body_style))
@@ -413,13 +412,13 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
         ["Test Case ID", "Scenario", "Expected Outcome", "Observed Result", "Status"],
         ["TC-01", "Database Initialization", "PostgreSQL cluster starts, creates diverge_db", "Cluster online, UTF-8 verified", "PASS"],
         ["TC-02", "Backend Auto-Migration", "9 tables auto-migrated with constraints", "All 9 tables created", "PASS"],
-        ["TC-03", "Music Catalog Seeding", "110 full-length tracks seeded across 4 quadrants", "110 tracks active with full audio", "PASS"],
+        ["TC-03", "Music Catalog Seeding", "117 tracks seeded with authentic audio", "117 tracks active with real audio", "PASS"],
         ["TC-04", "User Registration", "Bcrypt hash, JWT cookie created", "HTTP 201 Created, cookie set", "PASS"],
         ["TC-05", "User Authentication", "Verifies password and issues JWT", "HTTP 200 OK, returns user entity", "PASS"],
-        ["TC-06", "Full Audio Streaming", "HTTP 206 Partial Content / 302 stream redirect", "Full 3-6 min audio streams verified", "PASS"],
-        ["TC-07", "Sound Canvas Query", "Returns (x, y) coordinates for all songs", "All tracks mapped spatially", "PASS"],
-        ["TC-08", "Anti-Algorithm", "Returns songs dissimilar to profile", "HTTP 200 with diversion rationale", "PASS"],
-        ["TC-09", "Trace Tree Structure", "Builds branching nodes on genre shifts", "Tree nodes constructed", "PASS"],
+        ["TC-06", "Real Audio Streaming", "HTTP 206 Partial Content / 302 stream redirect", "Real master audio streams verified", "PASS"],
+        ["TC-07", "Anti-Algorithm Discovery", "Returns songs dissimilar to profile", "HTTP 200 with diversion rationale", "PASS"],
+        ["TC-08", "Trace Tree Structure", "Builds branching nodes on genre shifts", "Tree nodes constructed", "PASS"],
+        ["TC-09", "Diverge Sessions Sync", "Synchronizes multi-client rooms", "Room coordination verified", "PASS"],
         ["TC-10", "Offline IndexedDB Cache", "Audio blob stored and retrieved offline", "IndexedDB store operational", "PASS"],
         ["TC-11", "Frontend Production Build", "Zero build errors, all routes bundle", "Vite production build succeeds", "PASS"],
         ["TC-12", "Legal & Policy Compliance", "Privacy Policy and Terms pages present", "Both routes return HTTP 200", "PASS"]
@@ -450,7 +449,7 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
 
     story.append(Spacer(1, 6))
     story.append(Paragraph("<b>Future Roadmap & Platform Expansion:</b>", h2_style))
-    story.append(Paragraph("&bull; <b>Cross-Platform Mobile Applications:</b> Native iOS and Android application releases using Capacitor/Flutter to bring DIVERGE's Sound Canvas, offline playback sync, and lock-screen media controls directly to mobile devices.", bullet_style))
+    story.append(Paragraph("&bull; <b>Cross-Platform Mobile Applications:</b> Native iOS and Android application releases using Capacitor/Flutter to bring DIVERGE's offline playback sync, lock-screen media controls, and synchronized listening rooms directly to mobile devices.", bullet_style))
     story.append(Paragraph("&bull; <b>Native Desktop Executable (.exe):</b> Standalone Windows executable packaged with low-latency audio engine, global system media hotkeys, and system tray minimization.", bullet_style))
     story.append(Paragraph("&bull; <b>Cloud Edge Deployment:</b> Production hosting strategy leveraging Vercel for zero-cold-start frontend edge delivery, Render/Fly.io for the containerized Go API, and Neon serverless PostgreSQL for elastic database scaling.", bullet_style))
     story.append(Paragraph("&bull; <b>WebAssembly DSP:</b> On-client fast Fourier transform (FFT) for direct audio frequency spectrum analysis.", bullet_style))

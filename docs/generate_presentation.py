@@ -213,7 +213,7 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
         ("Core Music Streaming", "Browse 110 full-length tracks, persistent player, HTTP Range requests, volume control, and shuffle/repeat modes."),
         ("Playlist Lifecycle", "Create, edit, reorder, delete, and publicly share playlists via direct URL tokens."),
         ("Offline Playback", "Cache audio streams in browser IndexedDB with a dedicated Service Worker for zero-network playback."),
-        ("Six Divergence Features", "Sound Canvas (2D map), Sessions (sync rooms), Track DNA (SVG glyphs), Anti-Algorithm, Trace (tree), Context Tags."),
+        ("Signature Features", "Diverge Sessions (sync rooms), Track DNA (SVG glyphs), Anti-Algorithm, Trace (tree), Context Tags."),
         ("Performance Standards", "Sub-10ms API queries, instant audio seek via HTTP 206, and zero browser memory leaks.")
     ]
     for i, (head, text) in enumerate(items):
@@ -395,11 +395,11 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
         bp.space_after = Pt(8)
 
     # ─────────────────────────────────────────────────────────────────────────
-    # SLIDE 9: SIGNATURE FEATURES: SOUND CANVAS & ANTI-ALGORITHM
+    # SLIDE 9: SIGNATURE FEATURES: ANTI-ALGORITHM & DISCOVERY
     # ─────────────────────────────────────────────────────────────────────────
     s9 = prs.slides.add_slide(blank_layout)
     set_slide_background(s9)
-    add_header(s9, "Feature Showcase: Sound Canvas & Anti-Algorithm")
+    add_header(s9, "Feature Showcase: Anti-Algorithm & Discovery Engine")
 
     f1 = s9.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.8), Inches(1.8), Inches(5.6), Inches(4.8))
     f1.fill.solid()
@@ -408,16 +408,16 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
     tf = f1.text_frame
     tf.word_wrap = True
     p = tf.paragraphs[0]
-    p.text = "1. Sound Canvas (2D Spatial Map)"
+    p.text = "1. The Anti-Algorithm Engine"
     p.font.bold = True
     p.font.size = Pt(16)
     p.font.color.rgb = c_iris
     p.space_after = Pt(10)
     b_f1 = [
-        "X-Axis represents Energy Score (0.0 Calm -> 1.0 Intense).",
-        "Y-Axis represents Mood Valence (0.0 Melancholic -> 1.0 Uplifting).",
-        "Interactive quadrants: Ambient Calm, Euphoric Kinetic, Moody Introspective, and Tense Raw.",
-        "One-click quadrant playback queues entire mood regions instantly."
+        "Calculates user centroid: Mean BPM, energy, mood, and dominant genre.",
+        "Inverts listening profile to discover under-explored sonic spaces.",
+        "Serves curated divergence with explicit explanation rationale.",
+        "Provides a dedicated discovery toggle directly inside the search bar."
     ]
     for b in b_f1:
         bp = tf.add_paragraph()
@@ -433,16 +433,16 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
     tf2 = f2.text_frame
     tf2.word_wrap = True
     p = tf2.paragraphs[0]
-    p.text = "2. The Anti-Algorithm Route"
+    p.text = "2. Real-Time Music Discovery"
     p.font.bold = True
     p.font.size = Pt(16)
     p.font.color.rgb = c_coral
     p.space_after = Pt(10)
     b_f2 = [
-        "Calculates user centroid: Mean BPM, energy, mood, and primary genre.",
-        "Inverts listening profile to discover under-explored sonic spaces.",
-        "Serves curated divergence with explicit explanation rationale.",
-        "Provides a dedicated discovery toggle directly inside the search bar."
+        "Debounced live catalog search across track titles, artists, and genres.",
+        "Direct streaming integration with authentic artist studio master audio.",
+        "Instant playback response with zero buffering lag or memory leaks.",
+        "Deterministic musicology analysis (BPM, musical key, energy scores)."
     ]
     for b in b_f2:
         bp = tf2.add_paragraph()
@@ -509,9 +509,9 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
         ("TC-03: Catalog Seed (110 full-length tracks)", "PASS"),
         ("TC-04: User Registration & Bcrypt Hashing", "PASS"),
         ("TC-05: JWT Session Cookie Authentication", "PASS"),
-        ("TC-06: Full Audio Range Seek & Stream Redirect", "PASS"),
-        ("TC-07: Sound Canvas Spatial Coordinates Query", "PASS"),
-        ("TC-08: Anti-Algorithm Comfort Inversion", "PASS"),
+        ("TC-06: Real Audio Range Seek & Stream Redirect", "PASS"),
+        ("TC-07: Anti-Algorithm Comfort Inversion", "PASS"),
+        ("TC-08: Trace Journey Tree Construction", "PASS"),
         ("TC-09: IndexedDB Offline Blob Cache", "PASS"),
         ("TC-10: Frontend Production Build & SSR Routing", "PASS")
     ]
@@ -538,7 +538,7 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
     p.font.color.rgb = c_coral
     p.space_after = Pt(10)
     roadmap = [
-        ("Cross-Platform Mobile Apps (iOS & Android)", "Native builds using Capacitor / Flutter bringing Sound Canvas and offline sync to smartphones."),
+        ("Cross-Platform Mobile Apps (iOS & Android)", "Native builds using Capacitor / Flutter bringing offline sync, lock-screen controls, and listening rooms to smartphones."),
         ("Native Windows Desktop Executable (.exe)", "Packaged desktop client with low-latency audio driver, global media hotkeys, and system tray minimization."),
         ("Cloud Edge Deployment", "Serverless edge frontend on Vercel, containerized Go API on Render/Fly.io, and serverless Postgres on Neon."),
         ("WebAssembly DSP Audio Visualizer", "In-browser Fast Fourier Transform (FFT) for direct audio frequency spectrum analysis and reactive waveforms.")

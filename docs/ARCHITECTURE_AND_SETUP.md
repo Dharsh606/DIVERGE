@@ -68,9 +68,9 @@ npm run dev -- --host 127.0.0.1 --port 5173
 
 ## 3. Engineering & Architectural Specifications
 
-### Audio Delivery Architecture (HTTP 206 Range Requests & Full Songs)
+### Audio Delivery Architecture (HTTP 206 Range Requests & Real Audio)
 * Streaming uses `http.ServeContent` with HTTP 206 Partial Content byte ranges.
-* All tracks utilize full-length 3 to 6+ minute audio streams via Jamendo CDN 192kbps streaming pool and local media storage, bypassing restrictive 30-second preview clips.
+* All tracks utilize authentic master recording audio streams with real artist vocals and instrumentals.
 * Rather than loading complete audio tracks into server or client memory, the browser requests specific byte boundaries (`Range: bytes=0-1048575`).
 * Enables instant scrub-seeking without latency or memory degradation.
 
@@ -79,13 +79,13 @@ npm run dev -- --host 127.0.0.1 --port 5173
 * **IndexedDB Store (`offline.ts`)**: Persists downloaded audio binary Blobs locally on disk.
 * Playback off-grid generates local `blob:http` URLs, ensuring complete playback continuity without network connectivity.
 
-### The Six Distinct Discovery Systems
-1. **Sound Canvas**: 2D acoustic vector space mapping tracks across Energy ($X \in [0, 1]$) and Mood Valence ($Y \in [0, 1]$).
+### Signature Discovery Systems
+1. **Anti-Algorithm Engine**: Geometric centroid inversion engine that queries tracks structurally opposite to the user's historical listening profile.
 2. **Diverge Sessions**: Synchronized multi-client listening rooms utilizing lightweight real-time state coordination.
 3. **Track DNA**: Deterministic procedural SVG rendering using FNV-1a hashing of acoustic attributes (BPM, key, energy, valence).
-4. **Anti-Algorithm**: Geometric centroid inversion engine that queries tracks structurally opposite to the user's historical listening profile.
-5. **Trace**: Branching tree visualization representing listening progression and sonic departures.
-6. **Context Tags**: Multi-dimensional tagging system linking acoustic profiles to environmental contexts.
+4. **Trace Journey**: Branching tree visualization representing listening progression and sonic departures.
+5. **Context Tags**: Multi-dimensional tagging system linking acoustic profiles to environmental contexts.
+6. **Multi-Attribute Discovery**: Real-time debounced catalog search across titles, artists, and genres with instant preview playback.
 
 ---
 

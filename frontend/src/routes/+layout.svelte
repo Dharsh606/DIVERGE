@@ -19,7 +19,7 @@
 
 <svelte:head>
   <title>DIVERGE — Take the Uncommon Route</title>
-  <meta name="description" content="DIVERGE — A music streaming experience that takes the uncommon route. Discover music through Sound Canvas, share sessions, and explore your listening Trace." />
+  <meta name="description" content="DIVERGE — A music streaming experience that takes the uncommon route. Discover music beyond algorithmic echo chambers, share sessions, and explore your listening Trace." />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 </svelte:head>
 
