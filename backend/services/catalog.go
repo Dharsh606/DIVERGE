@@ -100,7 +100,7 @@ func SearchCatalog(query string, limit int) ([]models.Song, error) {
 			ImageURL:  hdCover,
 			Bio:       fmt.Sprintf("%s is a featured artist in DIVERGE's global & Indian catalog.", item.ArtistName),
 		}
-		database.DB.Where("name = ?", artist.Name).FirstOrCreate(&artist)
+		database.DB.Where("jamendo_id = ?", artist.JamendoID).FirstOrCreate(&artist)
 
 		// Upsert Album
 		albumTitle := item.CollectionName
@@ -116,7 +116,7 @@ func SearchCatalog(query string, limit int) ([]models.Song, error) {
 		if len(item.ReleaseDate) >= 4 {
 			fmt.Sscanf(item.ReleaseDate[:4], "%d", &album.ReleaseYear)
 		}
-		database.DB.Where("title = ? AND artist_id = ?", album.Title, artist.ID).FirstOrCreate(&album)
+		database.DB.Where("jamendo_id = ?", album.JamendoID).FirstOrCreate(&album)
 
 		// Calculate Sound Canvas coordinates & Track DNA parameters
 		genre := item.PrimaryGenreName
