@@ -7,6 +7,7 @@ pg16.zip
 # Backend binaries and environment
 backend/diverge_backend.exe
 backend/*.exe
+backend/*.exe~
 backend/.env
 
 # Frontend artifacts
