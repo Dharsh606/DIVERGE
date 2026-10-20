@@ -610,6 +610,7 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
     dp_intern.space_after = Pt(16)
 
     contact_items = [
+        ("Live Web App", "https://diverge-music.vercel.app"),
         ("Phone", "+91 6382546285"),
         ("Email", "dharshan.vreddy2819@gmail.com"),
         ("Portfolio", "https://dharshanvportfolio.netlify.app/"),

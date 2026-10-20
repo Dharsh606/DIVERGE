@@ -203,7 +203,8 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
 
     # Developer Contact Details Card
     contact_box_data = [
-        [Paragraph("<b>Developer Contact & Portfolio</b>", meta_style)],
+        [Paragraph("<b>Developer Contact & Production Deployment</b>", meta_style)],
+        [Paragraph("<b>Live Demo:</b> <font color='#6B46C1'><u>https://diverge-music.vercel.app</u></font> &nbsp;|&nbsp; <b>API:</b> <font color='#6B46C1'><u>https://diverge-backend-l42s.onrender.com</u></font>", contact_style)],
         [Paragraph("<b>Phone:</b> +91 6382546285 &nbsp;|&nbsp; <b>Email:</b> dharshan.vreddy2819@gmail.com", contact_style)],
         [Paragraph("<b>Portfolio:</b> <font color='#6B46C1'><u>https://dharshanvportfolio.netlify.app/</u></font>", contact_style)],
         [Paragraph("<b>GitHub:</b> <font color='#6B46C1'><u>https://github.com/Dharsh606</u></font> &nbsp;|&nbsp; <b>Repository:</b> <font color='#6B46C1'><u>https://github.com/Dharsh606/DIVERGE</u></font>", contact_style)],

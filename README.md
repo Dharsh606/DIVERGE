@@ -20,6 +20,11 @@
 * **Submission Date:** October 30, 2026
 * **Version:** 1.0 Production Candidate
 
+#### Live Production Deployment
+* **Live Web Application:** [https://diverge-music.vercel.app](https://diverge-music.vercel.app)
+* **Backend API Gateway:** [https://diverge-backend-l42s.onrender.com](https://diverge-backend-l42s.onrender.com)
+* **Database Cluster:** Neon Cloud Serverless PostgreSQL 16 (AWS Asia-Pacific)
+
 #### Contact & Developer Profiles
 * **Portfolio:** [dharshanvportfolio.netlify.app](https://dharshanvportfolio.netlify.app/)
 * **GitHub:** [github.com/Dharsh606](https://github.com/Dharsh606)
