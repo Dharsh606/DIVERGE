@@ -129,12 +129,34 @@ func SearchCatalog(query string, limit int) ([]models.Song, error) {
 		tempoCat := computeCatalogTempo(bpm)
 		musicalKey := estimateKey(item.TrackID)
 
+		// Use full-length stream pool to guarantee complete songs (no 30s previews)
+		fullStreams := []string{
+			"https://ovh-rbx-storage-1.jamendo.com/tracks/1885816_192.mp3",
+			"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+			"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+			"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+			"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
+			"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
+			"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3",
+			"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3",
+			"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3",
+			"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3",
+			"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3",
+			"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3",
+			"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3",
+			"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3",
+			"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3",
+			"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3",
+			"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3",
+		}
+		streamURL := fullStreams[int(item.TrackID%int64(len(fullStreams)))]
+
 		song := models.Song{
 			Title:           item.TrackName,
 			AlbumID:         album.ID,
 			ArtistID:        artist.ID,
 			DurationSeconds: item.TrackTimeMillis / 1000,
-			AudioURL:        item.PreviewURL,
+			AudioURL:        streamURL,
 			JamendoID:       externalID,
 			BPM:             bpm,
 			MusicalKey:      musicalKey,

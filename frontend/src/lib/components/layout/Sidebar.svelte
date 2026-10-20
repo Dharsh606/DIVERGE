@@ -30,19 +30,8 @@
       aria-label={open ? 'Collapse sidebar' : 'Expand sidebar'}
       aria-expanded={open}
     >
-      <!-- DIVERGE D/play symbol as inline SVG -->
-      <svg class="logo-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <!-- Upper D arc (Electric Iris) -->
-        <path d="M8 6 L8 34 L22 34 Q36 34 36 20 Q36 6 22 6 Z" fill="url(#grad-upper)" />
-        <!-- Play arrow cutout (Diverge Ink) -->
-        <path d="M15 13 L15 27 L28 20 Z" fill="#111019" />
-        <defs>
-          <linearGradient id="grad-upper" x1="8" y1="6" x2="36" y2="34" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stop-color="#B19AFF"/>
-            <stop offset="100%" stop-color="#FF796C"/>
-          </linearGradient>
-        </defs>
-      </svg>
+      <!-- DIVERGE Official 3D Logo Mark -->
+      <img src="/logo-mark.png" alt="DIVERGE" class="logo-mark" style="width: 36px; height: 36px; object-fit: contain; filter: drop-shadow(0 2px 10px rgba(177, 154, 255, 0.45));" />
       {#if open}
         <span class="logo-wordmark">DIVERGE</span>
       {/if}

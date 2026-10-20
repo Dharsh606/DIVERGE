@@ -175,16 +175,7 @@
         <div class="cta-glow-backdrop" aria-hidden="true"></div>
         <div class="cta-card glass">
           <div class="cta-emblem" aria-hidden="true">
-            <svg viewBox="0 0 40 40" width="48" height="48" fill="none">
-              <path d="M8 6 L8 34 L22 34 Q36 34 36 20 Q36 6 22 6 Z" fill="url(#cta-mark-grad)" />
-              <path d="M15 13 L15 27 L28 20 Z" fill="#111019" />
-              <defs>
-                <linearGradient id="cta-mark-grad" x1="8" y1="6" x2="36" y2="34" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stop-color="#B19AFF"/>
-                  <stop offset="100%" stop-color="#FF796C"/>
-                </linearGradient>
-              </defs>
-            </svg>
+            <img src="/logo-mark.png" alt="DIVERGE" style="width: 56px; height: 56px; object-fit: contain; filter: drop-shadow(0 4px 20px rgba(177, 154, 255, 0.5));" />
           </div>
           <h2 class="cta-title">Take the uncommon route.</h2>
           <p class="cta-desc">Sign in to get personalised picks, save playlists, and track your musical journey.</p>

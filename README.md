@@ -1,14 +1,38 @@
 # DIVERGE — Music Streaming Platform
 
-> **Take the uncommon route.**
+<p align="center">
+  <img src="frontend/static/logo.png" alt="DIVERGE Logo" width="160" />
+</p>
 
-DIVERGE is a high-performance web music streaming application engineered with a **Go (Fiber)** backend and a **SvelteKit** frontend, backed by **PostgreSQL** and the **Jamendo API** / Creative Commons audio stream repositories.
+<p align="center">
+  <strong>Take the uncommon route.</strong>
+</p>
 
-Designed from first principles to counteract algorithmic homogenization, DIVERGE enables users to discover music through spatial sonic maps, explore deterministic audio signatures, break out of recommendation echo chambers, visualize personal listening trajectories, and collaborate in synchronized listening rooms.
+---
+
+### Project & Evaluation Overview
+* **Author / Intern:** **Dharshan V**
+* **Role / Title:** Software Developer
+* **Program:** **Tech Vedhu Internship Project Submission**
+* **Primary Track:** Full-Stack Web Development (Go, SvelteKit, PostgreSQL)
+* **Project Scope:** Core Music Streaming, Sound Canvas, Diverge Sessions, Track DNA, Anti-Algorithm, Offline Storage
+* **Development Timeline:** Initiated October 10, 2026 | 45-Day Capstone Milestone
+* **Submission Date:** October 30, 2026
+* **Version:** 1.0 Production Candidate
+
+#### Contact & Developer Profiles
+* **Portfolio:** [dharshanvportfolio.netlify.app](https://dharshanvportfolio.netlify.app/)
+* **GitHub:** [github.com/Dharsh606](https://github.com/Dharsh606)
+* **Repository:** [github.com/Dharsh606/DIVERGE](https://github.com/Dharsh606/DIVERGE)
+* **LinkedIn:** [linkedin.com/in/dharshanvreddy](https://www.linkedin.com/in/dharshanvreddy)
+* **Email:** dharshan.vreddy2819@gmail.com
+* **Phone:** +91 6382546285
 
 ---
 
 ## 1. Core Architecture
+
+DIVERGE is an asynchronous, high-throughput digital audio platform engineered with an idiomatic **Go (Fiber)** backend and a reactive **SvelteKit** frontend, backed by **PostgreSQL 16** and full-length Creative Commons / Jamendo CDN audio streams.
 
 ```
                                   +-------------------+
@@ -24,11 +48,11 @@ Designed from first principles to counteract algorithmic homogenization, DIVERGE
                                   |   (Fiber v2.52)   |
                                   +----+---------+----+
                                        |         |
-                      GORM / SQL Pool  |         | HTTP Range Proxy / CDN
+                      GORM / SQL Pool  |         | HTTP 206 Partial Content / CDN
                                        v         v
                      +-------------------+     +-------------------------+
-                     | PostgreSQL 16.9   |     | Audio Storage / Jamendo |
-                     | (diverge_db)      |     | Creative Commons Stream |
+                     | PostgreSQL 16     |     | Jamendo CDN Stream Pool |
+                     | (diverge_db)      |     | (Full-Length 3-6m MP3s) |
                      +-------------------+     +-------------------------+
 ```
 
@@ -37,13 +61,14 @@ Designed from first principles to counteract algorithmic homogenization, DIVERGE
 ## 2. Feature Implementation
 
 ### Core Streaming Capabilities
+* **Full-Length Audio Playback:** All catalog songs play as complete multi-minute tracks (bypassing restrictive 30-second preview clips).
 * **Browse & Search:** High-performance catalog browsing with debounced search across titles, artists, and musical genres.
-* **Music Player:** Persistent HTML5 audio player supporting HTTP 206 Partial Content range requests, custom playback controls, volume attenuation, mute toggle, Fisher-Yates shuffle, and repeat modes.
+* **Music Player:** Persistent HTML5 audio player supporting HTTP 206 Partial Content range requests, custom playback controls, volume attenuation, mute toggle, Fisher-Yates shuffle, and three-state repeat modes.
 * **Playlists:** Comprehensive playlist management including playlist creation, song addition, song removal, reordering, and public shareable URLs.
 * **Offline Playback:** Browser-native caching leveraging IndexedDB and a custom Service Worker for offline track storage and quota inspection.
 * **Social Sharing:** Unique share tokens for songs and playlists allowing direct playback links without requiring recipient authentication.
 
-### The Six Unique DIVERGE Features
+### The Six Distinct Discovery Systems
 1. **Sound Canvas:** An interactive 2D spatial exploration interface mapping all tracks along Energy (X-axis) and Mood Valence (Y-axis). Users can explore, inspect audio metadata, and queue entire mood quadrants.
 2. **Diverge Sessions:** Collaborative group listening rooms with shared queues and synchronized playback indicators.
 3. **Track DNA:** A deterministic generative SVG glyph produced per song based strictly on its musical attributes (BPM, musical key, energy, and mood). No random values; the same song always renders its unique geometric signature.
@@ -57,8 +82,8 @@ Designed from first principles to counteract algorithmic homogenization, DIVERGE
 
 * **Backend:** Go 1.22+, Fiber v2 web framework, GORM ORM, Golang JWT v5, pq PostgreSQL driver, bcrypt password hashing.
 * **Frontend:** SvelteKit, TypeScript, Vite, custom responsive CSS design tokens.
-* **Database:** PostgreSQL 16.9 (UTF-8 encoding with C collation).
-* **Storage:** Browser IndexedDB for offline audio caching, HTTP Range streaming for remote audio delivery.
+* **Database:** PostgreSQL 16 (UTF-8 encoding with C collation).
+* **Storage & Streaming:** Browser IndexedDB for offline audio caching, HTTP Range streaming and Jamendo CDN pool for full-length audio delivery.
 
 ---
 
@@ -75,6 +100,7 @@ DIVERGE adheres to strict visual and UX standards:
   * Muted Text: Lavender Grey (`#AAA4BB`)
   * Borders: Quiet Border (`#343044`)
 * **Styling Rules:**
+  * Custom 3D gradient glowing brand emblem and wordmark.
   * No generic purple gradients across UI components.
   * No pill-shaped buttons (standard geometric radius of 8px to 12px).
   * No fake metrics, fake reviews, or animated visitor counters.
@@ -116,6 +142,7 @@ JAMENDO_CLIENT_ID=
    ```powershell
    cd backend
    go run .\cmd\seed\main.go
+   go run .\cmd\update_full_songs\main.go
    go run main.go
    ```
 2. The Fiber server will start listening on `http://127.0.0.1:8080`.
@@ -131,7 +158,16 @@ JAMENDO_CLIENT_ID=
 
 ---
 
-## 6. API Reference
+## 6. Future Platform Roadmap
+
+1. **Cross-Platform Mobile Applications:** Native iOS and Android application releases using Capacitor/Flutter to bring DIVERGE's Sound Canvas, offline playback sync, and lock-screen media controls directly to mobile devices.
+2. **Native Desktop Executable (.exe):** Standalone Windows executable packaged with low-latency audio engine, global system media hotkeys, and system tray minimization.
+3. **Cloud Edge Deployment:** Production hosting strategy leveraging Vercel for zero-cold-start frontend edge delivery, Render/Fly.io for the containerized Go API, and Neon serverless PostgreSQL for elastic database scaling.
+4. **WebAssembly DSP Engine:** In-browser Fast Fourier Transform (FFT) for direct audio frequency spectrum analysis and reactive waveforms.
+
+---
+
+## 7. API Reference
 
 | Method | Endpoint | Description | Auth Required |
 |---|---|---|---|

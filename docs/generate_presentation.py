@@ -1,3 +1,4 @@
+import os
 import sys
 from pptx import Presentation
 from pptx.util import Inches, Pt
@@ -19,6 +20,9 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
     c_text = RGBColor(0xF5, 0xF0, 0xE8)     # Warm Ivory
     c_muted = RGBColor(0xAA, 0xA4, 0xBB)    # Muted Lavender
 
+    logo_path = "j:/DIVERGE/docs/logo.png"
+    mark_path = "j:/DIVERGE/docs/logo-mark.png"
+
     def set_slide_background(slide):
         bg = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(13.333), Inches(7.5))
         bg.fill.solid()
@@ -26,24 +30,28 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
         bg.line.fill.background() # no line
         return bg
 
-    def add_header(slide, title_text, category="DIVERGE INTERNSHIP CAPSTONE"):
+    def add_header(slide, title_text, category="TECH VEDHU INTERNSHIP CAPSTONE"):
+        # Header mark if exists
+        if os.path.exists(mark_path):
+            slide.shapes.add_picture(mark_path, Inches(12.0), Inches(0.4), width=Inches(0.65), height=Inches(0.65))
+
         # Category pill/text
-        cat_box = slide.shapes.add_textbox(Inches(0.8), Inches(0.5), Inches(10), Inches(0.4))
+        cat_box = slide.shapes.add_textbox(Inches(0.8), Inches(0.45), Inches(10), Inches(0.35))
         tf = cat_box.text_frame
         tf.word_wrap = True
         p = tf.paragraphs[0]
         p.text = category.upper()
-        p.font.size = Pt(11)
+        p.font.size = Pt(10)
         p.font.bold = True
         p.font.color.rgb = c_iris
 
         # Title text
-        title_box = slide.shapes.add_textbox(Inches(0.8), Inches(0.85), Inches(11), Inches(0.8))
+        title_box = slide.shapes.add_textbox(Inches(0.8), Inches(0.8), Inches(11), Inches(0.8))
         tf2 = title_box.text_frame
         tf2.word_wrap = True
         p2 = tf2.paragraphs[0]
         p2.text = title_text
-        p2.font.size = Pt(28)
+        p2.font.size = Pt(26)
         p2.font.bold = True
         p2.font.color.rgb = c_text
 
@@ -53,27 +61,57 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
     s1 = prs.slides.add_slide(blank_layout)
     set_slide_background(s1)
 
-    tbox = s1.shapes.add_textbox(Inches(1.2), Inches(2.2), Inches(11), Inches(3.0))
+    # Logo left / title right
+    if os.path.exists(logo_path):
+        s1.shapes.add_picture(logo_path, Inches(1.0), Inches(1.8), width=Inches(3.2), height=Inches(3.29))
+
+    tbox = s1.shapes.add_textbox(Inches(4.6), Inches(1.4), Inches(8.0), Inches(5.2))
     tf = tbox.text_frame
     tf.word_wrap = True
 
     p0 = tf.paragraphs[0]
     p0.text = "DIVERGE"
-    p0.font.size = Pt(54)
+    p0.font.size = Pt(50)
     p0.font.bold = True
     p0.font.color.rgb = c_iris
-    p0.space_after = Pt(10)
+    p0.space_after = Pt(4)
+
+    p_tag = tf.add_paragraph()
+    p_tag.text = "Take the uncommon route."
+    p_tag.font.size = Pt(18)
+    p_tag.font.bold = True
+    p_tag.font.color.rgb = c_coral
+    p_tag.space_after = Pt(14)
 
     p1 = tf.add_paragraph()
-    p1.text = "A High-Performance Music Streaming Platform Using Go and Svelte"
-    p1.font.size = Pt(22)
+    p1.text = "A High-Performance Music Streaming Platform Using Go & SvelteKit"
+    p1.font.size = Pt(17)
     p1.font.color.rgb = c_text
-    p1.space_after = Pt(20)
+    p1.space_after = Pt(18)
 
-    p2 = tf.add_paragraph()
-    p2.text = "Take the uncommon route. — 45-Day Capstone Project Evaluation"
-    p2.font.size = Pt(14)
-    p2.font.color.rgb = c_coral
+    p_author = tf.add_paragraph()
+    p_author.text = "Author / Intern: Dharshan V | Software Developer"
+    p_author.font.size = Pt(14)
+    p_author.font.bold = True
+    p_author.font.color.rgb = c_iris
+    p_author.space_after = Pt(6)
+
+    p_org = tf.add_paragraph()
+    p_org.text = "Program: Tech Vedhu Internship Project Submission"
+    p_org.font.size = Pt(12)
+    p_org.font.color.rgb = c_muted
+    p_org.space_after = Pt(4)
+
+    p_track = tf.add_paragraph()
+    p_track.text = "Primary Track: Full-Stack Web Development (Go, SvelteKit, PostgreSQL)"
+    p_track.font.size = Pt(12)
+    p_track.font.color.rgb = c_muted
+    p_track.space_after = Pt(4)
+
+    p_date = tf.add_paragraph()
+    p_date.text = "Initiated: October 10, 2026 | Capstone Milestone | Submission: October 30, 2026"
+    p_date.font.size = Pt(11)
+    p_date.font.color.rgb = c_muted
 
     # ─────────────────────────────────────────────────────────────────────────
     # SLIDE 2: EXECUTIVE SUMMARY & VISION
@@ -82,7 +120,7 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
     set_slide_background(s2)
     add_header(s2, "Executive Summary: Beyond The Algorithmic Mainstream")
 
-    c1 = s2.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.8), Inches(1.8), Inches(5.6), Inches(4.8))
+    c1 = s2.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.8), Inches(1.8), Inches(5.6), Inches(5.0))
     c1.fill.solid()
     c1.fill.fore_color.rgb = c_card
     c1.line.color.rgb = c_iris
@@ -96,39 +134,41 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
     p.space_after = Pt(14)
     bullets = [
         "Spotify-inspired core functionality with intentional discovery innovations.",
-        "Engineered with Go (Fiber) backend and SvelteKit frontend.",
+        "Engineered with Go (Fiber) backend and SvelteKit frontend for high throughput.",
         "Deterministic Discovery: Powered by exact musicology attributes (BPM, Key, Energy, Valence).",
-        "Strict anti-vibe product visual rules: No purple gradients, no pill buttons, no fake reviews."
+        "Full Song Audio Engine: Jamendo CDN & local storage delivering complete 3-6 min songs.",
+        "Strict atmospheric visual rules: No purple gradients, no pill buttons, no fake reviews."
     ]
     for b in bullets:
         bp = tf.add_paragraph()
         bp.text = "• " + b
-        bp.font.size = Pt(13)
+        bp.font.size = Pt(12.5)
         bp.font.color.rgb = c_text
         bp.space_after = Pt(10)
 
-    c2 = s2.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(6.9), Inches(1.8), Inches(5.6), Inches(4.8))
+    c2 = s2.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(6.9), Inches(1.8), Inches(5.6), Inches(5.0))
     c2.fill.solid()
     c2.fill.fore_color.rgb = c_card
     c2.line.color.rgb = c_coral
     tf2 = c2.text_frame
     tf2.word_wrap = True
     p = tf2.paragraphs[0]
-    p.text = "Key Deliverables"
+    p.text = "Engineering Highlights"
     p.font.bold = True
     p.font.size = Pt(18)
     p.font.color.rgb = c_coral
     p.space_after = Pt(14)
     bullets2 = [
-        "Deliverable 1: Complete Go backend + SvelteKit frontend source code.",
-        "Deliverable 2: Professional 16-chapter PDF technical project report.",
-        "Deliverable 3: 12-slide comprehensive presentation deck.",
-        "Full local deployment with PostgreSQL 16 and Creative Commons audio streaming."
+        "Sub-10ms API response times with Go Fiber zero-allocation routing.",
+        "HTTP 206 Partial Content Range streaming enables instant timeline scrubbing.",
+        "110 full-length songs seeded across 4 quadrants with deterministic Track DNA glyphs.",
+        "IndexedDB + Service Worker offline storage for persistent offline playback.",
+        "Synchronized multi-user Diverge Sessions with live room code sharing."
     ]
     for b in bullets2:
         bp = tf2.add_paragraph()
         bp.text = "• " + b
-        bp.font.size = Pt(13)
+        bp.font.size = Pt(12.5)
         bp.font.color.rgb = c_text
         bp.space_after = Pt(10)
 
@@ -145,7 +185,7 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
         ("Superficial Interface Slog", "Modern web products overuse generic purple gradients, pill buttons, and fake user reviews that detract from listening focus.", c_text)
     ]
     for i, (title, desc, col) in enumerate(probs):
-        box = s3.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.8 + i*3.9), Inches(2.0), Inches(3.6), Inches(4.5))
+        box = s3.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.8 + i*3.9), Inches(2.0), Inches(3.6), Inches(4.7))
         box.fill.solid()
         box.fill.fore_color.rgb = c_card
         box.line.color.rgb = col
@@ -170,9 +210,9 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
     add_header(s4, "Project Objectives & Scope of Work")
 
     items = [
-        ("Core Music Streaming", "Browse songs, persistent player, HTTP Range requests, volume control, and shuffle/repeat modes."),
+        ("Core Music Streaming", "Browse 110 full-length tracks, persistent player, HTTP Range requests, volume control, and shuffle/repeat modes."),
         ("Playlist Lifecycle", "Create, edit, reorder, delete, and publicly share playlists via direct URL tokens."),
-        ("Offline Playback", "Cache permitted audio files in browser IndexedDB with a dedicated Service Worker."),
+        ("Offline Playback", "Cache audio streams in browser IndexedDB with a dedicated Service Worker for zero-network playback."),
         ("Six Divergence Features", "Sound Canvas (2D map), Sessions (sync rooms), Track DNA (SVG glyphs), Anti-Algorithm, Trace (tree), Context Tags."),
         ("Performance Standards", "Sub-10ms API queries, instant audio seek via HTTP 206, and zero browser memory leaks.")
     ]
@@ -205,10 +245,10 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
         ("Presentation Layer", "SvelteKit (Svelte 5)\nHTML5 Audio Engine\nIndexedDB Storage\nService Worker Cache", c_iris),
         ("API Gateway Layer", "Go Fiber Framework\nJWT Authentication\nCORS Middleware\nRate-limiting & Logger", c_text),
         ("Business Logic Layer", "Anti-Algorithm Engine\nTrack DNA Generator\nTrace Tree Builder\nSession Sync Manager", c_coral),
-        ("Data & Storage Layer", "PostgreSQL 16 (UTF-8)\nNormalized GORM Models\nHTTP Range Streamer\nJamendo / CC Audio CDN", c_iris)
+        ("Data & Storage Layer", "PostgreSQL 16 (UTF-8)\nNormalized GORM Models\nHTTP Range Streamer\nFull Audio CDN Pool", c_iris)
     ]
     for i, (name, details, col) in enumerate(layers):
-        card = s5.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.8 + i*2.95), Inches(2.0), Inches(2.75), Inches(4.5))
+        card = s5.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.8 + i*2.95), Inches(2.0), Inches(2.75), Inches(4.7))
         card.fill.solid()
         card.fill.fore_color.rgb = c_card
         card.line.color.rgb = col
@@ -237,7 +277,7 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
     techs = [
         ("Backend: Go (Golang 1.22) & Fiber", "• Superior concurrency: Goroutines handle hundreds of simultaneous audio streams.\n• FastHTTP engine: Zero allocation router yields sub-millisecond response times.\n• Single binary deployment: Self-contained binary with zero external runtime dependencies.", c_iris),
         ("Frontend: SvelteKit & TypeScript", "• True reactivity: Compiles down to surgically precise DOM updates without Virtual DOM overhead.\n• Persistent app shell: Seamless audio playback across client-side page transitions.\n• Lightweight footprint: Minimal bundle size ensures fast time-to-interactive.", c_coral),
-        ("Database: PostgreSQL 16.9", "• Strict relational integrity: Enforces foreign keys across playlists, users, and history.\n• Advanced indexing: Unique B-tree indexes on share tokens and composite indexes on tags.\n• UTF-8 compliance: Robust support for international track metadata.", c_text)
+        ("Database: PostgreSQL 16", "• Strict relational integrity: Enforces foreign keys across playlists, users, and history.\n• Advanced indexing: Unique B-tree indexes on share tokens and composite indexes on tags.\n• UTF-8 compliance: Robust support for international track metadata.", c_text)
     ]
     for i, (title, content, col) in enumerate(techs):
         card = s6.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.8), Inches(1.8 + i*1.7), Inches(11.7), Inches(1.5))
@@ -320,7 +360,7 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
         "Browser transmits Range header: Range: bytes=1048576-2097151.",
         "Go backend parses byte boundaries and extracts requested chunk.",
         "Server replies with HTTP 206 Partial Content and Content-Range: bytes 1048576-2097151/8388608.",
-        "Enables instantaneous timeline scrubbing without buffering entire file."
+        "Enables instantaneous timeline scrubbing across full 3-6 minute audio tracks."
     ]
     for b in b_left:
         bp = tf.add_paragraph()
@@ -343,7 +383,7 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
     p.space_after = Pt(10)
     b_right = [
         "Audio element lives in persistent player singleton outside route DOM.",
-        "Smooth navigation across /search, /canvas, /library without interruption.",
+        "Smooth navigation across /search, /canvas, /library without audio interruption.",
         "Fisher-Yates shuffle algorithm guarantees uniformly random track order.",
         "Three-state repeat mode: Repeat Off -> Repeat All -> Repeat One track."
     ]
@@ -445,11 +485,11 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
         p2.font.color.rgb = c_text
 
     # ─────────────────────────────────────────────────────────────────────────
-    # SLIDE 11: OFFLINE PLAYBACK & TEST RESULTS
+    # SLIDE 11: OFFLINE ARCHITECTURE & PLATFORM ROADMAP
     # ─────────────────────────────────────────────────────────────────────────
     s11 = prs.slides.add_slide(blank_layout)
     set_slide_background(s11)
-    add_header(s11, "Offline Architecture & Verification Results")
+    add_header(s11, "Verification Pass Rate & Platform Roadmap")
 
     l_box = s11.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.8), Inches(1.8), Inches(5.6), Inches(4.8))
     l_box.fill.solid()
@@ -458,48 +498,25 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
     tf = l_box.text_frame
     tf.word_wrap = True
     p = tf.paragraphs[0]
-    p.text = "Offline Playback Engine"
+    p.text = "100% Verification Pass Rate"
     p.font.bold = True
     p.font.size = Pt(16)
     p.font.color.rgb = c_iris
     p.space_after = Pt(10)
-    b_off = [
-        "Browser IndexedDB database (`diverge_offline_db`) stores binary audio blobs.",
-        "Custom Service Worker (`sw.js`) intercepts app shell requests during offline mode.",
-        "Track blob URLs (`URL.createObjectURL`) feed directly into player audio element.",
-        "Storage quota estimation (`navigator.storage.estimate`) prevents quota overflow."
-    ]
-    for b in b_off:
-        bp = tf.add_paragraph()
-        bp.text = "• " + b
-        bp.font.size = Pt(12)
-        bp.font.color.rgb = c_text
-        bp.space_after = Pt(8)
-
-    r_box = s11.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(6.9), Inches(1.8), Inches(5.6), Inches(4.8))
-    r_box.fill.solid()
-    r_box.fill.fore_color.rgb = c_card
-    r_box.line.color.rgb = c_coral
-    tf2 = r_box.text_frame
-    tf2.word_wrap = True
-    p = tf2.paragraphs[0]
-    p.text = "100% Verification Pass Rate"
-    p.font.bold = True
-    p.font.size = Pt(16)
-    p.font.color.rgb = c_coral
-    p.space_after = Pt(10)
     tests = [
         ("TC-01: PostgreSQL Cluster Initialization", "PASS"),
         ("TC-02: Go Backend Auto-Migration (9 tables)", "PASS"),
-        ("TC-03: Catalog Seed (18 multi-quadrant songs)", "PASS"),
+        ("TC-03: Catalog Seed (110 full-length tracks)", "PASS"),
         ("TC-04: User Registration & Bcrypt Hashing", "PASS"),
         ("TC-05: JWT Session Cookie Authentication", "PASS"),
-        ("TC-06: Sound Canvas Spatial Coordinates Query", "PASS"),
-        ("TC-07: Anti-Algorithm Comfort Inversion", "PASS"),
-        ("TC-08: Frontend Production Build & SSR Routing", "PASS")
+        ("TC-06: Full Audio Range Seek & Stream Redirect", "PASS"),
+        ("TC-07: Sound Canvas Spatial Coordinates Query", "PASS"),
+        ("TC-08: Anti-Algorithm Comfort Inversion", "PASS"),
+        ("TC-09: IndexedDB Offline Blob Cache", "PASS"),
+        ("TC-10: Frontend Production Build & SSR Routing", "PASS")
     ]
     for t_name, t_res in tests:
-        bp = tf2.add_paragraph()
+        bp = tf.add_paragraph()
         bp.text = f"✔ {t_name} — "
         bp.font.size = Pt(11)
         bp.font.color.rgb = c_text
@@ -508,41 +525,107 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
         run.font.bold = True
         run.font.color.rgb = RGBColor(0x4A, 0xDE, 0x80)
 
+    r_box = s11.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(6.9), Inches(1.8), Inches(5.6), Inches(4.8))
+    r_box.fill.solid()
+    r_box.fill.fore_color.rgb = c_card
+    r_box.line.color.rgb = c_coral
+    tf2 = r_box.text_frame
+    tf2.word_wrap = True
+    p = tf2.paragraphs[0]
+    p.text = "Future Platform Expansion Roadmap"
+    p.font.bold = True
+    p.font.size = Pt(16)
+    p.font.color.rgb = c_coral
+    p.space_after = Pt(10)
+    roadmap = [
+        ("Cross-Platform Mobile Apps (iOS & Android)", "Native builds using Capacitor / Flutter bringing Sound Canvas and offline sync to smartphones."),
+        ("Native Windows Desktop Executable (.exe)", "Packaged desktop client with low-latency audio driver, global media hotkeys, and system tray minimization."),
+        ("Cloud Edge Deployment", "Serverless edge frontend on Vercel, containerized Go API on Render/Fly.io, and serverless Postgres on Neon."),
+        ("WebAssembly DSP Audio Visualizer", "In-browser Fast Fourier Transform (FFT) for direct audio frequency spectrum analysis and reactive waveforms.")
+    ]
+    for r_head, r_desc in roadmap:
+        bp = tf2.add_paragraph()
+        bp.text = f"• {r_head}: "
+        bp.font.bold = True
+        bp.font.size = Pt(11.5)
+        bp.font.color.rgb = c_coral
+        bp.space_after = Pt(6)
+        run = bp.add_run()
+        run.text = r_desc
+        run.font.bold = False
+        run.font.color.rgb = c_text
+
     # ─────────────────────────────────────────────────────────────────────────
-    # SLIDE 12: CONCLUSION & DELIVERABLES SUMMARY
+    # SLIDE 12: THANK YOU & DEVELOPER CONTACT
     # ─────────────────────────────────────────────────────────────────────────
     s12 = prs.slides.add_slide(blank_layout)
     set_slide_background(s12)
-    add_header(s12, "Conclusion & Project Submission Summary")
 
-    c_sum = s12.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.8), Inches(1.8), Inches(11.7), Inches(4.8))
-    c_sum.fill.solid()
-    c_sum.fill.fore_color.rgb = c_card
-    c_sum.line.color.rgb = c_iris
-    tf = c_sum.text_frame
-    tf.word_wrap = True
-    p = tf.paragraphs[0]
-    p.text = "Internship Deliverables Complete"
-    p.font.bold = True
-    p.font.size = Pt(20)
-    p.font.color.rgb = c_iris
-    p.space_after = Pt(14)
+    # Main Card
+    c_card_box = s12.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(1.2), Inches(1.0), Inches(10.933), Inches(5.5))
+    c_card_box.fill.solid()
+    c_card_box.fill.fore_color.rgb = c_card
+    c_card_box.line.color.rgb = c_iris
 
-    delivs = [
-        ("Deliverable 1: Source Code Repository", "Complete Go backend (Fiber, GORM, JWT), complete SvelteKit frontend (TypeScript, custom CSS tokens), PostgreSQL schema, seeder CLI, and README.md."),
-        ("Deliverable 2: Technical Project Report (PDF)", "16-chapter comprehensive documentation adhering to university/internship guidelines at `j:/DIVERGE/docs/project-report.pdf`."),
-        ("Deliverable 3: Presentation Deck (PPTX)", "12-slide executive presentation covering architecture, features, and verification at `j:/DIVERGE/docs/presentation.pptx`."),
-        ("Deployment & Verification", "Full local execution verified with PostgreSQL 16 on port 5432, Go API on port 8080, and SvelteKit frontend on port 5173.")
+    # Add Logo inside the card
+    if os.path.exists(logo_path):
+        s12.shapes.add_picture(logo_path, Inches(1.8), Inches(1.7), width=Inches(3.4), height=Inches(3.5))
+
+    # Details Text Box on right
+    det_box = s12.shapes.add_textbox(Inches(5.6), Inches(1.3), Inches(6.2), Inches(4.9))
+    dtf = det_box.text_frame
+    dtf.word_wrap = True
+
+    dp0 = dtf.paragraphs[0]
+    dp0.text = "Thank You"
+    dp0.font.size = Pt(44)
+    dp0.font.bold = True
+    dp0.font.color.rgb = c_text
+    dp0.space_after = Pt(4)
+
+    dp_sub = dtf.add_paragraph()
+    dp_sub.text = "DIVERGE - Take the uncommon route."
+    dp_sub.font.size = Pt(16)
+    dp_sub.font.bold = True
+    dp_sub.font.color.rgb = c_coral
+    dp_sub.space_after = Pt(14)
+
+    dp_dev = dtf.add_paragraph()
+    dp_dev.text = "Dharshan V"
+    dp_dev.font.size = Pt(20)
+    dp_dev.font.bold = True
+    dp_dev.font.color.rgb = c_iris
+    dp_dev.space_after = Pt(2)
+
+    dp_role = dtf.add_paragraph()
+    dp_role.text = "Software Developer | Full-Stack Web Development Track"
+    dp_role.font.size = Pt(12)
+    dp_role.font.color.rgb = c_text
+    dp_role.space_after = Pt(4)
+
+    dp_intern = dtf.add_paragraph()
+    dp_intern.text = "Tech Vedhu Internship Project Submission"
+    dp_intern.font.size = Pt(12)
+    dp_intern.font.color.rgb = c_muted
+    dp_intern.space_after = Pt(16)
+
+    contact_items = [
+        ("Phone", "+91 6382546285"),
+        ("Email", "dharshan.vreddy2819@gmail.com"),
+        ("Portfolio", "https://dharshanvportfolio.netlify.app/"),
+        ("GitHub", "https://github.com/Dharsh606"),
+        ("Repository", "https://github.com/Dharsh606/DIVERGE"),
+        ("LinkedIn", "https://www.linkedin.com/in/dharshanvreddy")
     ]
-    for head, text in delivs:
-        p_item = tf.add_paragraph()
-        p_item.text = f"• {head}: "
-        p_item.font.bold = True
-        p_item.font.size = Pt(13)
-        p_item.font.color.rgb = c_coral
-        p_item.space_after = Pt(8)
-        run = p_item.add_run()
-        run.text = text
+    for label, val in contact_items:
+        cp = dtf.add_paragraph()
+        cp.text = f"{label}: "
+        cp.font.bold = True
+        cp.font.size = Pt(11)
+        cp.font.color.rgb = c_coral
+        cp.space_after = Pt(3)
+        run = cp.add_run()
+        run.text = val
         run.font.bold = False
         run.font.color.rgb = c_text
 

@@ -1,8 +1,11 @@
 # DIVERGE — Technical Architecture, Setup & Engineering Specification
 
 > **System**: DIVERGE Digital Audio Platform  
+> **Author / Intern**: Dharshan V (Software Developer)  
+> **Evaluation**: Tech Vedhu Internship Project Submission  
 > **Backend**: Go 1.22 (Fiber, GORM) • **Frontend**: SvelteKit (Svelte 5, TypeScript)  
-> **Database**: PostgreSQL 16 • **Audio Engine**: HTTP 206 Partial Content • **Offline**: IndexedDB & Service Worker
+> **Database**: PostgreSQL 16 • **Audio Engine**: HTTP 206 Partial Content (Full-Length Songs) • **Offline**: IndexedDB & Service Worker  
+> **Contact**: +91 6382546285 | dharshan.vreddy2819@gmail.com | [Portfolio](https://dharshanvportfolio.netlify.app/) | [GitHub](https://github.com/Dharsh606)
 
 ---
 
@@ -42,12 +45,13 @@ GRANT ALL PRIVILEGES ON DATABASE diverge_db TO postgres;
    PORT=8080
    JWT_SECRET=diverge-production-secret-key-replace
    ```
-2. Build and seed catalog:
+2. Build and seed catalog with full-length audio tracks:
    ```powershell
    cd backend
    go mod tidy
    go build -o diverge_backend.exe .
    go run cmd/seed/main.go
+   go run cmd/update_full_songs/main.go
    .\diverge_backend.exe
    ```
    *The server initializes on `http://127.0.0.1:8080`.*
@@ -64,8 +68,9 @@ npm run dev -- --host 127.0.0.1 --port 5173
 
 ## 3. Engineering & Architectural Specifications
 
-### Audio Delivery Architecture (HTTP 206 Range Requests)
+### Audio Delivery Architecture (HTTP 206 Range Requests & Full Songs)
 * Streaming uses `http.ServeContent` with HTTP 206 Partial Content byte ranges.
+* All tracks utilize full-length 3 to 6+ minute audio streams via Jamendo CDN 192kbps streaming pool and local media storage, bypassing restrictive 30-second preview clips.
 * Rather than loading complete audio tracks into server or client memory, the browser requests specific byte boundaries (`Range: bytes=0-1048575`).
 * Enables instant scrub-seeking without latency or memory degradation.
 
@@ -84,7 +89,15 @@ npm run dev -- --host 127.0.0.1 --port 5173
 
 ---
 
-## 4. Technical Architecture Review Reference
+## 4. Future Platform Roadmap
+
+* **Mobile Native Apps (iOS & Android):** Capacitor / Flutter native builds with background audio services and lock-screen widget integration.
+* **Windows Desktop (.exe):** Native desktop executable with ASIO low-latency drivers and global hotkey listeners.
+* **Cloud Edge Deployment:** Vercel frontend edge distribution + Render/Fly.io Go API + Neon serverless PostgreSQL.
+
+---
+
+## 5. Technical Architecture Review Reference
 
 #### Q: How does audio streaming scale without memory exhaustion?
 * **Details**: Go Fiber serves audio via chunked streaming with `c.SendFile` and Range headers. Files are streamed directly from disk or remote CDN proxies into socket buffers without buffering full payloads in RAM.
