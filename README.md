@@ -20,10 +20,8 @@
 * **Submission Date:** October 30, 2026
 * **Version:** 1.0 Production Candidate
 
-#### Live Production Deployment
-* **Live Web Application:** [https://diverge-music.vercel.app](https://diverge-music.vercel.app)
-* **Backend API Gateway:** [https://diverge-backend-l42s.onrender.com](https://diverge-backend-l42s.onrender.com)
-* **Database Cluster:** Neon Cloud Serverless PostgreSQL 16 (AWS Asia-Pacific)
+#### Live Production Application
+* **Official Web Application:** [https://diverge-music.vercel.app](https://diverge-music.vercel.app)
 
 #### Contact & Developer Profiles
 * **Portfolio:** [dharshanvportfolio.netlify.app](https://dharshanvportfolio.netlify.app/)
@@ -135,9 +133,9 @@ Copy `.env.example` in `backend/` to `.env`:
 DB_HOST=localhost
 DB_PORT=5432
 DB_USER=postgres
-DB_PASSWORD=diverge2024
+DB_PASSWORD=your_secure_password
 DB_NAME=diverge_db
-JWT_SECRET=diverge-secret-key-production-replace
+JWT_SECRET=your_secure_jwt_secret
 PORT=8080
 JAMENDO_CLIENT_ID=
 ```
@@ -167,35 +165,5 @@ JAMENDO_CLIENT_ID=
 
 1. **Cross-Platform Mobile Applications:** Native iOS and Android application releases using Capacitor/Flutter to bring DIVERGE's offline playback sync, lock-screen media controls, and listening rooms directly to mobile devices.
 2. **Native Desktop Executable (.exe):** Standalone Windows executable packaged with low-latency audio engine, global system media hotkeys, and system tray minimization.
-3. **Cloud Edge Deployment:** Production hosting strategy leveraging Vercel for zero-cold-start frontend edge delivery, Render/Fly.io for the containerized Go API, and Neon serverless PostgreSQL for elastic database scaling.
+3. **High-Availability Cloud Edge Delivery:** Multi-region edge distribution for zero-latency audio delivery with auto-scaling infrastructure.
 4. **WebAssembly DSP Engine:** In-browser Fast Fourier Transform (FFT) for direct audio frequency spectrum analysis and reactive waveforms.
-
----
-
-## 7. API Reference
-
-| Method | Endpoint | Description | Auth Required |
-|---|---|---|---|
-| GET | `/health` | Health check endpoint | No |
-| POST | `/api/auth/register` | Create user account | No |
-| POST | `/api/auth/login` | Log in and receive session cookie | No |
-| POST | `/api/auth/logout` | Terminate session | No |
-| GET | `/api/auth/me` | Fetch authenticated user profile | Yes |
-| GET | `/api/songs` | Paginated song listing with search & genre filter | Optional |
-| GET | `/api/songs/:id` | Song details | Optional |
-| GET | `/api/songs/:id/stream` | Audio range request streaming endpoint | Optional |
-| GET | `/api/songs/:id/dna` | Song Track DNA metadata | No |
-| GET | `/api/songs/trending` | Top played songs in past 7 days | No |
-| GET | `/api/genres` | Unique musical genres list | No |
-| GET | `/api/playlists` | User playlists | Yes |
-| POST | `/api/playlists` | Create new playlist | Yes |
-| GET | `/api/playlists/:id` | Playlist detail with tracks | Yes |
-| DELETE | `/api/playlists/:id` | Delete playlist | Yes |
-| GET | `/api/share/playlist/:token` | Public playlist resolver | No |
-| GET | `/api/recommendations` | Standard history-based recommendations | Optional |
-| GET | `/api/recommendations/anti` | Anti-Algorithm comfort-zone breaking songs | Optional |
-| GET | `/api/recommendations/context` | Context-tag-based recommendations | Yes |
-| POST | `/api/history` | Log track playback event | Yes |
-| GET | `/api/history/trace` | Branching tree listening path | Yes |
-| GET | `/api/tags` | List user context tags | Yes |
-| POST | `/api/tags` | Attach context tag to song | Yes |

@@ -5,7 +5,7 @@
 > **Evaluation**: Tech Vedhu Internship Project Submission  
 > **Backend**: Go 1.22 (Fiber, GORM) • **Frontend**: SvelteKit (Svelte 5, TypeScript)  
 > **Database**: PostgreSQL 16 • **Audio Engine**: HTTP 206 Partial Content (Full-Length Songs) • **Offline**: IndexedDB & Service Worker  
-> **Live Web App**: [https://diverge-music.vercel.app](https://diverge-music.vercel.app) • **Live API**: [https://diverge-backend-l42s.onrender.com](https://diverge-backend-l42s.onrender.com)  
+> **Live Web App**: [https://diverge-music.vercel.app](https://diverge-music.vercel.app)  
 > **Contact**: +91 6382546285 | dharshan.vreddy2819@gmail.com | [Portfolio](https://dharshanvportfolio.netlify.app/) | [GitHub](https://github.com/Dharsh606)
 
 ---
@@ -40,11 +40,11 @@ GRANT ALL PRIVILEGES ON DATABASE diverge_db TO postgres;
    ```env
    DB_HOST=127.0.0.1
    DB_USER=postgres
-   DB_PASSWORD=diverge2024
+   DB_PASSWORD=your_db_password
    DB_NAME=diverge_db
    DB_PORT=5432
    PORT=8080
-   JWT_SECRET=diverge-production-secret-key-replace
+   JWT_SECRET=your_secure_jwt_secret
    ```
 2. Build and seed catalog with full-length audio tracks:
    ```powershell
@@ -94,7 +94,7 @@ npm run dev -- --host 127.0.0.1 --port 5173
 
 * **Mobile Native Apps (iOS & Android):** Capacitor / Flutter native builds with background audio services and lock-screen widget integration.
 * **Windows Desktop (.exe):** Native desktop executable with ASIO low-latency drivers and global hotkey listeners.
-* **Cloud Edge Deployment:** Vercel frontend edge distribution + Render/Fly.io Go API + Neon serverless PostgreSQL.
+* **Cloud Edge Deployment:** Distributed multi-region edge deployment for zero-latency audio streaming with automated elastic database scaling.
 
 ---
 

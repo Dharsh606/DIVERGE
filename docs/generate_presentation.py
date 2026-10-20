@@ -540,7 +540,7 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
     roadmap = [
         ("Cross-Platform Mobile Apps (iOS & Android)", "Native builds using Capacitor / Flutter bringing offline sync, lock-screen controls, and listening rooms to smartphones."),
         ("Native Windows Desktop Executable (.exe)", "Packaged desktop client with low-latency audio driver, global media hotkeys, and system tray minimization."),
-        ("Cloud Edge Deployment", "Serverless edge frontend on Vercel, containerized Go API on Render/Fly.io, and serverless Postgres on Neon."),
+        ("High-Availability Cloud Edge Delivery", "Multi-region edge distribution for zero-latency audio streaming with automated elastic database scaling."),
         ("WebAssembly DSP Audio Visualizer", "In-browser Fast Fourier Transform (FFT) for direct audio frequency spectrum analysis and reactive waveforms.")
     ]
     for r_head, r_desc in roadmap:

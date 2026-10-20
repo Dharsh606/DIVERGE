@@ -204,7 +204,7 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
     # Developer Contact Details Card
     contact_box_data = [
         [Paragraph("<b>Developer Contact & Production Deployment</b>", meta_style)],
-        [Paragraph("<b>Live Demo:</b> <font color='#6B46C1'><u>https://diverge-music.vercel.app</u></font> &nbsp;|&nbsp; <b>API:</b> <font color='#6B46C1'><u>https://diverge-backend-l42s.onrender.com</u></font>", contact_style)],
+        [Paragraph("<b>Live Application:</b> <font color='#6B46C1'><u>https://diverge-music.vercel.app</u></font>", contact_style)],
         [Paragraph("<b>Phone:</b> +91 6382546285 &nbsp;|&nbsp; <b>Email:</b> dharshan.vreddy2819@gmail.com", contact_style)],
         [Paragraph("<b>Portfolio:</b> <font color='#6B46C1'><u>https://dharshanvportfolio.netlify.app/</u></font>", contact_style)],
         [Paragraph("<b>GitHub:</b> <font color='#6B46C1'><u>https://github.com/Dharsh606</u></font> &nbsp;|&nbsp; <b>Repository:</b> <font color='#6B46C1'><u>https://github.com/Dharsh606/DIVERGE</u></font>", contact_style)],
@@ -452,7 +452,7 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
     story.append(Paragraph("<b>Future Roadmap & Platform Expansion:</b>", h2_style))
     story.append(Paragraph("&bull; <b>Cross-Platform Mobile Applications:</b> Native iOS and Android application releases using Capacitor/Flutter to bring DIVERGE's offline playback sync, lock-screen media controls, and synchronized listening rooms directly to mobile devices.", bullet_style))
     story.append(Paragraph("&bull; <b>Native Desktop Executable (.exe):</b> Standalone Windows executable packaged with low-latency audio engine, global system media hotkeys, and system tray minimization.", bullet_style))
-    story.append(Paragraph("&bull; <b>Cloud Edge Deployment:</b> Production hosting strategy leveraging Vercel for zero-cold-start frontend edge delivery, Render/Fly.io for the containerized Go API, and Neon serverless PostgreSQL for elastic database scaling.", bullet_style))
+    story.append(Paragraph("&bull; <b>Cloud Edge Deployment:</b> Production hosting strategy leveraging zero-cold-start edge delivery for the web client, containerized Go API clustering, and auto-scaling PostgreSQL database instances.", bullet_style))
     story.append(Paragraph("&bull; <b>WebAssembly DSP:</b> On-client fast Fourier transform (FFT) for direct audio frequency spectrum analysis.", bullet_style))
     story.append(Paragraph("&bull; <b>HLS / DASH Adaptive Streaming:</b> Multi-bitrate audio transcoding for variable cellular connectivity.", bullet_style))
     story.append(Spacer(1, 10))
