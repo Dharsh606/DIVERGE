@@ -31,26 +31,21 @@
 </script>
 
 <svelte:head>
-  <title>Create Account - DIVERGE</title>
+  <title>Create Account — DIVERGE</title>
   <meta name="description" content="Register for a new DIVERGE music streaming account." />
 </svelte:head>
 
-<div class="auth-wrap">
-  <!-- Atmospheric background glowing orbs -->
-  <div class="auth-orb auth-orb-1" aria-hidden="true"></div>
-  <div class="auth-orb auth-orb-2" aria-hidden="true"></div>
+<div class="auth-viewport">
+  <div class="auth-card">
+    <div class="card-accent-bar" aria-hidden="true"></div>
 
-  <!-- Centered Glassmorphic Card -->
-  <div class="auth-card glass">
     <div class="auth-header">
       <a href="/" class="brand-link" aria-label="DIVERGE home">
-        <div class="logo-wrapper">
-          <img src="/logo-mark.png" alt="DIVERGE" style="width: 52px; height: 52px; object-fit: contain; filter: drop-shadow(0 4px 18px rgba(177, 154, 255, 0.5));" />
-        </div>
-        <span class="brand-text">DIVERGE</span>
+        <img src="/logo-mark.png" alt="DIVERGE" class="brand-logo" />
+        <span class="brand-name">DIVERGE</span>
       </a>
-      <h2>Take the uncommon route</h2>
-      <p class="text-muted">Create an account to explore music beyond the algorithmic mainstream.</p>
+      <h1 class="auth-title">Create your account</h1>
+      <p class="auth-subtitle">Join DIVERGE to explore music beyond algorithmic echo chambers.</p>
     </div>
 
     {#if errorMsg}
@@ -65,46 +60,45 @@
     <form on:submit={handleSubmit} class="auth-form">
       <div class="form-group">
         <label for="reg-username">Username</label>
-        <div class="input-wrap">
-          <input
-            id="reg-username"
-            type="text"
-            required
-            class="input auth-input"
-            placeholder="your_handle"
-            bind:value={username}
-          />
-        </div>
+        <input
+          id="reg-username"
+          type="text"
+          required
+          autocomplete="username"
+          class="input"
+          placeholder="your_handle"
+          bind:value={username}
+        />
       </div>
 
       <div class="form-group">
         <label for="reg-email">Email</label>
-        <div class="input-wrap">
-          <input
-            id="reg-email"
-            type="email"
-            required
-            class="input auth-input"
-            placeholder="your.email@example.com"
-            bind:value={email}
-          />
-        </div>
+        <input
+          id="reg-email"
+          type="email"
+          required
+          autocomplete="email"
+          class="input"
+          placeholder="your.email@example.com"
+          bind:value={email}
+        />
       </div>
 
       <div class="form-group">
-        <label for="reg-password">Password</label>
-        <div class="input-wrap">
-          <input
-            id="reg-password"
-            type="password"
-            required
-            minlength="6"
-            class="input auth-input"
-            placeholder="••••••••"
-            bind:value={password}
-          />
+        <div class="label-row">
+          <label for="reg-password">Password</label>
+          <span class="input-hint">Min. 6 chars</span>
         </div>
-        <span class="input-hint text-faint">Must be at least 6 characters</span>
+        <input
+          id="reg-password"
+          type="password"
+          required
+          minlength="6"
+          autocomplete="new-password"
+          class="input"
+          placeholder="••••••••"
+          bind:value={password}
+        />
       </div>
 
       <button type="submit" class="btn btn-primary submit-btn" disabled={submitting}>
@@ -120,99 +114,48 @@
       </button>
     </form>
 
-    <div class="auth-footer text-muted">
+    <div class="auth-footer">
       <span>Already have an account?</span>
       <a href="/login" class="auth-link">Log in</a>
     </div>
 
-    <div class="legal-links text-faint">
+    <div class="legal-links">
       <a href="/privacy">Privacy Policy</a>
-      <span>&bull;</span>
+      <span class="dot">&bull;</span>
       <a href="/terms">Terms & Conditions</a>
     </div>
   </div>
 </div>
 
 <style>
-  .auth-wrap {
+  .auth-viewport {
     min-height: 100dvh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1.5rem;
+    padding: 2rem 1.5rem;
     background: var(--color-bg);
+  }
+
+  .auth-card {
     position: relative;
+    width: 100%;
+    max-width: 420px;
+    padding: 2.5rem 2.25rem 2rem;
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-lg);
     overflow: hidden;
   }
 
-  /* Atmospheric glowing orbs */
-  .auth-orb {
+  .card-accent-bar {
     position: absolute;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .auth-orb-1 {
-    width: 440px;
-    height: 440px;
-    top: 15%;
-    left: 20%;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(circle, rgba(177, 154, 255, 0.15) 0%, transparent 70%);
-    filter: blur(60px);
-    animation: orb-drift-1 14s ease-in-out infinite alternate;
-  }
-
-  .auth-orb-2 {
-    width: 380px;
-    height: 380px;
-    bottom: 15%;
-    right: 20%;
-    transform: translate(50%, 50%);
-    background: radial-gradient(circle, rgba(255, 121, 108, 0.11) 0%, transparent 70%);
-    filter: blur(60px);
-    animation: orb-drift-2 16s ease-in-out infinite alternate;
-  }
-
-  @keyframes orb-drift-1 {
-    0%   { transform: translate(-50%, -50%) scale(0.95); }
-    100% { transform: translate(-42%, -42%) scale(1.1); }
-  }
-
-  @keyframes orb-drift-2 {
-    0%   { transform: translate(50%, 50%) scale(1.05); }
-    100% { transform: translate(40%, 40%) scale(0.9); }
-  }
-
-  /* Centered Glassmorphic Card */
-  .auth-card {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    max-width: 450px;
-    padding: 2.75rem 2.25rem;
-    border-radius: var(--radius-xl);
-    background: rgba(27, 24, 39, 0.65);
-    backdrop-filter: blur(36px) saturate(190%);
-    -webkit-backdrop-filter: blur(36px) saturate(190%);
-    border: 1px solid rgba(255, 255, 255, 0.09);
-    box-shadow:
-      0 28px 70px rgba(0, 0, 0, 0.6),
-      inset 0 1px 0 rgba(255, 255, 255, 0.15),
-      inset 0 0 28px rgba(177, 154, 255, 0.03);
-    animation: card-entrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  @keyframes card-entrance {
-    from {
-      opacity: 0;
-      transform: translateY(18px) scale(0.98);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--color-brand-gradient);
   }
 
   .auth-header {
@@ -223,65 +166,64 @@
   .brand-link {
     display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.65rem;
     margin-bottom: 1.25rem;
     text-decoration: none;
-    transition: transform var(--t-fast) ease;
+    transition: opacity var(--t-fast) ease;
   }
   .brand-link:hover {
-    transform: scale(1.04);
+    opacity: 0.9;
   }
 
-  .logo-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    filter: drop-shadow(0 4px 12px rgba(177, 154, 255, 0.3));
+  .brand-logo {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
   }
 
-  .brand-text {
-    font-size: var(--text-base);
+  .brand-name {
+    font-size: var(--text-sm);
     font-weight: 700;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.2em;
     color: var(--color-text);
   }
 
-  .auth-header h2 {
+  .auth-title {
     font-size: var(--text-2xl);
     font-weight: 700;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.025em;
     margin-bottom: 0.4rem;
     color: var(--color-text);
   }
 
+  .auth-subtitle {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+
   .alert-error {
     background: var(--color-accent-dim);
-    color: var(--color-accent);
-    border: 1px solid rgba(255, 121, 108, 0.25);
+    color: #FFA39E;
+    border: 1px solid rgba(255, 92, 88, 0.3);
     padding: 0.75rem 1rem;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-sm);
     font-size: var(--text-sm);
     margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
     gap: 0.6rem;
-    animation: shake 0.35s ease;
-  }
-
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    20%, 60% { transform: translateX(-4px); }
-    40%, 80% { transform: translateX(4px); }
   }
 
   .error-icon {
     flex-shrink: 0;
+    color: var(--color-accent);
   }
 
   .auth-form {
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
+    gap: 1.15rem;
   }
 
   .form-group {
@@ -290,71 +232,37 @@
     gap: 0.45rem;
   }
 
+  .label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
   .form-group label {
     font-size: var(--text-xs);
-    font-weight: 500;
+    font-weight: 600;
     color: var(--color-text-muted);
     letter-spacing: 0.02em;
   }
 
   .input-hint {
-    font-size: 0.72rem;
-    margin-top: 0.15rem;
-  }
-
-  .input-wrap {
-    position: relative;
-    width: 100%;
-  }
-
-  .auth-input {
-    background: rgba(17, 16, 25, 0.55);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    transition:
-      border-color var(--t-fast) ease,
-      box-shadow var(--t-fast) ease,
-      background var(--t-fast) ease;
-  }
-
-  .auth-input:focus {
-    background: rgba(17, 16, 25, 0.85);
-    border-color: var(--color-primary);
-    box-shadow:
-      0 0 0 3px rgba(177, 154, 255, 0.18),
-      0 0 16px rgba(177, 154, 255, 0.12);
+    font-size: 0.7rem;
+    color: var(--color-text-faint);
   }
 
   .submit-btn {
     margin-top: 0.5rem;
-    padding: 0.8rem 1.25rem;
+    padding: 0.75rem 1.25rem;
     width: 100%;
     font-size: var(--text-sm);
     font-weight: 600;
-    letter-spacing: 0.02em;
-    box-shadow: 0 4px 18px rgba(177, 154, 255, 0.25);
-    transition:
-      transform var(--t-fast) ease,
-      box-shadow var(--t-fast) ease,
-      opacity var(--t-fast) ease;
-  }
-
-  .submit-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 26px rgba(177, 154, 255, 0.4);
-    opacity: 0.95;
-  }
-
-  .submit-btn:active:not(:disabled) {
-    transform: translateY(0);
   }
 
   .btn-spinner {
     width: 14px;
     height: 14px;
-    border: 2px solid rgba(17, 16, 25, 0.3);
-    border-top-color: #111019;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #ffffff;
     border-radius: 50%;
     animation: spin 0.7s linear infinite;
   }
@@ -368,17 +276,16 @@
     gap: 0.4rem;
     margin-top: 1.75rem;
     font-size: var(--text-sm);
+    color: var(--color-text-muted);
   }
 
   .auth-link {
     color: var(--color-primary);
-    font-weight: 500;
+    font-weight: 600;
     text-decoration: none;
-    transition: color var(--t-fast) ease, text-decoration var(--t-fast) ease;
   }
   .auth-link:hover {
     text-decoration: underline;
-    opacity: 0.9;
   }
 
   .legal-links {
@@ -390,12 +297,18 @@
     font-size: var(--text-xs);
     border-top: 1px solid var(--color-border-subtle);
     padding-top: 1rem;
+    color: var(--color-text-faint);
   }
+
   .legal-links a {
     color: var(--color-text-faint);
     transition: color var(--t-fast) ease;
   }
   .legal-links a:hover {
     color: var(--color-text-muted);
+  }
+
+  .dot {
+    opacity: 0.4;
   }
 </style>

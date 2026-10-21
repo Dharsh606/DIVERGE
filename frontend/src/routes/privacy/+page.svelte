@@ -37,7 +37,7 @@
       </p>
       <ul>
         <li>Authenticating your account sessions via secure HTTP-only session cookies.</li>
-        <li>Generating personalized recommendations, Anti-Algorithm discovery playlists, and Sound Canvas coordinates.</li>
+        <li>Generating personalized recommendations and Anti-Algorithm discovery playlists.</li>
         <li>Visualizing your personal listening journey on your Trace tree.</li>
         <li>Allowing you to create, edit, and share music playlists.</li>
       </ul>

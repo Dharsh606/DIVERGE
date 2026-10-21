@@ -223,16 +223,19 @@
   .card-play-btn {
     width: 44px;
     height: 44px;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-full);
     background: var(--color-primary);
-    color: var(--color-bg);
+    color: #FFFFFF;
     border: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(120, 75, 255, 0.4);
     transform: scale(0.85);
-    transition: transform var(--t-fast) ease;
+    transition: transform var(--t-fast) ease, background var(--t-fast) ease;
+  }
+  .card-play-btn:hover {
+    background: var(--color-primary-hover);
   }
   .song-card:hover .card-play-btn { transform: scale(1); }
 

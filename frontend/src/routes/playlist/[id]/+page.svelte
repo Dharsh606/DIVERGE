@@ -65,14 +65,14 @@
   {#if loading}
     <div class="skeleton" style="height: 250px; border-radius: var(--radius-xl);"></div>
   {:else if !playlist}
-    <div class="card glass not-found">
+    <div class="card not-found">
       <h2>Playlist Not Found</h2>
       <p class="text-muted">This playlist does not exist or has been removed.</p>
       <a href="/library" class="btn btn-primary">Return to Library</a>
     </div>
   {:else}
     <!-- Playlist Header -->
-    <div class="pl-header glass">
+    <div class="pl-header card">
       <div class="pl-cover">
         {#if playlist.cover_url}
           <img src={playlist.cover_url} alt="" />
@@ -118,7 +118,7 @@
     <!-- Song List -->
     <div class="pl-tracks-section">
       {#if !playlist.songs || playlist.songs.length === 0}
-        <div class="empty-pl glass">
+        <div class="empty-pl card">
           <h3>No tracks in this playlist</h3>
           <p class="text-muted">Browse the music catalog and add tracks to build your journey.</p>
           <a href="/search" class="btn btn-ghost">Browse Songs</a>

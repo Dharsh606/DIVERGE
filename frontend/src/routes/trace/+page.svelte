@@ -49,7 +49,7 @@
   </div>
 
   {#if !$isLoggedIn}
-    <div class="cta-card glass">
+    <div class="cta-card card">
       <h2>Sign in to view your Trace</h2>
       <p class="text-muted">Trace maps out every branch of your music journey as you listen.</p>
       <div class="cta-actions">
@@ -64,7 +64,7 @@
       {/each}
     </div>
   {:else if traceNodes.length === 0}
-    <div class="empty-state glass">
+    <div class="empty-state card">
       <h3>No Trace nodes recorded yet</h3>
       <p class="text-muted">Start listening to songs across genres to watch your listening tree grow branches.</p>
       <a href="/search" class="btn btn-ghost">Explore music</a>
@@ -77,7 +77,7 @@
       <div class="nodes-list" role="list">
         {#each traceNodes as node (node.id)}
           <div
-            class="tree-node glass"
+            class="tree-node card"
             class:branch-node={node.is_branch}
             style="margin-left: {Math.min(node.depth * 28, 140)}px;"
             role="listitem"

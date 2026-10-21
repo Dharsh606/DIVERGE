@@ -27,7 +27,7 @@
 </script>
 
 <div
-  class="player-bar glass"
+  class="player-bar"
   class:has-song={!!song}
   role="region"
   aria-label="Music player"
@@ -262,24 +262,25 @@
 
   /* The play button — geometric, DIVERGE-inspired */
   .play-btn {
-    width: 44px;
-    height: 44px;
-    border-radius: var(--radius-md);
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-sm);
     background: var(--color-primary);
-    color: var(--color-bg);
+    color: #FFFFFF;
     border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
     transition:
-      opacity var(--t-fast) ease,
+      background var(--t-fast) ease,
       transform var(--t-fast) ease,
       box-shadow var(--t-fast) ease;
   }
   .play-btn:hover:not(:disabled) {
-    opacity: 0.9;
+    background: var(--color-primary-hover);
     transform: scale(1.05);
     box-shadow: var(--shadow-glow-primary);
   }

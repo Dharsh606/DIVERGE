@@ -17,7 +17,7 @@
 </script>
 
 <nav
-  class="sidebar glass"
+  class="sidebar"
   class:open
   aria-label="Main navigation"
 >
@@ -30,7 +30,7 @@
       aria-expanded={open}
     >
       <!-- DIVERGE Official 3D Logo Mark -->
-      <img src="/logo-mark.png" alt="DIVERGE" class="logo-mark" style="width: 36px; height: 36px; object-fit: contain; filter: drop-shadow(0 2px 10px rgba(177, 154, 255, 0.45));" />
+      <img src="/logo-mark.png" alt="DIVERGE" class="logo-mark" />
       {#if open}
         <span class="logo-wordmark">DIVERGE</span>
       {/if}
@@ -98,9 +98,11 @@
     display: flex;
     flex-direction: column;
     padding: 1rem 0;
+    background: var(--color-surface);
     border-right: 1px solid var(--color-border);
     overflow: hidden;
     transition: width var(--t-normal) var(--ease-out-expo);
+    z-index: 10;
   }
 
   .sidebar-header {
@@ -117,22 +119,23 @@
     border: none;
     cursor: pointer;
     padding: 0.5rem;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-sm);
     width: 100%;
     transition: background var(--t-fast) ease;
   }
   .logo-btn:hover { background: var(--color-surface-raised); }
 
   .logo-mark {
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
     flex-shrink: 0;
   }
 
   .logo-wordmark {
     font-size: var(--text-sm);
     font-weight: 700;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.22em;
     color: var(--color-text);
     white-space: nowrap;
   }
@@ -143,7 +146,7 @@
     padding: 0 0.5rem;
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 3px;
     overflow-y: auto;
   }
 
@@ -152,23 +155,28 @@
     align-items: center;
     gap: 0.75rem;
     padding: 0.65rem 0.75rem;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-sm);
     color: var(--color-text-muted);
     font-size: var(--text-sm);
     font-weight: 500;
     transition:
       background var(--t-fast) ease,
-      color var(--t-fast) ease;
+      color var(--t-fast) ease,
+      border-color var(--t-fast) ease;
     text-decoration: none;
     white-space: nowrap;
+    border: 1px solid transparent;
   }
   .nav-item:hover {
     background: var(--color-surface-raised);
     color: var(--color-text);
+    border-color: var(--color-border-subtle);
   }
   .nav-item.active {
     background: var(--color-primary-dim);
-    color: var(--color-primary);
+    color: #FFFFFF;
+    font-weight: 600;
+    border-color: rgba(120, 75, 255, 0.25);
   }
   .nav-item.active .nav-icon svg {
     stroke: var(--color-primary);
@@ -204,31 +212,36 @@
     align-items: center;
     gap: 0.75rem;
     padding: 0.5rem;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-sm);
     text-decoration: none;
     transition: background var(--t-fast) ease;
     color: var(--color-text-muted);
+    border: 1px solid transparent;
   }
-  .user-chip:hover { background: var(--color-surface-raised); }
+  .user-chip:hover {
+    background: var(--color-surface-raised);
+    border-color: var(--color-border-subtle);
+  }
   .user-chip.compact { justify-content: center; }
 
   .user-avatar {
     width: 32px;
     height: 32px;
     border-radius: var(--radius-full);
-    background: var(--color-primary-dim);
-    color: var(--color-primary);
+    background: var(--color-primary);
+    color: #FFFFFF;
     font-weight: 700;
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   }
 
   .user-name {
     font-size: var(--text-sm);
-    font-weight: 500;
+    font-weight: 600;
     color: var(--color-text);
     overflow: hidden;
     text-overflow: ellipsis;

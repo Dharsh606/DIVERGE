@@ -42,7 +42,9 @@
 
 <div class="profile-container">
   {#if $currentUser}
-    <div class="profile-card glass">
+    <div class="profile-card">
+      <div class="card-accent-bar" aria-hidden="true"></div>
+
       <!-- Profile Header -->
       <div class="profile-header">
         <div class="avatar-ring">
@@ -53,7 +55,7 @@
         <div class="profile-meta">
           <div class="badge-row">
             <span class="badge badge-accent">Verified Listener</span>
-            <span class="badge badge-primary">Tech Vedhu Track</span>
+            <span class="badge badge-primary">Curator</span>
           </div>
           <h1 class="profile-username">{$currentUser.username}</h1>
           <p class="profile-email text-muted">{$currentUser.email}</p>
@@ -73,7 +75,7 @@
           <span class="stat-label text-muted">Listening Traces</span>
         </div>
         <div class="stat-card">
-          <span class="stat-num">Full Audio</span>
+          <span class="stat-num">Lossless</span>
           <span class="stat-label text-muted">Stream Quality</span>
         </div>
       </div>
@@ -106,7 +108,7 @@
       </div>
     </div>
   {:else}
-    <div class="profile-card glass" style="text-align: center; padding: 3rem;">
+    <div class="profile-card" style="text-align: center; padding: 3rem;">
       <p class="text-muted">Loading account profile...</p>
     </div>
   {/if}
@@ -114,42 +116,53 @@
 
 <style>
   .profile-container {
-    max-width: 720px;
-    margin: 2.5rem auto;
+    max-width: 680px;
+    margin: 2rem auto;
     padding: 0 1.5rem;
   }
 
   .profile-card {
+    position: relative;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-xl);
-    padding: 2.5rem;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+    border-radius: var(--radius-lg);
+    padding: 2.25rem;
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+
+  .card-accent-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--color-brand-gradient);
   }
 
   .profile-header {
     display: flex;
     align-items: center;
-    gap: 1.75rem;
+    gap: 1.5rem;
   }
 
   .avatar-ring {
-    padding: 4px;
+    padding: 3px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-    box-shadow: 0 4px 20px rgba(177, 154, 255, 0.35);
+    background: var(--color-brand-gradient);
+    box-shadow: 0 2px 12px rgba(120, 75, 255, 0.3);
   }
 
   .profile-avatar {
-    width: 72px;
-    height: 72px;
+    width: 68px;
+    height: 68px;
     border-radius: 50%;
     background: var(--color-surface-raised);
     color: var(--color-text);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
+    font-size: 1.75rem;
     font-weight: 700;
   }
 
@@ -166,14 +179,15 @@
   }
 
   .profile-username {
-    font-size: 1.75rem;
-    font-weight: 800;
+    font-size: 1.6rem;
+    font-weight: 700;
     color: var(--color-text);
     margin: 0;
+    letter-spacing: -0.02em;
   }
 
   .profile-email {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     margin: 0;
   }
 
@@ -192,7 +206,7 @@
   .stat-card {
     background: var(--color-surface-raised);
     border: 1px solid var(--color-border-subtle);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-sm);
     padding: 1.25rem;
     text-align: center;
     display: flex;
@@ -201,31 +215,44 @@
   }
 
   .stat-num {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 700;
-    color: var(--color-primary);
+    color: #C4AEFF;
   }
 
   .stat-label {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
 
   .profile-actions {
     display: flex;
-    gap: 1rem;
+    gap: 0.75rem;
     flex-wrap: wrap;
     align-items: center;
   }
 
   .btn-danger {
-    background: rgba(239, 68, 68, 0.15);
-    color: #f87171;
-    border: 1px solid rgba(239, 68, 68, 0.3);
+    background: rgba(239, 68, 68, 0.12);
+    color: #F87171;
+    border: 1px solid rgba(239, 68, 68, 0.25);
     margin-left: auto;
   }
 
   .btn-danger:hover {
-    background: rgba(239, 68, 68, 0.28);
-    color: #ffffff;
+    background: rgba(239, 68, 68, 0.22);
+    color: #FFFFFF;
+  }
+
+  @media (max-width: 600px) {
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+    .profile-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .btn-danger {
+      margin-left: 0;
+    }
   }
 </style>

@@ -45,14 +45,14 @@
   {#if loading}
     <div class="skeleton" style="height: 250px; border-radius: var(--radius-xl);"></div>
   {:else if errorMsg || !playlist}
-    <div class="card glass not-found">
+    <div class="card not-found">
       <h2>Playlist Not Found</h2>
       <p class="text-muted">{errorMsg || 'This shared playlist does not exist or has been made private.'}</p>
       <a href="/" class="btn btn-primary">Go to DIVERGE Home</a>
     </div>
   {:else}
     <!-- Shared Playlist Banner -->
-    <div class="share-banner glass">
+    <div class="share-banner card">
       <div class="banner-badge">
         <span class="badge badge-accent">Shared Collection</span>
       </div>

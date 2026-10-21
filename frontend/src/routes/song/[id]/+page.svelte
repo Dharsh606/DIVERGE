@@ -89,14 +89,14 @@
   {#if loading}
     <div class="skeleton" style="height: 300px; border-radius: var(--radius-xl);"></div>
   {:else if !song}
-    <div class="card glass not-found">
+    <div class="card not-found">
       <h2>Track Not Found</h2>
       <p class="text-muted">The track you are looking for does not exist or has been removed.</p>
       <a href="/search" class="btn btn-primary">Discover other songs</a>
     </div>
   {:else}
     <!-- Song Hero Card -->
-    <div class="song-hero glass">
+    <div class="song-hero card">
       <div class="hero-art">
         {#if song.album?.cover_url}
           <img src={song.album.cover_url} alt="{song.album.title} cover" />
@@ -172,7 +172,7 @@
     {#if $isLoggedIn}
       <div class="meta-management-grid">
         <!-- Add to Playlist -->
-        <div class="card glass action-box">
+        <div class="card action-box">
           <h3>Add to Playlist</h3>
           {#if userPlaylists.length === 0}
             <p class="text-muted text-sm">You haven't created any playlists yet.</p>
@@ -196,7 +196,7 @@
         </div>
 
         <!-- Add Context Tag -->
-        <div class="card glass action-box">
+        <div class="card action-box">
           <h3>Attach Context Tag</h3>
           <p class="text-muted text-xs">Tags attach personal listening contexts (e.g. #midnight, #deep-focus).</p>
           <form on:submit={handleAddTag} class="tag-form">

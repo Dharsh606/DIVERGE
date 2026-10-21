@@ -51,8 +51,8 @@
 </script>
 
 <svelte:head>
-  <title>DIVERGE — Home</title>
-  <meta name="description" content="Discover music on DIVERGE. Trending tracks, personalised recommendations, and Sound Canvas exploration." />
+  <title>DIVERGE — Curated Audio & Music Discovery</title>
+  <meta name="description" content="Discover music on DIVERGE. Curated tracks, trending releases, acoustic exploration, and collaborative sessions." />
 </svelte:head>
 
 <div class="home">
@@ -63,15 +63,15 @@
     </div>
     <div class="song-grid">
       {#each Array(8) as _}
-        <div class="skeleton" style="aspect-ratio: 1; border-radius: var(--radius-lg);"></div>
+        <div class="skeleton" style="aspect-ratio: 1; border-radius: var(--radius-md);"></div>
       {/each}
     </div>
   {:else}
-    <!-- Editorial header — not a hero banner, an editorial moment -->
+    <!-- Editorial header — human curated moment -->
     {#if trending.length}
       {@const featured = trending[0]}
       <section class="editorial" aria-label="Featured track">
-        <div class="editorial-inner glass">
+        <div class="editorial-card">
           <div class="editorial-art">
             {#if featured.album?.cover_url}
               <img src={featured.album.cover_url} alt={featured.album.title} />
@@ -80,7 +80,12 @@
             {/if}
           </div>
           <div class="editorial-meta">
-            <span class="editorial-label badge badge-accent">Trending Now</span>
+            <div class="badge-row">
+              <span class="badge badge-accent">Trending Now</span>
+              {#if featured.genre}
+                <span class="badge badge-primary">{featured.genre}</span>
+              {/if}
+            </div>
             <h1 class="editorial-title">{featured.title}</h1>
             <p class="editorial-artist text-muted">{featured.artist?.name ?? ''}</p>
             <div class="editorial-actions">
@@ -90,20 +95,20 @@
                 id="play-featured-btn"
               >
                 <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                Play
+                Play Track
               </button>
-              <a href="/song/{featured.id}" class="btn btn-ghost">View details</a>
+              <a href="/song/{featured.id}" class="btn btn-ghost">Track Details</a>
             </div>
           </div>
         </div>
       </section>
     {/if}
 
-    <!-- Genre filter pills — not a grid of genre cards, a sparse horizontal filter -->
+    <!-- Genre filter pills -->
     {#if genres.length}
       <section class="genres-section" aria-label="Filter by genre">
         <div class="section-header">
-          <h2 class="section-title">Browse</h2>
+          <h2 class="section-title">Explore Catalog</h2>
         </div>
         <div class="genre-strip" role="toolbar" aria-label="Genre filters">
           <button
@@ -129,7 +134,7 @@
     {#if browseLoading}
       <div class="song-grid">
         {#each Array(8) as _}
-          <div class="skeleton" style="aspect-ratio: 1; border-radius: var(--radius-lg);"></div>
+          <div class="skeleton" style="aspect-ratio: 1; border-radius: var(--radius-md);"></div>
         {/each}
       </div>
     {:else if browseSongs.length}
@@ -146,8 +151,8 @@
     {#if trending.length > 1}
       <section class="section" aria-label="Trending this week">
         <div class="section-header">
-          <h2 class="section-title">Trending this week</h2>
-          <a href="/search" class="section-link">See all</a>
+          <h2 class="section-title">Trending This Week</h2>
+          <a href="/search" class="section-link">View all</a>
         </div>
         <div class="list-view">
           {#each trending.slice(1, 9) as song (song.id)}
@@ -161,7 +166,7 @@
     {#if recommended.length}
       <section class="section" aria-label="Recommended for you">
         <div class="section-header">
-          <h2 class="section-title">Picked for you</h2>
+          <h2 class="section-title">Curated For You</h2>
           <a href="/search?mode=recommendations" class="section-link">Refresh</a>
         </div>
         <div class="song-grid">
@@ -172,21 +177,21 @@
       </section>
     {:else if !$isLoggedIn}
       <section class="cta-section" aria-label="Sign up banner">
-        <div class="cta-glow-backdrop" aria-hidden="true"></div>
-        <div class="cta-card glass">
-          <div class="cta-emblem" aria-hidden="true">
-            <img src="/logo-mark.png" alt="DIVERGE" style="width: 56px; height: 56px; object-fit: contain; filter: drop-shadow(0 4px 20px rgba(177, 154, 255, 0.5));" />
+        <div class="cta-card">
+          <div class="cta-top-accent" aria-hidden="true"></div>
+          <div class="cta-emblem">
+            <img src="/logo-mark.png" alt="DIVERGE" class="cta-logo" />
           </div>
           <h2 class="cta-title">Take the uncommon route.</h2>
-          <p class="cta-desc">Sign in to get personalised picks, save playlists, and track your musical journey.</p>
+          <p class="cta-desc">Sign in to discover curated music beyond algorithmic echo chambers, create shared sessions, and explore your personal listening trace.</p>
           <div class="cta-actions">
-            <a href="/register" class="btn btn-primary cta-btn-primary" id="home-cta-register">
-              <span>Create account</span>
+            <a href="/register" class="btn btn-primary" id="home-cta-register">
+              <span>Create Account</span>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
                 <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
               </svg>
             </a>
-            <a href="/login" class="btn btn-ghost cta-btn-ghost" id="home-cta-login">Log in</a>
+            <a href="/login" class="btn btn-ghost" id="home-cta-login">Log In</a>
           </div>
         </div>
       </section>
@@ -202,25 +207,29 @@
     padding-bottom: 2rem;
   }
 
-  /* Editorial — not a hero, not a banner */
+  /* Curated Editorial Moment */
   .editorial {
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-lg);
     overflow: hidden;
   }
-  .editorial-inner {
+  .editorial-card {
     display: grid;
-    grid-template-columns: 160px 1fr;
-    gap: 1.5rem;
-    padding: 1.5rem;
-    border-radius: var(--radius-xl);
+    grid-template-columns: 180px 1fr;
+    gap: 2rem;
+    padding: 1.75rem;
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
     align-items: center;
   }
   .editorial-art {
-    width: 160px;
-    height: 160px;
-    border-radius: var(--radius-lg);
+    width: 180px;
+    height: 180px;
+    border-radius: var(--radius-md);
     overflow: hidden;
     background: var(--color-surface-raised);
+    border: 1px solid var(--color-border-subtle);
     flex-shrink: 0;
   }
   .editorial-art img {
@@ -234,16 +243,25 @@
     background: var(--color-surface-raised);
   }
 
-  .editorial-label { margin-bottom: 0.5rem; }
+  .badge-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
 
   .editorial-title {
     font-size: var(--text-2xl);
     font-weight: 700;
-    letter-spacing: -0.03em;
-    margin-bottom: 0.25rem;
+    letter-spacing: -0.025em;
+    margin-bottom: 0.35rem;
     color: var(--color-text);
   }
-  .editorial-artist { font-size: var(--text-base); margin-bottom: 1rem; }
+  .editorial-artist {
+    font-size: var(--text-base);
+    color: var(--color-text-muted);
+    margin-bottom: 1.25rem;
+  }
 
   .editorial-actions {
     display: flex;
@@ -251,7 +269,7 @@
     flex-wrap: wrap;
   }
 
-  /* Genre strip */
+  /* Genre Strip */
   .genre-strip {
     display: flex;
     gap: 0.5rem;
@@ -261,28 +279,29 @@
 
   .genre-pill {
     font-family: inherit;
-    font-size: var(--text-sm);
-    font-weight: 500;
-    padding: 0.4rem 1rem;
-    border-radius: var(--radius-md);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    padding: 0.45rem 1rem;
+    border-radius: var(--radius-full);
     border: 1px solid var(--color-border);
-    background: transparent;
+    background: var(--color-surface);
     color: var(--color-text-muted);
     cursor: pointer;
     transition:
       background var(--t-fast) ease,
       color var(--t-fast) ease,
       border-color var(--t-fast) ease;
-    letter-spacing: 0.01em;
+    letter-spacing: 0.02em;
   }
   .genre-pill:hover {
     background: var(--color-surface-raised);
     color: var(--color-text);
+    border-color: var(--color-border-hover);
   }
   .genre-pill.active {
     background: var(--color-primary-dim);
     border-color: var(--color-primary);
-    color: var(--color-primary);
+    color: #C4AEFF;
   }
 
   /* Section */
@@ -292,63 +311,37 @@
     gap: 0;
   }
 
-  /* Centered Glassmorphic CTA */
+  /* Grounded Human CTA */
   .cta-section {
-    position: relative;
     width: 100%;
-    max-width: 680px;
+    max-width: 640px;
     margin: 1.5rem auto 2.5rem;
     display: flex;
     justify-content: center;
   }
 
-  .cta-glow-backdrop {
-    position: absolute;
-    inset: -12px;
-    border-radius: calc(var(--radius-xl) + 12px);
-    background: radial-gradient(circle at 50% 50%, rgba(177, 154, 255, 0.16) 0%, rgba(255, 121, 108, 0.08) 50%, transparent 75%);
-    filter: blur(28px);
-    pointer-events: none;
-    z-index: 0;
-    animation: cta-ambient-pulse 7s ease-in-out infinite alternate;
-  }
-
-  @keyframes cta-ambient-pulse {
-    0%   { opacity: 0.6; transform: scale(0.97); }
-    100% { opacity: 1.0; transform: scale(1.03); }
-  }
-
   .cta-card {
     position: relative;
-    z-index: 1;
     width: 100%;
     padding: 2.75rem 2.25rem;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-radius: var(--radius-xl);
-    background: rgba(27, 24, 39, 0.65);
-    backdrop-filter: blur(32px) saturate(180%);
-    -webkit-backdrop-filter: blur(32px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.09);
-    box-shadow:
-      0 20px 50px rgba(0, 0, 0, 0.55),
-      inset 0 1px 0 rgba(255, 255, 255, 0.14),
-      inset 0 0 24px rgba(177, 154, 255, 0.03);
-    transition:
-      transform var(--t-normal) var(--ease-out-expo),
-      box-shadow var(--t-normal) ease,
-      border-color var(--t-normal) ease;
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
   }
 
-  .cta-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(177, 154, 255, 0.28);
-    box-shadow:
-      0 26px 60px rgba(0, 0, 0, 0.65),
-      inset 0 1px 0 rgba(255, 255, 255, 0.2),
-      0 0 30px rgba(177, 154, 255, 0.12);
+  .cta-top-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--color-brand-gradient);
   }
 
   .cta-emblem {
@@ -356,16 +349,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform var(--t-normal) ease;
   }
-  .cta-card:hover .cta-emblem {
-    transform: scale(1.06);
+  .cta-logo {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
   }
 
   .cta-title {
     font-size: var(--text-2xl);
     font-weight: 700;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.02em;
     margin-bottom: 0.65rem;
     color: var(--color-text);
   }
@@ -375,7 +369,7 @@
     font-size: var(--text-sm);
     line-height: 1.6;
     color: var(--color-text-muted);
-    margin: 0 auto 1.5rem;
+    margin: 0 auto 1.75rem;
   }
 
   .cta-actions {
@@ -386,28 +380,8 @@
     flex-wrap: wrap;
   }
 
-  .cta-btn-primary {
-    padding: 0.75rem 1.6rem;
-    box-shadow: 0 4px 18px rgba(177, 154, 255, 0.25);
-    transition: transform var(--t-fast) ease, box-shadow var(--t-fast) ease, opacity var(--t-fast) ease;
-  }
-  .cta-btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(177, 154, 255, 0.4);
-    opacity: 0.95;
-  }
-
-  .cta-btn-ghost {
-    padding: 0.75rem 1.6rem;
-    transition: transform var(--t-fast) ease, background var(--t-fast) ease, border-color var(--t-fast) ease;
-  }
-  .cta-btn-ghost:hover {
-    transform: translateY(-2px);
-    border-color: var(--color-primary);
-  }
-
   @media (max-width: 600px) {
-    .editorial-inner {
+    .editorial-card {
       grid-template-columns: 1fr;
     }
     .editorial-art {

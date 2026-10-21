@@ -73,7 +73,7 @@
   </div>
 
   {#if !$isLoggedIn}
-    <div class="cta-box glass">
+    <div class="cta-box card">
       <h2>Collaborative Listening</h2>
       <p class="text-muted">Sign in to host a live Diverge Session or join a room via session code.</p>
       <div class="cta-actions">
@@ -85,7 +85,7 @@
     <!-- Lobby: Create or Join -->
     <div class="lobby-grid">
       <!-- Create Room -->
-      <div class="lobby-card card glass">
+      <div class="lobby-card card">
         <div class="card-icon-badge">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
             <path d="M12 2v20M2 12h20"/>
@@ -99,7 +99,7 @@
       </div>
 
       <!-- Join Room -->
-      <div class="lobby-card card glass">
+      <div class="lobby-card card">
         <div class="card-icon-badge">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
             <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/>
@@ -123,7 +123,7 @@
     </div>
   {:else}
     <!-- Active Room Dashboard -->
-    <div class="room-dashboard glass">
+    <div class="room-dashboard card">
       <div class="room-top">
         <div class="room-title-area">
           <span class="badge badge-accent">Live Session</span>

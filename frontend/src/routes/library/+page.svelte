@@ -96,7 +96,7 @@
   </div>
 
   {#if !$isLoggedIn}
-    <div class="cta-box glass">
+    <div class="cta-box card">
       <h2>Your Personal Music Hub</h2>
       <p class="text-muted">Sign in to organize your tracks into playlists and attach personal context tags.</p>
       <div class="cta-btns">
@@ -139,7 +139,7 @@
           {/each}
         </div>
       {:else if userPlaylists.length === 0}
-        <div class="empty-state glass">
+        <div class="empty-state card">
           <h3>No playlists yet</h3>
           <p class="text-muted">Create your first playlist to begin curating your journey.</p>
           <button class="btn btn-primary" on:click={() => (showCreateModal = true)}>Create Playlist</button>
@@ -211,14 +211,14 @@
     <!-- Tags Tab -->
     {#if activeTab === 'tags'}
       {#if userTags.length === 0}
-        <div class="empty-state glass">
+        <div class="empty-state card">
           <h3>No context tags created yet</h3>
           <p class="text-muted">Attach personal context tags like #focus, #midnight, or #kinetic to songs as you listen.</p>
         </div>
       {:else}
         <div class="tags-cluster">
           {#each userTags as t (t.id)}
-            <div class="tag-card glass">
+            <div class="tag-card card">
               <span class="tag-label">#{t.tag_name}</span>
               <span class="tag-target text-muted">{t.song?.title ?? 'Track #' + t.song_id}</span>
             </div>
@@ -229,7 +229,7 @@
 
     <!-- Offline Tab -->
     {#if activeTab === 'offline'}
-      <div class="empty-state glass">
+      <div class="empty-state card">
         <h3>Offline Cache</h3>
         <p class="text-muted">Cached tracks in browser IndexedDB can be played anytime without network connectivity.</p>
         <span class="badge badge-primary">Storage Ready</span>
@@ -240,8 +240,16 @@
 
 <!-- Create Playlist Modal -->
 {#if showCreateModal}
-  <div class="modal-backdrop" on:click={() => (showCreateModal = false)}>
-    <div class="modal card glass" on:click|stopPropagation>
+  <div
+    class="modal-backdrop"
+    role="button"
+    tabindex="0"
+    on:click={() => (showCreateModal = false)}
+    on:keydown={(e) => e.key === 'Escape' && (showCreateModal = false)}
+  >
+    <!-- svelte-ignore a11y_click_events_have_key_events -->
+    <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+    <div class="modal card" role="dialog" aria-modal="true" tabindex="-1" on:click|stopPropagation>
       <h2>New Playlist</h2>
       <form on:submit={handleCreatePlaylist}>
         <div class="form-group">

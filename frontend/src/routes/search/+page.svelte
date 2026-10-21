@@ -161,7 +161,7 @@
 
   <!-- Search input bar -->
   <div class="search-bar-wrap">
-    <div class="search-input-box glass">
+    <div class="search-input-box">
       <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
       </svg>
@@ -195,7 +195,7 @@
   </div>
 
   {#if isAntiMode}
-    <div class="anti-notice glass">
+    <div class="anti-notice">
       <div class="anti-badge">Anti-Algorithm Active</div>
       <p class="anti-text">{antiReason}</p>
     </div>
@@ -260,7 +260,7 @@
       {/each}
     </div>
   {:else if results.length === 0}
-    <div class="empty-state glass">
+    <div class="empty-state card">
       <h3>No tracks found</h3>
       <p class="text-muted">Try searching in the Live Network for any Indian or World artist.</p>
       <button class="btn btn-primary" on:click={() => setScope('live')}>
@@ -333,17 +333,16 @@
     align-items: center;
     flex: 1;
     min-width: 280px;
-    padding: 0.75rem 1.1rem;
-    border-radius: var(--radius-md);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(27, 24, 39, 0.5);
-    backdrop-filter: blur(16px);
+    padding: 0.65rem 1rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
     transition: border-color var(--t-fast) ease, box-shadow var(--t-fast) ease;
   }
 
   .search-input-box:focus-within {
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(177, 154, 255, 0.15);
+    box-shadow: 0 0 0 3px var(--color-primary-dim);
   }
 
   .search-icon {
@@ -400,16 +399,20 @@
   }
   .anti-btn.active {
     background: var(--color-primary);
-    color: #111019;
+    color: #FFFFFF;
     border-color: var(--color-primary);
     font-weight: 600;
-    box-shadow: 0 0 16px rgba(177, 154, 255, 0.35);
+    box-shadow: var(--shadow-glow-primary);
   }
 
   .anti-notice {
     padding: 1.25rem;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-sm);
     border-left: 3px solid var(--color-primary);
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    border-right: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -440,9 +443,9 @@
   }
   .pill-chip {
     padding: 0.35rem 0.75rem;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
     color: var(--color-text-muted);
     font-size: var(--text-xs);
     cursor: pointer;
@@ -452,11 +455,11 @@
   .pill-chip:hover {
     background: var(--color-surface-raised);
     color: var(--color-text);
-    border-color: var(--color-primary);
+    border-color: var(--color-border-hover);
   }
   .pill-chip.active {
-    background: var(--color-primary);
-    color: #111019;
+    background: var(--color-primary-dim);
+    color: #C4AEFF;
     font-weight: 600;
     border-color: var(--color-primary);
   }
