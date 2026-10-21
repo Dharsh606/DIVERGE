@@ -71,20 +71,27 @@ DIVERGE is an asynchronous, high-throughput digital audio platform engineered wi
 * **Offline Playback:** Browser-native caching leveraging IndexedDB and a custom Service Worker for offline track storage and quota inspection.
 * **Social Sharing:** Unique share tokens for songs and playlists allowing direct playback links without requiring recipient authentication.
 
-### Signature Discovery Systems
-1. **Anti-Algorithm:** A discovery mode designed to break algorithmic echo chambers by serving tracks structurally dissimilar to the user's primary listening profile.
-2. **Diverge Sessions:** Collaborative group listening rooms with shared queues and synchronized playback indicators.
-3. **Track DNA:** A deterministic generative SVG glyph produced per song based strictly on its musical attributes (BPM, musical key, energy, and mood). No random values; the same song always renders its unique geometric signature.
-4. **Trace Journey:** A branching tree graph mapping personal listening paths over time, visually delineating sequential plays from divergent musical leaps.
-5. **Context Tags:** Contextual tagging allowing listeners to associate songs with listening environments (e.g., `#midnight`, `#deep-focus`) and retrieve context-filtered recommendations.
-6. **Live Multi-Attribute Search:** Debounced instant catalog search across artists, genres, and titles with authentic studio preview audio.
+### Signature Discovery Systems & Experience Flow
+1. **Cinematic 3.5s Logo Onboarding:** When visitors first open DIVERGE, an immersive 3.5-second cinematic intro unfolds: expanding acoustic harmonic rings, the official 3D DIVERGE emblem floating in with subtle perspective rotation, the "DIVERGE" wordmark tracking in with metallic shimmer, the tagline *"Take the uncommon route."*, and a synchronized audio frequency progress scrubber with instant skip capability.
+2. **Luxury Spotlight & Border-Beam Authentication:** An ultra-premium authentication experience inspired by modern interaction standards (React Bits & Magic UI):
+   * **Interactive Cursor Spotlight:** Real-time radial cursor tracking illuminates card surfaces and borders (`#784BFF` & `#FF5C58`).
+   * **Continuous Rotating Border Beam:** A rotating conic gradient traveling continuously along the 1px perimeter.
+   * **Fluid Segmented Switcher:** Seamless sliding pill toggle between *Sign In* and *Create Account*.
+   * **Reactive Form Elements:** Live password strength meter, password visibility toggle, and an audio equalizer loader (`||||`) on submit.
+   * **Guest Exploration Bypass:** Frictionless access for users who wish to test playback and explore the catalog without an account.
+3. **Anti-Algorithm:** A discovery mode designed to break algorithmic echo chambers by serving tracks structurally dissimilar to the user's primary listening profile.
+4. **Diverge Sessions:** Collaborative group listening rooms with shared queues and synchronized playback indicators.
+5. **Track DNA:** A deterministic generative SVG glyph produced per song based strictly on its musical attributes (BPM, musical key, energy, and mood). No random values; the same song always renders its unique geometric signature.
+6. **Trace Journey:** A branching tree graph mapping personal listening paths over time, visually delineating sequential plays from divergent musical leaps.
+7. **Context Tags:** Contextual tagging allowing listeners to associate songs with listening environments (e.g., `#midnight`, `#deep-focus`) and retrieve context-filtered recommendations.
+8. **Live Multi-Attribute Search:** Debounced instant catalog search across artists, genres, and titles with authentic studio preview audio.
 
 ---
 
 ## 3. Technology Stack
 
 * **Backend:** Go 1.22+, Fiber v2 web framework, GORM ORM, Golang JWT v5, pq PostgreSQL driver, bcrypt password hashing.
-* **Frontend:** SvelteKit, TypeScript, Vite, custom responsive CSS design tokens.
+* **Frontend:** SvelteKit 2 / Svelte 5, TypeScript, Vite, custom responsive CSS design tokens.
 * **Database:** PostgreSQL 16 (UTF-8 encoding with C collation).
 * **Storage & Streaming:** Browser IndexedDB for offline audio caching, HTTP Range streaming and Jamendo CDN pool for full-length audio delivery.
 
@@ -92,24 +99,25 @@ DIVERGE is an asynchronous, high-throughput digital audio platform engineered wi
 
 ## 4. Design System and Guidelines
 
-DIVERGE adheres to strict visual and UX standards:
-* **Color Palette:**
-  * Background: Diverge Ink (`#111019`)
-  * Surface: Deep Aubergine (`#1B1827`)
-  * Surface Raised: `#272236`
-  * Primary Accent: Electric Iris (`#B19AFF`)
-  * Secondary Accent: Signal Coral (`#FF796C`)
-  * Foreground Text: Warm Ivory (`#F5F0E8`)
-  * Muted Text: Lavender Grey (`#AAA4BB`)
-  * Borders: Quiet Border (`#343044`)
+DIVERGE adheres to strict human-crafted visual and UX standards derived directly from the official 3D brand logo mark:
+* **Color Palette (Sampled from Logo Mark):**
+  * **Obsidian Midnight Base:** `#0A0912` (deep, authentic midnight ink canvas)
+  * **Card & Sidebar Surface:** `#12101B` (grounded, high-contrast dark surface)
+  * **Raised Surface:** `#1A1727` (subtle elevation for hover states, inputs, and dropdowns)
+  * **Primary Accent (Electric Iris):** `#784BFF` (punchy violet-purple from logo mark)
+  * **Secondary Accent (Signal Coral):** `#FF5C58` (vibrant sunset coral from logo gradient)
+  * **Warm Highlight (Amber Gold):** `#FFAE33` (refined accent for tags and active badges)
+  * **Foreground Text:** `#F7F6FB` (high-contrast near-white with subtle warm violet tint)
+  * **Muted Text:** `#9D96B2` (legible lavender slate for secondary metadata)
+  * **Crisp Borders:** `#231F35` and `#3C3456` (1px clean separation without blurry glow)
 * **Styling Rules:**
-  * Custom 3D gradient glowing brand emblem and wordmark.
-  * No generic purple gradients across UI components.
-  * No pill-shaped buttons (standard geometric radius of 8px to 12px).
+  * Grounded surfaces with crisp 1px borders rather than fuzzy, indiscriminate glassmorphism.
+  * Zero AI-template artifacts: no random floating blurred background orbs (`.auth-orb`), no pulsing fluorescent blobs.
+  * High-performance 60fps CSS animations: conic border beams, smooth tab sliders, and acoustic equalizer loaders.
+  * No generic purple gradients across UI components; all accents strictly mirror the `#784BFF` to `#FF5C58` brand gradient.
   * No fake metrics, fake reviews, or animated visitor counters.
   * No emoji icons in system UI.
   * No em dashes in copy.
-  * No cursor animations or scroll theater.
 
 ---
 

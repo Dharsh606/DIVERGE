@@ -12,13 +12,14 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
     prs.slide_height = Inches(7.5)
     blank_layout = prs.slide_layouts[6]
 
-    # DIVERGE color palette
-    c_bg = RGBColor(0x11, 0x10, 0x19)       # Diverge Ink
-    c_card = RGBColor(0x1B, 0x18, 0x27)     # Deep Aubergine
-    c_iris = RGBColor(0xB1, 0x9A, 0xFF)     # Electric Iris
-    c_coral = RGBColor(0xFF, 0x79, 0x6C)    # Signal Coral
-    c_text = RGBColor(0xF5, 0xF0, 0xE8)     # Warm Ivory
-    c_muted = RGBColor(0xAA, 0xA4, 0xBB)    # Muted Lavender
+    # DIVERGE official color palette (sampled directly from 3D brand logo mark)
+    c_bg = RGBColor(0x0A, 0x09, 0x12)       # Obsidian Midnight Base
+    c_card = RGBColor(0x12, 0x10, 0x1B)     # Deep Surface
+    c_iris = RGBColor(0x78, 0x4B, 0xFF)     # Electric Iris Violet (Logo Primary)
+    c_coral = RGBColor(0xFF, 0x5C, 0x58)    # Signal Coral (Logo Accent)
+    c_gold = RGBColor(0xFF, 0xAE, 0x33)     # Amber Gold (Highlight)
+    c_text = RGBColor(0xF7, 0xF6, 0xFB)     # High-Contrast Pure White
+    c_muted = RGBColor(0x9D, 0x96, 0xB2)    # Muted Lavender Slate
 
     logo_path = "j:/DIVERGE/docs/logo.png"
     mark_path = "j:/DIVERGE/docs/logo-mark.png"
@@ -383,7 +384,7 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
     p.space_after = Pt(10)
     b_right = [
         "Audio element lives in persistent player singleton outside route DOM.",
-        "Smooth navigation across /search, /canvas, /library without audio interruption.",
+        "Smooth navigation across /search, /library, /trace without audio interruption.",
         "Fisher-Yates shuffle algorithm guarantees uniformly random track order.",
         "Three-state repeat mode: Repeat Off -> Repeat All -> Repeat One track."
     ]
@@ -485,7 +486,65 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
         p2.font.color.rgb = c_text
 
     # ─────────────────────────────────────────────────────────────────────────
-    # SLIDE 11: OFFLINE ARCHITECTURE & PLATFORM ROADMAP
+    # SLIDE 11: CINEMATIC ONBOARDING & LUXURY AUTHENTICATION FLOW
+    # ─────────────────────────────────────────────────────────────────────────
+    s_ui = prs.slides.add_slide(blank_layout)
+    set_slide_background(s_ui)
+    add_header(s_ui, "UI/UX Engineering: Cinematic Onboarding & Luxury Auth")
+
+    ui_left = s_ui.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.8), Inches(1.8), Inches(5.6), Inches(4.8))
+    ui_left.fill.solid()
+    ui_left.fill.fore_color.rgb = c_card
+    ui_left.line.color.rgb = c_iris
+    tf_uil = ui_left.text_frame
+    tf_uil.word_wrap = True
+    p = tf_uil.paragraphs[0]
+    p.text = "1. Cinematic 3.5s Logo Intro"
+    p.font.bold = True
+    p.font.size = Pt(16)
+    p.font.color.rgb = c_iris
+    p.space_after = Pt(10)
+    b_intro = [
+        "Acoustic Harmonic Rings: Concentric wave pulses expand from center, simulating speaker frequency displacement.",
+        "3D Floating Emblem: Official DIVERGE 3D logo mark rises with smooth spring physics and iridescent aura glow.",
+        "Typographic Stagger: 'DIVERGE' wordmark tracks out with gradient text clipping; tagline reveals with warm amber/coral accent.",
+        "Precision Frequency Scrubber: 3.5s progress timeline with live equalizer audio bars and instant skip capability."
+    ]
+    for b in b_intro:
+        bp = tf_uil.add_paragraph()
+        bp.text = "• " + b
+        bp.font.size = Pt(12)
+        bp.font.color.rgb = c_text
+        bp.space_after = Pt(8)
+
+    ui_right = s_ui.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(6.9), Inches(1.8), Inches(5.6), Inches(4.8))
+    ui_right.fill.solid()
+    ui_right.fill.fore_color.rgb = c_card
+    ui_right.line.color.rgb = c_coral
+    tf_uir = ui_right.text_frame
+    tf_uir.word_wrap = True
+    p = tf_uir.paragraphs[0]
+    p.text = "2. Luxury Spotlight & Border Beam Auth"
+    p.font.bold = True
+    p.font.size = Pt(16)
+    p.font.color.rgb = c_coral
+    p.space_after = Pt(10)
+    b_auth = [
+        "React Bits Spotlight Card: Real-time cursor coordinates track across card, projecting a dynamic radial light beam.",
+        "Magic UI Border Beam: Rotating conic gradient travels continuously along 1px rounded border without lagging.",
+        "Fluid Segmented Switcher: Tactile sliding pill transitions smoothly between Sign In and Create Account.",
+        "Live Strength & Equalizer: Real-time 4-stage password strength visualizer and audio equalizer loader (||||) on submit.",
+        "Guest Bypass & Replay: Frictionless 'Explore as Guest' access and home page 'Intro Animation' replay pill."
+    ]
+    for b in b_auth:
+        bp = tf_uir.add_paragraph()
+        bp.text = "• " + b
+        bp.font.size = Pt(12)
+        bp.font.color.rgb = c_text
+        bp.space_after = Pt(8)
+
+    # ─────────────────────────────────────────────────────────────────────────
+    # SLIDE 12: OFFLINE ARCHITECTURE & PLATFORM ROADMAP
     # ─────────────────────────────────────────────────────────────────────────
     s11 = prs.slides.add_slide(blank_layout)
     set_slide_background(s11)

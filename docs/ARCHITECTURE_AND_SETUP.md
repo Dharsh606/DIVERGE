@@ -69,6 +69,23 @@ npm run dev -- --host 127.0.0.1 --port 5173
 
 ## 3. Engineering & Architectural Specifications
 
+### UI/UX Motion Engineering & Onboarding Flow
+* **Cinematic 3.5s Logo Intro**:
+  - Fullscreen Obsidian Midnight (`#0A0912`) canvas.
+  - Three concentric acoustic harmonic rings pulsing outward from center, simulating speaker frequency displacement.
+  - The official DIVERGE 3D emblem rises with smooth spring physics and a subtle iridescent aura glow (`#784BFF` to `#FF5C58`).
+  - Staggered typographic expansion: "DIVERGE" tracking expands smoothly from `0.1em` to `0.32em` with dynamic gradient text clipping, followed by the tagline *"Take the uncommon route."*
+  - Synchronized high-precision audio frequency progress scrubber with instant skip capability.
+* **Luxury Spotlight & Border-Beam Authentication (`AuthAndIntroExperience.svelte`)**:
+  - **React Bits Spotlight Card**: Real-time cursor coordinates track across the card surface, projecting a dynamic radial spotlight (`#784BFF` / `#FF5C58`) beneath the mouse pointer.
+  - **Magic UI Rotating Conic Border Beam**: A continuous traveling light beam along the 1px rounded border using pure CSS `conic-gradient` with mask composite exclusion.
+  - **Fluid Segmented Switcher**: Instant spring slider transitioning between *Sign In* and *Create Account*.
+  - **Live Password Strength Analyzer**: 4-stage color progression (*Weak Coral* &rarr; *Fair Amber* &rarr; *Good Iris* &rarr; *Strong Emerald*).
+  - **Audio Equalizer Loader**: Replaces generic spinning circles with 4 real-time animated soundwave frequency bars (`||||`) during API authentication requests.
+  - **Frictionless Guest Exploration**: Immediate bypass option for visitors who wish to test full-length streaming without creating an account.
+* **Human-Crafted Surface Architecture**:
+  - Replaced all indiscriminate glassmorphism and fuzzy floating background orbs with solid, high-performance dark surfaces (`#12101B`, `#1A1727`) and razor-sharp 1px border separation (`#231F35`, `#3C3456`).
+
 ### Audio Delivery Architecture (HTTP 206 Range Requests & Real Audio)
 * Streaming uses `http.ServeContent` with HTTP 206 Partial Content byte ranges.
 * All tracks utilize authentic master recording audio streams with real artist vocals and instrumentals.
@@ -87,6 +104,19 @@ npm run dev -- --host 127.0.0.1 --port 5173
 4. **Trace Journey**: Branching tree visualization representing listening progression and sonic departures.
 5. **Context Tags**: Multi-dimensional tagging system linking acoustic profiles to environmental contexts.
 6. **Multi-Attribute Discovery**: Real-time debounced catalog search across titles, artists, and genres with instant preview playback.
+
+### Design System Tokens (Extracted from 3D Brand Logo)
+| Token | Hex / Value | Architectural Role |
+| :--- | :--- | :--- |
+| **Obsidian Midnight Base** | `#0A0912` | Deep rich ink canvas matching the 3D emblem core |
+| **Card & Sidebar Surface** | `#12101B` | Grounded, high-contrast dark surface |
+| **Raised Surface** | `#1A1727` | Subtle elevation for cards, dropdowns, and active inputs |
+| **Electric Iris** | `#784BFF` | Primary brand purple-violet sampled from the logo mark |
+| **Signal Coral** | `#FF5C58` | Vibrant accent coral sampled from the logo gradient |
+| **Amber Gold** | `#FFAE33` | Warm highlight accent for badges and tags |
+| **Brand Gradient Topline** | `linear-gradient(90deg, #784BFF, #FF5C58)` | 3px top accent on cards and hero blocks |
+| **Crisp Borders** | `#231F35` / `#3C3456` | 1px border separation for structural clarity |
+| **High-Contrast Typography** | `#F7F6FB` & `#9D96B2` | Accessible, human typographic hierarchy |
 
 ---
 

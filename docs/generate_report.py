@@ -66,7 +66,7 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
         fontName='Helvetica-Bold',
         fontSize=26,
         leading=32,
-        textColor=colors.HexColor("#111019"),
+        textColor=colors.HexColor("#0A0912"),
         alignment=1, # Centered
         spaceAfter=6
     )
@@ -77,7 +77,7 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
         fontName='Helvetica-Bold',
         fontSize=13,
         leading=18,
-        textColor=colors.HexColor("#B19AFF"),
+        textColor=colors.HexColor("#784BFF"),
         alignment=1, # Centered
         spaceAfter=6
     )
@@ -285,7 +285,7 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
         ["Audio Identity", "Generic album art only", "Deterministic generative Track DNA glyphs"],
         ["History Visualization", "Flat linear list of timestamps", "Branching Trace tree of divergent genre and mood shifts"],
         ["Offline Architecture", "Proprietary DRM or absent in web clients", "Open IndexedDB blob storage + Service Worker app shell"],
-        ["Design Aesthetic", "Generic purple gradients & pill buttons", "Bespoke dark atmospheric tokens with custom 3D glowing branding"]
+        ["Design Aesthetic", "Generic AI templates & blurry glassmorphism", "Bespoke human-crafted design tokens from 3D logo with React Bits spotlight & border beam"]
     ]
     comp_table = Table(comparison_data, colWidths=[105, 195, 204])
     comp_table.setStyle(TableStyle([
@@ -367,6 +367,7 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
     story.append(Paragraph("<b>4. Anti-Algorithm Module:</b> Examines user listening history to calculate the user's centroid (mean BPM, mood, and dominant genre) and generates inverted discovery playlists.", body_style))
     story.append(Paragraph("<b>5. Trace Module:</b> Traverses chronological listening entries to produce a tree data structure with branch flags whenever the user changes musical genres.", body_style))
     story.append(Paragraph("<b>6. Offline Storage Engine:</b> Client-side module managing IndexedDB transactions and caching audio blobs for offline playback.", body_style))
+    story.append(Paragraph("<b>7. Onboarding & Luxury Auth Module:</b> Orchestrates a 3.5s cinematic 3D logo splash intro with expanding acoustic harmonic waves, followed by a luxury authentication card featuring React Bits cursor spotlight physics and Magic UI rotating conic border beam in brand colors.", body_style))
     story.append(Spacer(1, 10))
 
     # ─────────────────────────────────────────────────────────────────────────
