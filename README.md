@@ -72,19 +72,39 @@ DIVERGE is an asynchronous, high-throughput digital audio platform engineered wi
 * **Social Sharing:** Unique share tokens for songs and playlists allowing direct playback links without requiring recipient authentication.
 
 ### Signature Discovery Systems & Experience Flow
-1. **Cinematic 3.5s Logo Onboarding:** When visitors first open DIVERGE, an immersive 3.5-second cinematic intro unfolds: expanding acoustic harmonic rings, the official 3D DIVERGE emblem floating in with subtle perspective rotation, the "DIVERGE" wordmark tracking in with metallic shimmer, the tagline *"Take the uncommon route."*, and a synchronized audio frequency progress scrubber with instant skip capability.
-2. **Luxury Spotlight & Border-Beam Authentication:** An ultra-premium authentication experience inspired by modern interaction standards (React Bits & Magic UI):
+1. **Ambient SlicedWaves Background (@react-bits):** A full-viewport, reactive ambient canvas featuring slatted light ribbons undulating across harmonic sine frequencies at exactly **40% opacity**, rendered in DIVERGE's official brand palette (`#784BFF` Electric Iris, `#FF5C58` Signal Coral, `#FFAE33` Amber Gold, `#0A0912` Midnight Obsidian). Tracks cursor focus with dynamic depth of field.
+2. **Top Artistic Search Bar ("New Art Piece of Search"):** Prominently relocated from the sidebar to the top header as the app's centerpiece:
+   * **Conic Beam Border Glow:** React Bits / Magic UI inspired rotating continuous laser gradient track.
+   * **Global Hotkey:** `Ctrl + K` (or `⌘ K`) focuses search from anywhere on the platform.
+   * **Live Dropdown Preview Hub:** Real-time instant search matches with album artwork, audio quality badges, and one-click direct playback.
+   * **Quick Vibe Pills:** Instant curated shortcuts (`#Bollywood Hits`, `#Tamil & South`, `#Synthwave`, `#Lossless Hi-Fi`, `#A.R. Rahman`, `#Lo-Fi Chill`).
+3. **Comprehensive Account Dropdown & Preferences:** Activated via the top-right avatar button with a bespoke charcoal popover:
+   * **Account Overview ↗:** Inspect user ID, registered email, active audio engine, and membership tier.
+   * **Profile:** Quick navigation to `/profile`.
+   * **Recents:** Dedicated drawer of recently played tracks with instant re-play.
+   * **Upgrade to Premium:** Unlocks DIVERGE Studio Lossless (24-bit 96kHz FLAC, unlimited offline caching, zero ads).
+   * **Support ↗:** Comprehensive help desk with audio diagnostics and direct feedback dispatch.
+   * **Private Session Toggle:** Interactive switch that pauses listening history and Trace logging with live top-bar shield indicator.
+   * **Settings Modal:** Configure streaming quality (24-bit FLAC / 320kbps AAC), crossfade slider (0-12s), volume normalization, and SlicedWaves canvas toggle.
+   * **Log Out:** Clean session termination.
+   * **Your Updates:** Activity section with verified checkmark: *"You're all caught up. Watch this space for news on your followers, playlists, events and more."*
+4. **Enhanced 4-Feature Bottom Player Bar:**
+   * **Queue Drawer:** Expandable panel displaying *Now Playing* with animated frequency bars, *Next Up* queue list, drag/jump controls, and clear queue action.
+   * **Connect to Device:** Spotify Connect-style device target selector (Web Browser Direct Engine, DIVERGE Studio Cast, Living Room Streamer, Studio Reference Headphones).
+   * **Floating Miniplayer (PiP):** Compact docked widget with spinning vinyl artwork, live miniature audio waveform, and quick transport controls.
+   * **Fullscreen Studio Visualizer:** Native full-screen mode featuring high-resolution artwork, grand typography, 24-bar audio spectrum visualizer, scrub bar, and transport controls.
+5. **Cinematic 3.5s Logo Onboarding:** When visitors first open DIVERGE, an immersive 3.5-second cinematic intro unfolds: expanding acoustic harmonic rings, the official 3D DIVERGE emblem floating in with subtle perspective rotation, the "DIVERGE" wordmark tracking in with metallic shimmer, the tagline *"Take the uncommon route."*, and a synchronized audio frequency progress scrubber with instant skip capability.
+6. **Luxury Spotlight & Border-Beam Authentication:** An ultra-premium authentication experience inspired by modern interaction standards (React Bits & Magic UI):
    * **Interactive Cursor Spotlight:** Real-time radial cursor tracking illuminates card surfaces and borders (`#784BFF` & `#FF5C58`).
    * **Continuous Rotating Border Beam:** A rotating conic gradient traveling continuously along the 1px perimeter.
    * **Fluid Segmented Switcher:** Seamless sliding pill toggle between *Sign In* and *Create Account*.
    * **Reactive Form Elements:** Live password strength meter, password visibility toggle, and an audio equalizer loader (`||||`) on submit.
    * **Guest Exploration Bypass:** Frictionless access for users who wish to test playback and explore the catalog without an account.
-3. **Anti-Algorithm:** A discovery mode designed to break algorithmic echo chambers by serving tracks structurally dissimilar to the user's primary listening profile.
-4. **Diverge Sessions:** Collaborative group listening rooms with shared queues and synchronized playback indicators.
-5. **Track DNA:** A deterministic generative SVG glyph produced per song based strictly on its musical attributes (BPM, musical key, energy, and mood). No random values; the same song always renders its unique geometric signature.
-6. **Trace Journey:** A branching tree graph mapping personal listening paths over time, visually delineating sequential plays from divergent musical leaps.
-7. **Context Tags:** Contextual tagging allowing listeners to associate songs with listening environments (e.g., `#midnight`, `#deep-focus`) and retrieve context-filtered recommendations.
-8. **Live Multi-Attribute Search:** Debounced instant catalog search across artists, genres, and titles with authentic studio preview audio.
+7. **Anti-Algorithm:** A discovery mode designed to break algorithmic echo chambers by serving tracks structurally dissimilar to the user's primary listening profile.
+8. **Diverge Sessions:** Collaborative group listening rooms with shared queues and synchronized playback indicators.
+9. **Track DNA:** A deterministic generative SVG glyph produced per song based strictly on its musical attributes (BPM, musical key, energy, and mood). No random values; the same song always renders its unique geometric signature.
+10. **Trace Journey:** A branching tree graph mapping personal listening paths over time, visually delineating sequential plays from divergent musical leaps.
+11. **Context Tags:** Contextual tagging allowing listeners to associate songs with listening environments (e.g., `#midnight`, `#deep-focus`) and retrieve context-filtered recommendations.
 
 ---
 

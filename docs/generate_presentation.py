@@ -384,9 +384,9 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
     p.space_after = Pt(10)
     b_right = [
         "Audio element lives in persistent player singleton outside route DOM.",
-        "Smooth navigation across /search, /library, /trace without audio interruption.",
-        "Fisher-Yates shuffle algorithm guarantees uniformly random track order.",
-        "Three-state repeat mode: Repeat Off -> Repeat All -> Repeat One track."
+        "Queue Drawer: Live playback queue with track reordering, jump & clear.",
+        "Connect to Device: Target switcher (Browser 24-bit FLAC, Studio Cast, DLNA).",
+        "Miniplayer & Fullscreen: Docked floating PiP and 24-bar spectrum visualizer."
     ]
     for b in b_right:
         bp = tf2.add_paragraph()

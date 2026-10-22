@@ -86,6 +86,27 @@ npm run dev -- --host 127.0.0.1 --port 5173
 * **Human-Crafted Surface Architecture**:
   - Replaced all indiscriminate glassmorphism and fuzzy floating background orbs with solid, high-performance dark surfaces (`#12101B`, `#1A1727`) and razor-sharp 1px border separation (`#231F35`, `#3C3456`).
 
+### Ambient Background & Advanced Interaction Architecture
+* **@react-bits/SlicedWaves Ambient Canvas**:
+  - Full-screen HTML5 Canvas background running at exactly **40% opacity** (`opacity: 0.4`).
+  - Vertical slatted shutter ribbons undulating across multi-frequency harmonic sine waves.
+  - Interactive cursor tracking: Smooth mathematical interpolation of mouse coordinates adjusts focal elevation, depth of field, and slat highlight caps in real time.
+  - Official brand palette blending: `#784BFF` (Iris), `#FF5C58` (Coral), `#FFAE33` (Gold) over `#0A0912` (Midnight).
+* **The New Art Piece of Search (Top Header Centerpiece)**:
+  - Search relocated from the navigation sidebar to the top sticky header.
+  - Conic laser gradient beam border with continuous traveling glow on focus (`#784BFF` to `#FF5C58`).
+  - Global hotkey listener: `Ctrl + K` / `⌘ K` focuses the input from anywhere in the app.
+  - Interactive live preview dropdown hub: Instant matches for songs, artists, and albums, accompanied by direct one-click play buttons, audio format tags (`LOSSLESS`), and quick discovery vibe pills (`#Bollywood Hits`, `#Tamil & South`, `#Synthwave`, `#Lossless Hi-Fi`, `#A.R. Rahman`, `#Lo-Fi Chill`).
+* **Account Dropdown & Modals System**:
+  - Activated via top-right avatar button with dark charcoal aesthetic.
+  - 8 fully functional items: *Account* (details modal), *Profile* (routing), *Recents* (listening drawer), *Upgrade to Premium* (Studio Lossless modal), *Support* (help & diagnostics modal), *Private Session* (interactive toggle switch pausing history/Trace), *Settings* (audio quality, crossfade, normalization, canvas toggle), *Log Out*.
+  - Activity confirmation: *Your Updates* section with verified checkmark (*"You're all caught up"*).
+* **Enhanced 4-Feature Bottom Player Bar**:
+  - **Queue Drawer**: Dedicated drawer displaying *Now Playing* with live animated equalizer bars and *Next Up* queue list with track removal and clear actions.
+  - **Connect to Device**: Target selector switching between Web Browser Direct Engine (24-bit 96kHz), DIVERGE Studio Cast, Living Room Streamer, and Studio Reference Headphones.
+  - **Floating Miniplayer (PiP)**: Docked floating widget with rotating vinyl artwork, real-time waveform bars, and transport controls.
+  - **Fullscreen Studio Visualizer**: Immersive full-screen visualizer featuring large artwork, typography, 24-bar audio spectrum visualizer, scrub slider, and complete controls.
+
 ### Audio Delivery Architecture (HTTP 206 Range Requests & Real Audio)
 * Streaming uses `http.ServeContent` with HTTP 206 Partial Content byte ranges.
 * All tracks utilize authentic master recording audio streams with real artist vocals and instrumentals.

@@ -5,7 +5,9 @@
   import { authStore, isLoggedIn } from '$lib/stores/auth';
   import { guestStore } from '$lib/stores/guest';
   import Sidebar from '$lib/components/layout/Sidebar.svelte';
+  import TopHeader from '$lib/components/layout/TopHeader.svelte';
   import MusicPlayer from '$lib/components/player/MusicPlayer.svelte';
+  import SlicedWaves from '$lib/components/background/SlicedWaves.svelte';
 
   let sidebarOpen = false;
 
@@ -28,12 +30,18 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 </svelte:head>
 
+<!-- Global @react-bits/SlicedWaves ambient background at 40% opacity -->
+<SlicedWaves opacity={0.4} />
+
 {#if showShell}
   <div class="app-shell" class:sidebar-open={sidebarOpen}>
     <Sidebar bind:open={sidebarOpen} />
-    <main class="main-content" id="main-content">
-      <slot />
-    </main>
+    <div class="main-column">
+      <TopHeader />
+      <main class="main-content" id="main-content">
+        <slot />
+      </main>
+    </div>
     <MusicPlayer />
   </div>
 {:else}

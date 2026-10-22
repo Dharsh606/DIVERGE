@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { page } from '$app/state';
   import { songs as songsAPI, recommendations } from '$lib/services/api';
   import type { Song, PaginatedSongs, RecommendationResult } from '$lib/types';
   import SongCard from '$lib/components/cards/SongCard.svelte';
@@ -14,6 +15,13 @@
   let loading = false;
   let debounceTimer: any = null;
   let searchScope: 'all' | 'live' = 'all';
+
+  // Reactively track URL parameter changes (e.g. from TopHeader search)
+  $: urlQ = page.url.searchParams.get('q');
+  $: if (urlQ !== null && urlQ !== query) {
+    query = urlQ;
+    executeSearch();
+  }
 
   const quickPills = [
     { label: 'Bollywood Hits', q: 'Arijit Singh' },

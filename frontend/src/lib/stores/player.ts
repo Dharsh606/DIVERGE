@@ -4,6 +4,7 @@
 import { writable, derived, get } from 'svelte/store';
 import type { Song, PlayerState, RepeatMode } from '$lib/types';
 import { songs as songsAPI, history } from '$lib/services/api';
+import { preferences } from '$lib/stores/preferences';
 
 interface PlayerStoreState {
   currentSong: Song | null;
@@ -79,6 +80,10 @@ function createPlayerStore() {
   }
 
   async function logCurrentPlay(completed = false) {
+    if (get(preferences.privateSession)) {
+      // Private session active: skip logging play history & trace
+      return;
+    }
     const s = get({ subscribe });
     if (!s.currentSong) return;
     const duration = Math.round((Date.now() - playStartTime) / 1000);
@@ -201,6 +206,30 @@ function createPlayerStore() {
     // ─── Queue management ─────────────────────────────────────────────────
     addToQueue(song: Song) {
       update(s => ({ ...s, queue: [...s.queue, song] }));
+    },
+
+    removeFromQueue(index: number) {
+      update(s => {
+        const nextQueue = s.queue.filter((_, i) => i !== index);
+        let nextIdx = s.queueIndex;
+        if (index < s.queueIndex) {
+          nextIdx = Math.max(0, s.queueIndex - 1);
+        } else if (index === s.queueIndex) {
+          if (nextQueue.length === 0) {
+            nextIdx = -1;
+          } else if (nextIdx >= nextQueue.length) {
+            nextIdx = 0;
+          }
+        }
+        return { ...s, queue: nextQueue, queueIndex: nextIdx };
+      });
+    },
+
+    playIndex(index: number) {
+      const s = get({ subscribe });
+      if (s.queue[index]) {
+        store.playSong(s.queue[index], s.queue);
+      }
     },
 
     clearQueue() {

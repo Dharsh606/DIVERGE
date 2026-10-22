@@ -7,7 +7,6 @@
 
   const navItems = [
     { href: '/',        icon: 'home',    label: 'Home' },
-    { href: '/search',  icon: 'search',  label: 'Search' },
     { href: '/library', icon: 'library', label: 'Library' },
     { href: '/trace',   icon: 'trace',   label: 'Trace' },
     { href: '/sessions',icon: 'session', label: 'Sessions' },

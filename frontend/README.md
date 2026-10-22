@@ -17,20 +17,24 @@ frontend/src/
 │   ├── components/
 │   │   ├── auth/
 │   │   │   └── AuthAndIntroExperience.svelte # 3.5s cinematic logo splash + luxury spotlight auth card
+│   │   ├── background/
+│   │   │   └── SlicedWaves.svelte  # @react-bits ambient canvas wave slats at 40% opacity
 │   │   ├── cards/
 │   │   │   └── SongCard.svelte     # Curated song card & compact list row with hover play overlay
 │   │   ├── dna/
 │   │   │   └── TrackDNA.svelte     # Deterministic FNV-1a procedural SVG music glyph generator
 │   │   ├── layout/
-│   │   │   └── Sidebar.svelte      # Grounded obsidian navigation bar with brand emblem & user chip
+│   │   │   ├── Sidebar.svelte      # Grounded obsidian navigation bar (Home, Library, Trace, Sessions)
+│   │   │   └── TopHeader.svelte    # Artistic Top Search Bar (conic beam) & Account Dropdown Menu
 │   │   └── player/
-│   │       └── MusicPlayer.svelte  # Persistent bottom audio bar with range scrub seek & volume controls
+│   │       └── MusicPlayer.svelte  # Player bar with Queue drawer, Device selector, Miniplayer & Fullscreen
 │   ├── services/
 │   │   ├── api.ts                  # REST API client with automatic token & origin management
 │   │   └── offline.ts              # IndexedDB binary blob audio caching engine
 │   ├── stores/
 │   │   ├── auth.ts                 # Reactive authentication state store (User, JWT session)
-│   │   ├── player.ts               # Audio playback state (track queue, position, shuffle, repeat)
+│   │   ├── player.ts               # Audio playback state (queue management, position, shuffle, repeat)
+│   │   ├── preferences.ts          # Private session, audio quality, crossfade, devices, and UI toggles
 │   │   └── guest.ts                # Session-persisted guest catalog exploration store
 │   └── types/
 │       └── index.ts                # TypeScript interfaces (Song, Album, Artist, User, Playlist, Trace)
@@ -74,6 +78,12 @@ Once authenticated or in guest mode:
 * The full navigation sidebar and persistent bottom audio bar animate into place.
 * The home page displays curated editorial moments, genre filter pills, trending songs, and personalized picks.
 * An **"Intro Animation"** pill on the home page allows users to replay the 3D logo intro whenever desired.
+
+### Stage 4: Top Header, SlicedWaves Background & Advanced Playback
+* **@react-bits/SlicedWaves Ambient Canvas:** 40% opacity slatted reactive wave canvas with depth and cursor focus tracking.
+* **Artistic Search Bar ("Art Piece of Search"):** Continuous conic border beam, `Ctrl+K` hotkey, live preview dropdown with instant song playback, and quick vibe chips.
+* **Account Dropdown & Modals:** Native-style floating popover with Account, Profile, Recents, Upgrade to Premium, Support, Private Session toggle, Settings, and Log out, plus "Your Updates" activity confirmation.
+* **Bottom Player Features:** Queue Drawer with drag/drop and clear actions, Connect to Device target switcher, floating Miniplayer (PiP) with spinning vinyl, and immersive Fullscreen Studio Visualizer.
 
 ---
 

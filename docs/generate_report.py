@@ -368,6 +368,10 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
     story.append(Paragraph("<b>5. Trace Module:</b> Traverses chronological listening entries to produce a tree data structure with branch flags whenever the user changes musical genres.", body_style))
     story.append(Paragraph("<b>6. Offline Storage Engine:</b> Client-side module managing IndexedDB transactions and caching audio blobs for offline playback.", body_style))
     story.append(Paragraph("<b>7. Onboarding & Luxury Auth Module:</b> Orchestrates a 3.5s cinematic 3D logo splash intro with expanding acoustic harmonic waves, followed by a luxury authentication card featuring React Bits cursor spotlight physics and Magic UI rotating conic border beam in brand colors.", body_style))
+    story.append(Paragraph("<b>8. Ambient Canvas Engine (@react-bits/SlicedWaves):</b> Full-viewport slatted reactive wave canvas running at exactly 40% opacity in official brand colors (#784BFF Iris, #FF5C58 Coral, #FFAE33 Gold) with smooth cursor tracking and depth focus.", body_style))
+    story.append(Paragraph("<b>9. Top Artistic Search Bar:</b> Relocated from sidebar to top sticky header featuring a continuous conic laser beam border, global Ctrl+K shortcut, live dropdown results hub with instant play, and quick vibe discovery pills.", body_style))
+    story.append(Paragraph("<b>10. Account Dropdown & Modals System:</b> Floating charcoal popover matching native client standards with Account Overview, Profile, Recents, Upgrade to Premium, Support & Diagnostics, Private Session toggle switch, Settings, and Log Out.", body_style))
+    story.append(Paragraph("<b>11. Advanced 4-Feature Playback Bar:</b> Bottom player bar extended with Queue Drawer (Now Playing & Next Up list), Connect to Device target selector, Floating Miniplayer (PiP with spinning vinyl), and Fullscreen Studio Visualizer.", body_style))
     story.append(Spacer(1, 10))
 
     # ─────────────────────────────────────────────────────────────────────────
