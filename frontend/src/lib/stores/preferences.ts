@@ -10,6 +10,16 @@ export interface DeviceInfo {
   active: boolean;
 }
 
+export interface PreferencesState {
+  privateSession: boolean;
+  audioQuality: string;
+  crossfade: number;
+  normalizeVolume: boolean;
+  slicedWavesEnabled: boolean;
+  activeDevice: DeviceInfo;
+  devicesList: DeviceInfo[];
+}
+
 export const availableDevices: DeviceInfo[] = [
   { id: 'browser', name: 'Web Browser (This Device)', type: 'browser', quality: 'Lossless 24-bit / 96kHz Direct', active: true },
   { id: 'cast', name: 'DIVERGE Studio Cast', type: 'cast', quality: 'Lossless Network Stream (FLAC)', active: false },
@@ -24,61 +34,57 @@ function createPreferencesStore() {
   const initialNormalize = browser ? localStorage.getItem('diverge_normalize') !== 'false' : true;
   const initialWaves = browser ? localStorage.getItem('diverge_sliced_waves') !== 'false' : true;
 
-  const privateSession = writable<boolean>(initialPrivate);
-  const audioQuality = writable<string>(initialQuality);
-  const crossfade = writable<number>(initialCrossfade);
-  const normalizeVolume = writable<boolean>(initialNormalize);
-  const slicedWavesEnabled = writable<boolean>(initialWaves);
-  const activeDevice = writable<DeviceInfo>(availableDevices[0]);
-  const devicesList = writable<DeviceInfo[]>(availableDevices);
+  const { subscribe, set, update } = writable<PreferencesState>({
+    privateSession: initialPrivate,
+    audioQuality: initialQuality,
+    crossfade: initialCrossfade,
+    normalizeVolume: initialNormalize,
+    slicedWavesEnabled: initialWaves,
+    activeDevice: availableDevices[0],
+    devicesList: availableDevices,
+  });
 
   return {
-    privateSession,
-    audioQuality,
-    crossfade,
-    normalizeVolume,
-    slicedWavesEnabled,
-    activeDevice,
-    devicesList,
+    subscribe,
+    set,
+    update,
 
     togglePrivateSession() {
-      privateSession.update(v => {
-        const next = !v;
+      update(s => {
+        const next = !s.privateSession;
         if (browser) {
           sessionStorage.setItem('diverge_private_session', String(next));
         }
-        return next;
+        return { ...s, privateSession: next };
       });
     },
 
     setAudioQuality(quality: string) {
-      audioQuality.set(quality);
       if (browser) localStorage.setItem('diverge_audio_quality', quality);
+      update(s => ({ ...s, audioQuality: quality }));
     },
 
     setCrossfade(seconds: number) {
-      crossfade.set(seconds);
       if (browser) localStorage.setItem('diverge_crossfade', String(seconds));
+      update(s => ({ ...s, crossfade: seconds }));
     },
 
     setNormalize(val: boolean) {
-      normalizeVolume.set(val);
       if (browser) localStorage.setItem('diverge_normalize', String(val));
+      update(s => ({ ...s, normalizeVolume: val }));
     },
 
     setSlicedWaves(val: boolean) {
-      slicedWavesEnabled.set(val);
       if (browser) localStorage.setItem('diverge_sliced_waves', String(val));
+      update(s => ({ ...s, slicedWavesEnabled: val }));
     },
 
     selectDevice(deviceId: string) {
-      devicesList.update(list =>
-        list.map(d => ({ ...d, active: d.id === deviceId }))
-      );
-      const found = get(devicesList).find(d => d.id === deviceId);
-      if (found) {
-        activeDevice.set(found);
-      }
+      update(s => {
+        const nextList = s.devicesList.map(d => ({ ...d, active: d.id === deviceId }));
+        const found = nextList.find(d => d.id === deviceId) || s.activeDevice;
+        return { ...s, devicesList: nextList, activeDevice: found };
+      });
     }
   };
 }

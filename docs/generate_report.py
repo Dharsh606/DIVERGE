@@ -162,6 +162,43 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
         textColor=colors.HexColor("#1A1822")
     )
 
+    th_style = ParagraphStyle(
+        'TableHeaderStyle',
+        parent=styles['Normal'],
+        fontName='Helvetica-Bold',
+        fontSize=7.5,
+        leading=9.5,
+        textColor=colors.HexColor("#F5F0E8")
+    )
+
+    td_style = ParagraphStyle(
+        'TableCellStyle',
+        parent=styles['Normal'],
+        fontName='Helvetica',
+        fontSize=7.2,
+        leading=9.5,
+        textColor=colors.HexColor("#0A0912")
+    )
+
+    td_bold = ParagraphStyle(
+        'TableCellBold',
+        parent=styles['Normal'],
+        fontName='Helvetica-Bold',
+        fontSize=7.2,
+        leading=9.5,
+        textColor=colors.HexColor("#0A0912")
+    )
+
+    td_pass = ParagraphStyle(
+        'TableCellPass',
+        parent=styles['Normal'],
+        fontName='Helvetica-Bold',
+        fontSize=7.2,
+        leading=9.5,
+        textColor=colors.HexColor("#166534"),
+        alignment=1
+    )
+
     story = []
 
     # ─────────────────────────────────────────────────────────────────────────
@@ -287,15 +324,27 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
         ["Offline Architecture", "Proprietary DRM or absent in web clients", "Open IndexedDB blob storage + Service Worker app shell"],
         ["Design Aesthetic", "Generic AI templates & blurry glassmorphism", "Bespoke human-crafted design tokens from 3D logo with React Bits spotlight & border beam"]
     ]
-    comp_table = Table(comparison_data, colWidths=[105, 195, 204])
+    comparison_table_data = []
+    for r_idx, row in enumerate(comparison_data):
+        row_cells = []
+        for c_idx, val in enumerate(row):
+            if r_idx == 0:
+                row_cells.append(Paragraph(val, th_style))
+            elif c_idx == 0:
+                row_cells.append(Paragraph(val, td_bold))
+            else:
+                row_cells.append(Paragraph(val, td_style))
+        comparison_table_data.append(row_cells)
+
+    comp_table = Table(comparison_table_data, colWidths=[105, 195, 204])
     comp_table.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#1B1827")),
-        ('TEXTCOLOR', (0,0), (-1,0), colors.HexColor("#F5F0E8")),
-        ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
-        ('FONTSIZE', (0,0), (-1,-1), 8),
         ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#D0CCE0")),
+        ('VALIGN', (0,0), (-1,-1), 'TOP'),
         ('TOPPADDING', (0,0), (-1,-1), 4),
         ('BOTTOMPADDING', (0,0), (-1,-1), 4),
+        ('LEFTPADDING', (0,0), (-1,-1), 5),
+        ('RIGHTPADDING', (0,0), (-1,-1), 5),
         ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, colors.HexColor("#F9F8FC")])
     ]))
     story.append(comp_table)
@@ -343,19 +392,31 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
         ["context_tags", "id (bigserial)", "user_id, song_id", "tag_name (index), created_at"],
         ["diverge_sessions", "id (bigserial)", "host_user_id, current_song_id", "share_code (unique), is_playing, position"]
     ]
-    schema_table = Table(schema_data, colWidths=[80, 75, 115, 234])
+    schema_table_data = []
+    for r_idx, row in enumerate(schema_data):
+        row_cells = []
+        for c_idx, val in enumerate(row):
+            if r_idx == 0:
+                row_cells.append(Paragraph(val, th_style))
+            elif c_idx == 0:
+                row_cells.append(Paragraph(val, td_bold))
+            else:
+                row_cells.append(Paragraph(val, td_style))
+        schema_table_data.append(row_cells)
+
+    schema_table = Table(schema_table_data, colWidths=[80, 80, 114, 230])
     schema_table.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#1B1827")),
-        ('TEXTCOLOR', (0,0), (-1,0), colors.HexColor("#F5F0E8")),
-        ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
-        ('FONTSIZE', (0,0), (-1,-1), 7.5),
         ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#D0CCE0")),
+        ('VALIGN', (0,0), (-1,-1), 'TOP'),
         ('TOPPADDING', (0,0), (-1,-1), 3),
         ('BOTTOMPADDING', (0,0), (-1,-1), 3),
+        ('LEFTPADDING', (0,0), (-1,-1), 4),
+        ('RIGHTPADDING', (0,0), (-1,-1), 4),
         ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, colors.HexColor("#F9F8FC")])
     ]))
     story.append(schema_table)
-    story.append(Spacer(1, 14))
+    story.append(PageBreak())
 
     # ─────────────────────────────────────────────────────────────────────────
     # 8. MODULE DESCRIPTIONS
@@ -429,18 +490,30 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
         ["TC-11", "Frontend Production Build", "Zero build errors, all routes bundle", "Vite production build succeeds", "PASS"],
         ["TC-12", "Legal & Policy Compliance", "Privacy Policy and Terms pages present", "Both routes return HTTP 200", "PASS"]
     ]
-    test_table = Table(test_data, colWidths=[45, 115, 140, 155, 49])
+    test_table_data = []
+    for r_idx, row in enumerate(test_data):
+        row_cells = []
+        for c_idx, val in enumerate(row):
+            if r_idx == 0:
+                row_cells.append(Paragraph(val, th_style))
+            elif c_idx == 0:
+                row_cells.append(Paragraph(val, td_bold))
+            elif c_idx == 4:
+                row_cells.append(Paragraph(val, td_pass))
+            else:
+                row_cells.append(Paragraph(val, td_style))
+        test_table_data.append(row_cells)
+
+    test_table = Table(test_table_data, colWidths=[44, 110, 150, 150, 50])
     test_table.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#1B1827")),
-        ('TEXTCOLOR', (0,0), (-1,0), colors.HexColor("#F5F0E8")),
-        ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
-        ('FONTSIZE', (0,0), (-1,-1), 7),
         ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#D0CCE0")),
+        ('VALIGN', (0,0), (-1,-1), 'TOP'),
         ('TOPPADDING', (0,0), (-1,-1), 3),
         ('BOTTOMPADDING', (0,0), (-1,-1), 3),
-        ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, colors.HexColor("#F9F8FC")]),
-        ('TEXTCOLOR', (4,1), (4,-1), colors.HexColor("#166534")),
-        ('FONTNAME', (4,1), (4,-1), 'Helvetica-Bold')
+        ('LEFTPADDING', (0,0), (-1,-1), 4),
+        ('RIGHTPADDING', (0,0), (-1,-1), 4),
+        ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, colors.HexColor("#F9F8FC")])
     ]))
     story.append(test_table)
     story.append(Spacer(1, 14))

@@ -80,7 +80,7 @@ function createPlayerStore() {
   }
 
   async function logCurrentPlay(completed = false) {
-    if (get(preferences.privateSession)) {
+    if (get(preferences).privateSession) {
       // Private session active: skip logging play history & trace
       return;
     }
