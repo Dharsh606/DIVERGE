@@ -13,7 +13,8 @@
 
   // Pages that don't show the shell (standalone auth pages)
   $: isAuthPage = page.url.pathname.startsWith('/login') ||
-                  page.url.pathname.startsWith('/register');
+                  page.url.pathname.startsWith('/register') ||
+                  page.url.pathname.startsWith('/signup');
 
   // Shell is shown once user is logged in or active in guest exploration mode
   $: hasUnlockedApp = $isLoggedIn || $guestStore;

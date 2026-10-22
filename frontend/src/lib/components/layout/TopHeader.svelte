@@ -112,6 +112,9 @@
 
   function toggleAccountMenu() {
     accountMenuOpen = !accountMenuOpen;
+    if (accountMenuOpen) {
+      searchFocused = false;
+    }
   }
 
   function handleLogout() {
@@ -735,12 +738,12 @@
 <style>
   /* ─── Top Header Layout ──────────────────────────────────────────────────── */
   .top-header {
-    height: 72px;
-    padding: 0 2rem;
+    height: 56px;
+    padding: 0 1.25rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1.5rem;
+    gap: 1.25rem;
     background: rgba(18, 16, 27, 0.85);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -754,7 +757,7 @@
   .artistic-search-container {
     position: relative;
     flex: 1;
-    max-width: 640px;
+    max-width: 520px;
   }
 
   .beam-border-wrapper {
@@ -781,11 +784,11 @@
   .search-inner-box {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.6rem;
     background: var(--color-bg);
     border-radius: var(--radius-full);
-    padding: 0.5rem 1rem 0.5rem 0.85rem;
-    height: 44px;
+    padding: 0.35rem 0.85rem 0.35rem 0.75rem;
+    height: 36px;
   }
 
   .search-icon-box {
@@ -797,8 +800,8 @@
   }
 
   .search-svg {
-    width: 18px;
-    height: 18px;
+    width: 15px;
+    height: 15px;
     transition: color 0.2s ease;
   }
 
@@ -1174,15 +1177,17 @@
      ═══════════════════════════════════════════════════════════════════════════ */
   .account-menu-popover {
     position: absolute;
-    top: calc(100% + 10px);
+    top: calc(100% + 8px);
     right: 0;
-    width: 290px;
+    width: 255px;
+    max-height: calc(100vh - 70px);
+    overflow-y: auto;
     background: #181818; /* Dark charcoal card matching user screenshot */
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 10px;
+    border-radius: 9px;
     box-shadow: 0 16px 36px rgba(0, 0, 0, 0.75), 0 2px 8px rgba(0, 0, 0, 0.5);
-    padding: 0.5rem 0;
-    z-index: 120;
+    padding: 0.35rem 0;
+    z-index: 1000;
     font-family: inherit;
   }
 
@@ -1191,11 +1196,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.7rem 1.25rem;
+    padding: 0.52rem 1.05rem;
     background: transparent;
     border: none;
     color: #FFFFFF;
-    font-size: 0.95rem;
+    font-size: 0.82rem;
     font-weight: 500;
     text-align: left;
     cursor: pointer;
@@ -1210,8 +1215,8 @@
   }
 
   .item-ext-icon {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     color: #A0A0A0;
     flex-shrink: 0;
   }
@@ -1222,10 +1227,10 @@
 
   /* Custom toggle switch matching native feel */
   .toggle-switch {
-    width: 36px;
-    height: 20px;
+    width: 32px;
+    height: 18px;
     background: #333333;
-    border-radius: 12px;
+    border-radius: 10px;
     position: relative;
     cursor: pointer;
     transition: background 0.2s ease;
@@ -1236,8 +1241,8 @@
     background: var(--color-primary);
   }
   .toggle-thumb {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     background: #FFFFFF;
     border-radius: 50%;
     position: absolute;
@@ -1246,25 +1251,25 @@
     transition: transform 0.2s ease;
   }
   .toggle-switch.toggle-on .toggle-thumb {
-    transform: translateX(16px);
+    transform: translateX(14px);
   }
 
   .menu-divider {
     height: 1px;
     background: rgba(255, 255, 255, 0.1);
-    margin: 0.4rem 0 0.8rem;
+    margin: 0.3rem 0 0.5rem;
   }
 
   /* ─── "Your Updates" Section (Exact replica of user screenshot) ───────────── */
   .updates-section {
-    padding: 0 1.25rem 0.75rem;
+    padding: 0 1rem 0.5rem;
   }
 
   .updates-heading {
-    font-size: 1rem;
+    font-size: 0.82rem;
     font-weight: 700;
     color: #FFFFFF;
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.6rem;
   }
 
   .updates-content {
@@ -1272,7 +1277,7 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 0.5rem 0.25rem 0.5rem;
+    padding: 0.35rem 0.2rem 0.35rem;
   }
 
   .checkmark-icon-circle {
@@ -1280,19 +1285,19 @@
     align-items: center;
     justify-content: center;
     color: #FFFFFF;
-    margin-bottom: 0.9rem;
+    margin-bottom: 0.6rem;
   }
 
   .caught-up-title {
-    font-size: 1.05rem;
+    font-size: 0.88rem;
     font-weight: 700;
     color: #FFFFFF;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.3rem;
   }
 
   .caught-up-desc {
-    font-size: 0.82rem;
-    line-height: 1.45;
+    font-size: 0.74rem;
+    line-height: 1.4;
     color: #B3B3B3;
   }
 
@@ -1306,8 +1311,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 200;
-    padding: 1.5rem;
+    z-index: 10000;
+    padding: 1.25rem;
   }
 
   .modal-card {
@@ -1316,8 +1321,11 @@
     border-radius: var(--radius-lg);
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
     width: 100%;
-    max-width: 520px;
+    max-width: 470px;
+    max-height: calc(100vh - 60px);
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
     animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
@@ -1327,7 +1335,7 @@
   }
 
   .modal-header {
-    padding: 1.25rem 1.5rem;
+    padding: 1rem 1.25rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1337,7 +1345,7 @@
   .modal-title-row {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.65rem;
   }
   .modal-title-row h3 {
     font-size: var(--text-lg);

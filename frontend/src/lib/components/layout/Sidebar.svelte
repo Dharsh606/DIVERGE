@@ -125,16 +125,16 @@
   .logo-btn:hover { background: var(--color-surface-raised); }
 
   .logo-mark {
-    width: 34px;
-    height: 34px;
+    width: 28px;
+    height: 28px;
     object-fit: contain;
     flex-shrink: 0;
   }
 
   .logo-wordmark {
-    font-size: var(--text-sm);
+    font-size: 0.76rem;
     font-weight: 700;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.18em;
     color: var(--color-text);
     white-space: nowrap;
   }
@@ -142,7 +142,7 @@
   .nav-list {
     list-style: none;
     flex: 1;
-    padding: 0 0.5rem;
+    padding: 0 0.4rem;
     display: flex;
     flex-direction: column;
     gap: 3px;
@@ -152,11 +152,11 @@
   .nav-item {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.65rem 0.75rem;
+    gap: 0.65rem;
+    padding: 0.5rem 0.65rem;
     border-radius: var(--radius-sm);
     color: var(--color-text-muted);
-    font-size: var(--text-sm);
+    font-size: 0.8rem;
     font-weight: 500;
     transition:
       background var(--t-fast) ease,
