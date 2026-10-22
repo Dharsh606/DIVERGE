@@ -224,8 +224,8 @@
   .home {
     display: flex;
     flex-direction: column;
-    gap: 1.35rem;
-    padding-bottom: 1.25rem;
+    gap: 1.85rem;
+    padding-bottom: 1.5rem;
   }
 
   /* Curated Editorial Moment */
@@ -235,9 +235,9 @@
   }
   .editorial-card {
     display: grid;
-    grid-template-columns: 130px 1fr;
-    gap: 1.25rem;
-    padding: 1.15rem;
+    grid-template-columns: 160px 1fr;
+    gap: 1.6rem;
+    padding: 1.45rem;
     border-radius: var(--radius-lg);
     background: var(--color-surface);
     border: 1px solid var(--color-border);
@@ -245,8 +245,8 @@
     align-items: center;
   }
   .editorial-art {
-    width: 130px;
-    height: 130px;
+    width: 160px;
+    height: 160px;
     border-radius: var(--radius-md);
     overflow: hidden;
     background: var(--color-surface-raised);
@@ -267,21 +267,21 @@
   .badge-row {
     display: flex;
     align-items: center;
-    gap: 0.45rem;
-    margin-bottom: 0.5rem;
+    gap: 0.5rem;
+    margin-bottom: 0.65rem;
     flex-wrap: wrap;
   }
 
   .replay-intro-pill {
     display: inline-flex;
     align-items: center;
-    gap: 0.3rem;
-    padding: 0.18rem 0.55rem;
+    gap: 0.35rem;
+    padding: 0.2rem 0.6rem;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--radius-full);
     color: var(--color-text-muted);
-    font-size: 0.68rem;
+    font-size: var(--text-xs);
     font-weight: 500;
     cursor: pointer;
     transition: all var(--t-fast) ease;
@@ -294,37 +294,37 @@
   }
 
   .editorial-title {
-    font-size: 1.35rem;
+    font-size: 1.65rem;
     font-weight: 700;
     letter-spacing: -0.025em;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.3rem;
     color: var(--color-text);
   }
   .editorial-artist {
-    font-size: 0.85rem;
+    font-size: var(--text-base);
     color: var(--color-text-muted);
-    margin-bottom: 0.85rem;
+    margin-bottom: 1.1rem;
   }
 
   .editorial-actions {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.65rem;
     flex-wrap: wrap;
   }
 
   /* Genre Strip */
   .genre-strip {
     display: flex;
-    gap: 0.35rem;
+    gap: 0.45rem;
     flex-wrap: wrap;
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.45rem;
   }
 
   .genre-pill {
     font-family: inherit;
-    font-size: 0.74rem;
+    font-size: var(--text-xs);
     font-weight: 600;
-    padding: 0.32rem 0.75rem;
+    padding: 0.4rem 0.9rem;
     border-radius: var(--radius-full);
     border: 1px solid var(--color-border);
     background: var(--color-surface);

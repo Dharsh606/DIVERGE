@@ -642,8 +642,8 @@
   }
 
   .song-art {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     border-radius: var(--radius-sm);
     overflow: hidden;
     flex-shrink: 0;
@@ -662,7 +662,7 @@
     justify-content: center;
     color: var(--color-text-faint);
   }
-  .song-art-placeholder svg { width: 18px; height: 18px; }
+  .song-art-placeholder svg { width: 19px; height: 19px; }
 
   .song-meta {
     display: flex;
@@ -670,14 +670,14 @@
     min-width: 0;
   }
   .song-title {
-    font-size: 0.82rem;
+    font-size: 0.88rem;
     font-weight: 500;
     color: var(--color-text);
-    max-width: 150px;
+    max-width: 165px;
   }
   .song-artist {
-    font-size: 0.72rem;
-    max-width: 150px;
+    font-size: 0.76rem;
+    max-width: 165px;
   }
 
   .no-song-hint {
@@ -689,13 +689,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.25rem;
+    gap: 0.35rem;
   }
 
   .controls-row {
     display: flex;
     align-items: center;
-    gap: 0.2rem;
+    gap: 0.22rem;
   }
 
   .control-btn {
@@ -707,8 +707,8 @@
   .control-accent { color: var(--color-accent) !important; }
 
   .play-btn {
-    width: 32px;
-    height: 32px;
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
     background: var(--color-text);
     color: var(--color-bg);
@@ -717,7 +717,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 0.4rem;
+    margin: 0 0.45rem;
     transition: transform var(--t-fast) ease, background var(--t-fast) ease;
     box-shadow: var(--shadow-sm);
   }
@@ -728,9 +728,9 @@
   .progress-row {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.65rem;
     width: 100%;
-    max-width: 520px;
+    max-width: 490px;
   }
 
   .time-stamp {
@@ -834,10 +834,10 @@
   /* ─── Queue Drawer Styles ────────────────────────────────────────────────── */
   .queue-drawer {
     position: fixed;
-    bottom: calc(var(--player-height) + 10px);
-    right: 18px;
-    width: 325px;
-    max-height: min(430px, calc(100vh - var(--player-height) - 35px));
+    bottom: calc(var(--player-height) + 12px);
+    right: 20px;
+    width: 345px;
+    max-height: min(455px, calc(100vh - var(--player-height) - 35px));
     border-radius: var(--radius-lg);
     border: 1px solid var(--color-border-hover);
     background: rgba(18, 16, 27, 0.95);
@@ -1047,10 +1047,10 @@
   /* ─── Connect to Device Popover ──────────────────────────────────────────── */
   .device-popover {
     position: fixed;
-    bottom: calc(var(--player-height) + 10px);
-    right: 18px;
-    width: 295px;
-    max-height: min(390px, calc(100vh - var(--player-height) - 35px));
+    bottom: calc(var(--player-height) + 12px);
+    right: 20px;
+    width: 308px;
+    max-height: min(400px, calc(100vh - var(--player-height) - 35px));
     overflow-y: auto;
     border-radius: var(--radius-lg);
     border: 1px solid var(--color-border-hover);
@@ -1150,16 +1150,16 @@
   /* ─── Floating Miniplayer Styles ─────────────────────────────────────────── */
   .floating-miniplayer {
     position: fixed;
-    bottom: calc(var(--player-height) + 14px);
-    right: 18px;
-    width: 260px;
+    bottom: calc(var(--player-height) + 16px);
+    right: 20px;
+    width: 285px;
     border-radius: var(--radius-lg);
     border: 1.5px solid rgba(120, 75, 255, 0.35);
     background: rgba(18, 16, 27, 0.96);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85), 0 0 20px rgba(120, 75, 255, 0.25);
-    padding: 0.85rem;
+    padding: 0.95rem;
     z-index: 600;
     animation: fadeInSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }

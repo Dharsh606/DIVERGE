@@ -683,9 +683,9 @@
     position: relative;
     z-index: 10;
     width: 100%;
-    max-width: 380px;
+    max-width: 410px;
     opacity: 0;
-    transform: translateY(20px) scale(0.98);
+    transform: translateY(22px) scale(0.98);
     transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
@@ -697,8 +697,8 @@
   .luxury-auth-card {
     position: relative;
     width: 100%;
-    padding: 1.5rem 1.6rem 1.3rem;
-    border-radius: var(--radius-lg);
+    padding: 2.1rem 2rem 1.7rem;
+    border-radius: var(--radius-xl);
     background: #110F1A;
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.08);
@@ -784,18 +784,18 @@
   }
 
   .card-title {
-    font-size: 1.35rem;
+    font-size: 1.5rem;
     font-weight: 700;
     letter-spacing: -0.025em;
     color: #FFFFFF;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.35rem;
   }
 
   .card-subtitle {
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     color: var(--color-text-muted);
-    line-height: 1.45;
-    max-width: 320px;
+    line-height: 1.5;
+    max-width: 330px;
     margin: 0 auto;
   }
 
@@ -807,17 +807,17 @@
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: var(--radius-sm);
-    padding: 2.5px;
-    margin-bottom: 1rem;
+    padding: 3px;
+    margin-bottom: 1.25rem;
     z-index: 5;
   }
 
   .tab-slider {
     position: absolute;
-    top: 2.5px;
-    bottom: 2.5px;
-    left: 2.5px;
-    width: calc(50% - 2.5px);
+    top: 3px;
+    bottom: 3px;
+    left: 3px;
+    width: calc(50% - 3px);
     border-radius: calc(var(--radius-sm) - 2px);
     background: var(--color-surface-raised);
     border: 1px solid rgba(255, 255, 255, 0.12);
@@ -833,9 +833,9 @@
     z-index: 2;
     background: none;
     border: none;
-    padding: 0.45rem 0;
+    padding: 0.55rem 0;
     color: var(--color-text-muted);
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     font-weight: 600;
     cursor: pointer;
     border-radius: var(--radius-sm);
@@ -852,10 +852,10 @@
     background: rgba(255, 92, 88, 0.12);
     color: #FFA39E;
     border: 1px solid rgba(255, 92, 88, 0.3);
-    padding: 0.55rem 0.85rem;
+    padding: 0.65rem 0.95rem;
     border-radius: var(--radius-sm);
-    font-size: 0.72rem;
-    margin-bottom: 0.85rem;
+    font-size: var(--text-xs);
+    margin-bottom: 1rem;
     display: flex;
     align-items: center;
     gap: 0.45rem;
@@ -879,17 +879,17 @@
     z-index: 5;
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
+    gap: 0.95rem;
   }
 
   .input-group {
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    gap: 0.35rem;
   }
 
   .input-group label {
-    font-size: 0.72rem;
+    font-size: var(--text-xs);
     font-weight: 600;
     color: var(--color-text-muted);
     letter-spacing: 0.02em;
@@ -944,8 +944,8 @@
     background: transparent;
     border: none;
     color: #FFFFFF;
-    font-size: 0.82rem;
-    padding: 0.55rem 0.75rem 0.55rem 0.55rem;
+    font-size: var(--text-sm);
+    padding: 0.65rem 0.85rem 0.65rem 0.6rem;
     outline: none;
   }
   .luxury-input::placeholder {
@@ -990,20 +990,20 @@
   .luxury-submit-btn {
     position: relative;
     width: 100%;
-    margin-top: 0.35rem;
-    padding: 0.65rem 1.2rem;
+    margin-top: 0.4rem;
+    padding: 0.72rem 1.3rem;
     border-radius: var(--radius-sm);
     border: none;
     background: var(--color-brand-gradient);
     color: #FFFFFF;
-    font-size: 0.84rem;
+    font-size: var(--text-sm);
     font-weight: 600;
     letter-spacing: 0.02em;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.55rem;
+    gap: 0.6rem;
     overflow: hidden;
     box-shadow: 0 4px 20px rgba(120, 75, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
     transition: transform var(--t-fast) ease, box-shadow var(--t-fast) ease, opacity var(--t-fast) ease;
@@ -1075,7 +1075,7 @@
     position: relative;
     z-index: 5;
     text-align: center;
-    margin: 0.85rem 0 0.65rem;
+    margin: 1.05rem 0 0.75rem;
   }
   .guest-route-divider::before {
     content: '';
@@ -1089,8 +1089,8 @@
   .guest-route-divider span {
     position: relative;
     background: #110F1A;
-    padding: 0 0.65rem;
-    font-size: 0.68rem;
+    padding: 0 0.75rem;
+    font-size: 0.72rem;
     color: var(--color-text-faint);
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -1104,16 +1104,21 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.45rem;
-    padding: 0.52rem 0.9rem;
+    gap: 0.5rem;
+    padding: 0.58rem 1rem;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: var(--radius-sm);
     color: var(--color-text-muted);
-    font-size: 0.76rem;
+    font-size: var(--text-xs);
     font-weight: 500;
     cursor: pointer;
     transition: all var(--t-fast) ease;
+  }
+  .guest-explore-btn:hover {
+    background: rgba(255, 255, 255, 0.07);
+    color: #FFFFFF;
+    border-color: rgba(255, 255, 255, 0.18);
   }
   .guest-explore-btn:hover {
     background: rgba(255, 255, 255, 0.07);

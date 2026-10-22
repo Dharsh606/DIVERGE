@@ -221,8 +221,8 @@
   .song-card.active .card-play-overlay { opacity: 1; }
 
   .card-play-btn {
-    width: 36px;
-    height: 36px;
+    width: 39px;
+    height: 39px;
     border-radius: var(--radius-full);
     background: var(--color-primary);
     color: #FFFFFF;
@@ -246,15 +246,15 @@
   }
   .eq-indicator {
     position: absolute;
-    bottom: 6px;
-    right: 6px;
+    bottom: 7px;
+    right: 7px;
     display: flex;
     align-items: flex-end;
     gap: 2px;
-    height: 12px;
+    height: 13px;
   }
   .eq-indicator span {
-    width: 2.5px;
+    width: 2.8px;
     height: 100%;
     background: var(--color-primary);
     border-radius: 2px;
@@ -263,7 +263,7 @@
   .eq-indicator span:nth-child(2) { animation-delay: 0.15s; }
   .eq-indicator span:nth-child(3) { animation-delay: 0.3s; }
 
-  .card-body { padding: 0.6rem; }
+  .card-body { padding: 0.68rem; }
 
   .card-header-row {
     display: flex;

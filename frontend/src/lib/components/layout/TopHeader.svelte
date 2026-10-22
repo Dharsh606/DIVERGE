@@ -736,14 +736,14 @@
 {/if}
 
 <style>
-  /* ─── Top Header Layout ──────────────────────────────────────────────────── */
+  /* ─── Top Header Layout (10% scale reduction from baseline) ────────────────── */
   .top-header {
-    height: 56px;
-    padding: 0 1.25rem;
+    height: 65px;
+    padding: 0 1.6rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1.25rem;
+    gap: 1.35rem;
     background: rgba(18, 16, 27, 0.85);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -757,7 +757,7 @@
   .artistic-search-container {
     position: relative;
     flex: 1;
-    max-width: 520px;
+    max-width: 580px;
   }
 
   .beam-border-wrapper {
@@ -784,11 +784,11 @@
   .search-inner-box {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.7rem;
     background: var(--color-bg);
     border-radius: var(--radius-full);
-    padding: 0.35rem 0.85rem 0.35rem 0.75rem;
-    height: 36px;
+    padding: 0.45rem 0.95rem 0.45rem 0.85rem;
+    height: 40px;
   }
 
   .search-icon-box {
@@ -800,8 +800,8 @@
   }
 
   .search-svg {
-    width: 15px;
-    height: 15px;
+    width: 16.5px;
+    height: 16.5px;
     transition: color 0.2s ease;
   }
 
@@ -1179,14 +1179,14 @@
     position: absolute;
     top: calc(100% + 8px);
     right: 0;
-    width: 255px;
-    max-height: calc(100vh - 70px);
+    width: 275px;
+    max-height: calc(100vh - 75px);
     overflow-y: auto;
     background: #181818; /* Dark charcoal card matching user screenshot */
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 9px;
     box-shadow: 0 16px 36px rgba(0, 0, 0, 0.75), 0 2px 8px rgba(0, 0, 0, 0.5);
-    padding: 0.35rem 0;
+    padding: 0.4rem 0;
     z-index: 1000;
     font-family: inherit;
   }
@@ -1196,11 +1196,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.52rem 1.05rem;
+    padding: 0.6rem 1.15rem;
     background: transparent;
     border: none;
     color: #FFFFFF;
-    font-size: 0.82rem;
+    font-size: 0.88rem;
     font-weight: 500;
     text-align: left;
     cursor: pointer;
@@ -1215,8 +1215,8 @@
   }
 
   .item-ext-icon {
-    width: 14px;
-    height: 14px;
+    width: 15px;
+    height: 15px;
     color: #A0A0A0;
     flex-shrink: 0;
   }
@@ -1227,10 +1227,10 @@
 
   /* Custom toggle switch matching native feel */
   .toggle-switch {
-    width: 32px;
-    height: 18px;
+    width: 34px;
+    height: 19px;
     background: #333333;
-    border-radius: 10px;
+    border-radius: 11px;
     position: relative;
     cursor: pointer;
     transition: background 0.2s ease;
@@ -1241,8 +1241,8 @@
     background: var(--color-primary);
   }
   .toggle-thumb {
-    width: 14px;
-    height: 14px;
+    width: 15px;
+    height: 15px;
     background: #FFFFFF;
     border-radius: 50%;
     position: absolute;
@@ -1251,25 +1251,25 @@
     transition: transform 0.2s ease;
   }
   .toggle-switch.toggle-on .toggle-thumb {
-    transform: translateX(14px);
+    transform: translateX(15px);
   }
 
   .menu-divider {
     height: 1px;
     background: rgba(255, 255, 255, 0.1);
-    margin: 0.3rem 0 0.5rem;
+    margin: 0.35rem 0 0.6rem;
   }
 
   /* ─── "Your Updates" Section (Exact replica of user screenshot) ───────────── */
   .updates-section {
-    padding: 0 1rem 0.5rem;
+    padding: 0 1.15rem 0.65rem;
   }
 
   .updates-heading {
-    font-size: 0.82rem;
+    font-size: 0.9rem;
     font-weight: 700;
     color: #FFFFFF;
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.85rem;
   }
 
   .updates-content {
@@ -1277,7 +1277,7 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 0.35rem 0.2rem 0.35rem;
+    padding: 0.4rem 0.25rem 0.4rem;
   }
 
   .checkmark-icon-circle {
@@ -1285,19 +1285,19 @@
     align-items: center;
     justify-content: center;
     color: #FFFFFF;
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.75rem;
   }
 
   .caught-up-title {
-    font-size: 0.88rem;
+    font-size: 0.95rem;
     font-weight: 700;
     color: #FFFFFF;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.35rem;
   }
 
   .caught-up-desc {
-    font-size: 0.74rem;
-    line-height: 1.4;
+    font-size: 0.78rem;
+    line-height: 1.45;
     color: #B3B3B3;
   }
 
@@ -1312,7 +1312,7 @@
     align-items: center;
     justify-content: center;
     z-index: 10000;
-    padding: 1.25rem;
+    padding: 1.35rem;
   }
 
   .modal-card {
@@ -1321,8 +1321,8 @@
     border-radius: var(--radius-lg);
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
     width: 100%;
-    max-width: 470px;
-    max-height: calc(100vh - 60px);
+    max-width: 490px;
+    max-height: calc(100vh - 65px);
     overflow: hidden;
     display: flex;
     flex-direction: column;

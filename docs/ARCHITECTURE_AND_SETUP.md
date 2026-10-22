@@ -120,7 +120,7 @@ npm run dev -- --host 127.0.0.1 --port 5173
 
 ### Multi-Tier Session Persistence & Viewport Architecture
 * **Dual-Tier Session Cache**: Authenticated user state and guest exploration tokens synchronize across both encrypted cookie storage and persistent client-side session cache (`diverge_user`), completely eliminating repetitive splash animations and re-authentication loops upon page refresh.
-* **Balanced Viewport Height Proportioning**: Calibrated 13.2px root typography scale, 66px compact bottom audio player, and 56px top navigation bar ensuring all cards, editorial moments, and exploration strips sit comfortably under the viewport height (100dvh) at 100% browser zoom.
+* **Balanced Viewport Height Proportioning**: Calibrated 14.4px root typography scale (exact 10% reduction from standard 16px baseline), 76px balanced bottom audio player, and 65px top navigation bar ensuring all cards, editorial moments, and exploration strips sit comfortably under the viewport height (100dvh) at 100% browser zoom with crisp, natural proportions.
 * **Zero-Conflict Overlay Hierarchy**: Strict z-index isolation hierarchy preventing UI occlusion:
   * Modals (Account, Premium, Help, Settings): `z-index: 10000` (Full viewport fixed backdrop)
   * Account & Search Popovers: `z-index: 900` - `1000` (Bounded viewport-aware scroll containers)
