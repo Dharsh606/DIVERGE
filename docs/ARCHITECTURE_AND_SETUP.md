@@ -118,6 +118,17 @@ npm run dev -- --host 127.0.0.1 --port 5173
 * **IndexedDB Store (`offline.ts`)**: Persists downloaded audio binary Blobs locally on disk.
 * Playback off-grid generates local `blob:http` URLs, ensuring complete playback continuity without network connectivity.
 
+### Multi-Tier Session Persistence & Viewport Architecture
+* **Dual-Tier Session Cache**: Authenticated user state and guest exploration tokens synchronize across both encrypted cookie storage and persistent client-side session cache (`diverge_user`), completely eliminating repetitive splash animations and re-authentication loops upon page refresh.
+* **Balanced Viewport Height Proportioning**: Calibrated 13.2px root typography scale, 66px compact bottom audio player, and 56px top navigation bar ensuring all cards, editorial moments, and exploration strips sit comfortably under the viewport height (100dvh) at 100% browser zoom.
+* **Zero-Conflict Overlay Hierarchy**: Strict z-index isolation hierarchy preventing UI occlusion:
+  * Modals (Account, Premium, Help, Settings): `z-index: 10000` (Full viewport fixed backdrop)
+  * Account & Search Popovers: `z-index: 900` - `1000` (Bounded viewport-aware scroll containers)
+  * Floating Miniplayer: `z-index: 600`
+  * Playback Queue & Connect to Device Drawers: `z-index: 500`
+  * Persistent Bottom Player: `z-index: 50`
+  * SlicedWaves Ambient Canvas: `z-index: 0` (40% opacity, pointer-events none)
+
 ### Signature Discovery Systems
 1. **Anti-Algorithm Engine**: Geometric centroid inversion engine that queries tracks structurally opposite to the user's historical listening profile.
 2. **Diverge Sessions**: Synchronized multi-client listening rooms utilizing lightweight real-time state coordination.
