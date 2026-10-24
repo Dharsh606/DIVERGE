@@ -3,6 +3,7 @@
   import { browser } from '$app/environment';
   import { player, isPlaying, progressPercent, formatTime } from '$lib/stores/player';
   import { preferences } from '$lib/stores/preferences';
+  import { likedSongs } from '$lib/stores/liked';
   import type { Song } from '$lib/types';
 
   $: song = $player.currentSong;
@@ -123,9 +124,29 @@
         <span class="song-title text-ellipsis">{song.title}</span>
         <span class="song-artist text-ellipsis text-muted">{song.artist?.name ?? ''}</span>
       </div>
-      <button class="btn btn-icon share-btn" on:click={copyShareLink} data-tooltip="Copy share link" aria-label="Share song">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-      </button>
+      <div class="meta-action-btns">
+        <button
+          class="btn btn-icon like-btn"
+          class:liked={$likedSongs.some(s => s.id === song?.id || (song?.youtube_id && s.youtube_id === song?.youtube_id))}
+          on:click={() => song && likedSongs.toggleLike(song)}
+          data-tooltip={$likedSongs.some(s => s.id === song?.id || (song?.youtube_id && s.youtube_id === song?.youtube_id)) ? "Liked" : "Add to Liked Songs"}
+          aria-label="Add to Liked Songs"
+        >
+          {#if $likedSongs.some(s => s.id === song?.id || (song?.youtube_id && s.youtube_id === song?.youtube_id))}
+            <svg viewBox="0 0 24 24" fill="#FF5C58" stroke="#FF5C58" stroke-width="2" width="16" height="16">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          {:else}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          {/if}
+        </button>
+
+        <button class="btn btn-icon share-btn" on:click={copyShareLink} data-tooltip="Copy share link" aria-label="Share song">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        </button>
+      </div>
     {:else}
       <span class="no-song-hint text-muted">Pick a song to start</span>
     {/if}
@@ -678,6 +699,24 @@
   .song-artist {
     font-size: 0.76rem;
     max-width: 165px;
+  }
+
+  .meta-action-btns {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  .like-btn {
+    color: var(--color-text-faint);
+    transition: transform var(--t-fast) ease, color var(--t-fast) ease;
+  }
+  .like-btn:hover {
+    color: #FF5C58;
+    transform: scale(1.12);
+  }
+  .like-btn.liked {
+    color: #FF5C58;
   }
 
   .no-song-hint {

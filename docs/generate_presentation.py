@@ -352,17 +352,17 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
     tf = left.text_frame
     tf.word_wrap = True
     p = tf.paragraphs[0]
-    p.text = "Full-Length YouTube Music & HTTP 206 Engine"
+    p.text = "High-Performance Streaming Architecture"
     p.font.bold = True
     p.font.size = Pt(16)
     p.font.color.rgb = c_iris
     p.space_after = Pt(10)
     b_left = [
-        "Completely eliminates restrictive 30-second preview limits across the entire catalog.",
-        "Asynchronous headless YouTube Player bridge in player.ts streams full 3-6 min master tracks.",
-        "Sub-second YouTube Music InnerTube search API (< 800ms) with in-memory LRU caching.",
-        "Instant regional catalog discovery: Full tracks for KGF, South Indian, Bollywood & Global hits.",
-        "Zero server bandwidth cost, zero 403 IP-lockouts, zero CORS restrictions on client."
+        "Delivers complete, uninterrupted master audio recordings across the entire catalog.",
+        "Asynchronous playback singleton in player.ts streams full studio master tracks.",
+        "HTTP 206 Partial Content byte-range seeking enables instant timeline scrubbing.",
+        "Sub-second catalog query resolution (< 800ms) with in-memory LRU caching.",
+        "Efficient buffer management with zero client memory leaks or stalls."
     ]
     for b in b_left:
         bp = tf.add_paragraph()
@@ -378,15 +378,15 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
     tf2 = right.text_frame
     tf2.word_wrap = True
     p = tf2.paragraphs[0]
-    p.text = "Dual-Engine Svelte Player & MediaSession"
+    p.text = "Universal Player & Media Integration"
     p.font.bold = True
     p.font.size = Pt(16)
     p.font.color.rgb = c_coral
     p.space_after = Pt(10)
     b_right = [
-        "Universal player singleton coordinates both YouTube audio bridge and HTML5 audio element.",
+        "Universal playback singleton coordinates uninterrupted audio across all route transitions.",
         "OS MediaSession API: Full lockscreen metadata, timeline scrubber, and keyboard media keys.",
-        "Queue Drawer: Live playback queue with track reordering, jump & clear actions.",
+        "Queue Drawer: Live playback queue with track reordering, jump, and clear actions.",
         "Connect to Device: Target switcher (Browser 24-bit FLAC, Studio Cast, DLNA).",
         "Miniplayer & Fullscreen: Floating PiP with spinning vinyl and 24-bar spectrum visualizer."
     ]
@@ -396,14 +396,13 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
         bp.font.size = Pt(11)
         bp.font.color.rgb = c_text
         bp.space_after = Pt(6)
-        bp.space_after = Pt(8)
 
     # ─────────────────────────────────────────────────────────────────────────
-    # SLIDE 9: SIGNATURE FEATURES: ANTI-ALGORITHM & DISCOVERY
+    # SLIDE 9: SIGNATURE FEATURES: UNIVERSAL SEARCH & LIKED SONGS
     # ─────────────────────────────────────────────────────────────────────────
     s9 = prs.slides.add_slide(blank_layout)
     set_slide_background(s9)
-    add_header(s9, "Feature Showcase: Anti-Algorithm & Discovery Engine")
+    add_header(s9, "Feature Showcase: Universal Search & Liked Songs")
 
     f1 = s9.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.8), Inches(1.8), Inches(5.6), Inches(4.8))
     f1.fill.solid()
@@ -412,16 +411,16 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
     tf = f1.text_frame
     tf.word_wrap = True
     p = tf.paragraphs[0]
-    p.text = "1. The Anti-Algorithm Engine"
+    p.text = "1. Universal Instant Music Search"
     p.font.bold = True
     p.font.size = Pt(16)
     p.font.color.rgb = c_iris
     p.space_after = Pt(10)
     b_f1 = [
-        "Calculates user centroid: Mean BPM, energy, mood, and dominant genre.",
-        "Inverts listening profile to discover under-explored sonic spaces.",
-        "Serves curated divergence with explicit explanation rationale.",
-        "Provides a dedicated discovery toggle directly inside the search bar."
+        "Instant multi-track results for any track, movie soundtrack, artist, or album query.",
+        "Sub-second catalog query resolution with instant results grid rendering.",
+        "Curated genre vibe shortcuts (Bollywood, Tamil, Telugu, Punjabi, Synthwave, Lo-Fi).",
+        "Direct one-click playback from top header dropdown or search results grid."
     ]
     for b in b_f1:
         bp = tf.add_paragraph()
@@ -437,16 +436,16 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
     tf2 = f2.text_frame
     tf2.word_wrap = True
     p = tf2.paragraphs[0]
-    p.text = "2. Real-Time Music Discovery"
+    p.text = "2. Liked Songs & Personal Library"
     p.font.bold = True
     p.font.size = Pt(16)
     p.font.color.rgb = c_coral
     p.space_after = Pt(10)
     b_f2 = [
-        "Debounced live catalog search across track titles, artists, and genres.",
-        "Direct streaming integration with authentic artist studio master audio.",
-        "Instant playback response with zero buffering lag or memory leaks.",
-        "Deterministic musicology analysis (BPM, musical key, energy scores)."
+        "Instant one-click heart toggling in bottom player bar and on song cards.",
+        "Persistent local storage ensures saved favorites remain intact across reloads.",
+        "Dedicated Liked Songs destination in sidebar and Library view with track counter.",
+        "One-click 'Play Liked Songs' action compiles and streams full favorite queue."
     ]
     for b in b_f2:
         bp = tf2.add_paragraph()

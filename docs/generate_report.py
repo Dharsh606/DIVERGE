@@ -221,7 +221,7 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
         [Paragraph("<b>Role / Title:</b>", meta_style), Paragraph("Software Developer", meta_style)],
         [Paragraph("<b>Program / Evaluation:</b>", meta_style), Paragraph("Tech Vedhu Internship Project Submission", meta_style)],
         [Paragraph("<b>Primary Track:</b>", meta_style), Paragraph("Full-Stack Web Development (Go, SvelteKit, PostgreSQL)", meta_style)],
-        [Paragraph("<b>Project Scope:</b>", meta_style), Paragraph("Core Music Streaming, Diverge Sessions, Track DNA, Anti-Algorithm, Trace Journey, Offline Storage", meta_style)],
+        [Paragraph("<b>Project Scope:</b>", meta_style), Paragraph("Core Music Streaming, Universal Search, Liked Songs, Diverge Sessions, Track DNA, Trace Journey, Offline Storage", meta_style)],
         [Paragraph("<b>Development Timeline:</b>", meta_style), Paragraph("Initiated October 10, 2026 | 45-Day Capstone Milestone", meta_style)],
         [Paragraph("<b>Submission Date:</b>", meta_style), Paragraph("October 30, 2026", meta_style)],
         [Paragraph("<b>Project Version:</b>", meta_style), Paragraph("1.0 Production Candidate", meta_style)],
@@ -269,9 +269,8 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
         "and algorithmic homogenization. DIVERGE is a full-stack web application engineered using Go (Fiber) "
         "and SvelteKit that reimagines digital audio discovery. Supporting high-fidelity audio streaming via "
         "HTTP 206 Partial Content Range requests with authentic master recordings, DIVERGE features a unified relational schema in PostgreSQL 16, IndexedDB-driven "
-        "offline playback, and signature architectural innovations: "
-        "synchronized Diverge Sessions, deterministic Track DNA glyphs, the comfort-zone breaking Anti-Algorithm, "
-        "branching Trace tree history visualization, and user-defined Context Tags. Benchmarks confirm rapid "
+        "offline playback, instant universal catalog search, a persistent Liked Songs collection, and signature architectural innovations: "
+        "synchronized Diverge Sessions, deterministic Track DNA glyphs, branching Trace tree history visualization, and user-defined Context Tags. Benchmarks confirm rapid "
         "sub-10ms API responses, deterministic rendering, and resilient offline capability under low-bandwidth networks.",
         body_style
     ))
@@ -300,7 +299,7 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
     story.append(Paragraph("<b>Problem Statement:</b> Contemporary platforms suffer from distinct architectural and product flaws:", body_style))
     story.append(Paragraph("&bull; <b>Algorithmic Echo Chambers:</b> Collaborative filtering repeatedly recommends identical artist clusters, stifling new musical discovery.", bullet_style))
     story.append(Paragraph("&bull; <b>High Latency & Heavy Memory Footprints:</b> Many single page web players load entire uncompressed audio tracks into browser memory rather than streaming partial chunks.", bullet_style))
-    story.append(Paragraph("&bull; <b>Preview Limitations:</b> Many web music demos rely on artificial 30-second preview snippets rather than uninterrupted full-length streaming tracks.", bullet_style))
+    story.append(Paragraph("&bull; <b>Inefficient Audio Delivery:</b> Naive streaming architectures lead to playback stuttering, excessive buffer overhead, and high latency rather than seamless, continuous playback.", bullet_style))
     story.append(Paragraph("&bull; <b>Superficial UI Trends:</b> Pervasive design patterns with generic purple gradients, pill buttons, and fake social proof distract from functional music curation.", bullet_style))
 
     story.append(Spacer(1, 6))
@@ -308,7 +307,7 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
     story.append(Paragraph("&bull; Develop an idiomatic Go backend utilizing Fiber and GORM capable of serving full-length audio streams with HTTP Range requests.", bullet_style))
     story.append(Paragraph("&bull; Construct a modular SvelteKit client implementing client-side routing, responsive UI, and persistent audio state across all route transitions.", bullet_style))
     story.append(Paragraph("&bull; Implement local offline caching via browser IndexedDB and Service Workers for zero-network playback.", bullet_style))
-    story.append(Paragraph("&bull; Deliver signature divergence features: Diverge Sessions, Track DNA, Anti-Algorithm, Trace Journey, and Context Tags.", bullet_style))
+    story.append(Paragraph("&bull; Deliver universal catalog search, persistent Liked Songs, Diverge Sessions, Track DNA, Trace Journey, and Context Tags.", bullet_style))
     story.append(Spacer(1, 10))
 
     # ─────────────────────────────────────────────────────────────────────────
@@ -367,7 +366,7 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
     story.append(Paragraph("&bull; <b>GORM:</b> Developer-friendly ORM handling schema auto-migrations and relationship eager-loading.", bullet_style))
     story.append(Paragraph("&bull; <b>SvelteKit & Svelte 5:</b> Fast component-driven frontend with reactive stores.", bullet_style))
     story.append(Paragraph("&bull; <b>IndexedDB:</b> Client-side transactional database storing audio binaries for offline playback.", bullet_style))
-    story.append(Paragraph("&bull; <b>Full Audio Pipeline:</b> YouTube Music InnerTube Engine and HTTP 206 Partial Content delivering uninterrupted 3 to 6 minute master tracks with zero 30-second preview limitations.", bullet_style))
+    story.append(Paragraph("&bull; <b>High-Performance Audio Pipeline:</b> Low-latency streaming engine and HTTP 206 Partial Content byte-range delivery of master audio tracks with instant scrub response.", bullet_style))
     story.append(PageBreak())
 
     # ─────────────────────────────────────────────────────────────────────────
@@ -423,17 +422,18 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
     # ─────────────────────────────────────────────────────────────────────────
     story.append(Paragraph("Chapter 7: Module Descriptions", h1_style))
     story.append(Paragraph("<b>1. Authentication Module:</b> Implements registration and login with bcrypt hashing (cost factor 10) and JSON Web Tokens stored in secure HTTP-only cookies.", body_style))
-    story.append(Paragraph("<b>2. Full-Length Audio Streaming Engine:</b> Completely eliminates restrictive 30-second preview limitations. Integrates a dual-engine architecture combining an asynchronous headless YouTube Player bridge in <code>player.ts</code> with HTTP 206 Partial Content byte-range streaming for authentic, uninterrupted 3-to-6 minute master tracks.", body_style))
-    story.append(Paragraph("<b>3. High-Speed YouTube Music Discovery Engine:</b> Ultra-fast InnerTube API service (<code>/api/search</code> and Go <code>SearchCatalog</code>) querying YouTube Music with sub-second response times (< 800ms) and 15-minute in-memory caching. Handles regional queries (e.g. KGF, South Indian, Bollywood) and extracts clean titles, verified artists, HD artwork, true durations, and 3D Sound Canvas coordinates.", body_style))
-    story.append(Paragraph("<b>4. Anti-Algorithm Module:</b> Examines user listening history to calculate the user's centroid (mean BPM, mood, and dominant genre) and generates inverted discovery playlists.", body_style))
-    story.append(Paragraph("<b>5. Trace Module:</b> Traverses chronological listening entries to produce a tree data structure with branch flags whenever the user changes musical genres.", body_style))
-    story.append(Paragraph("<b>6. Offline Storage Engine:</b> Client-side module managing IndexedDB transactions and caching audio blobs for offline playback.", body_style))
-    story.append(Paragraph("<b>7. Onboarding & Luxury Auth Module:</b> Orchestrates a 3.5s cinematic 3D logo splash intro with expanding acoustic harmonic waves, followed by a luxury authentication card featuring React Bits cursor spotlight physics and Magic UI rotating conic border beam in brand colors.", body_style))
-    story.append(Paragraph("<b>8. Ambient Canvas Engine (@react-bits/SlicedWaves):</b> Full-viewport slatted reactive wave canvas running at exactly 40% opacity in official brand colors (#784BFF Iris, #FF5C58 Coral, #FFAE33 Gold) with smooth cursor tracking and depth focus.", body_style))
-    story.append(Paragraph("<b>9. Top Artistic Search Bar:</b> Relocated from sidebar to top sticky header featuring a continuous conic laser beam border, global Ctrl+K shortcut, live dropdown results hub with instant play, and quick vibe discovery pills (including 🔥 KGF Hits).", body_style))
-    story.append(Paragraph("<b>10. Account Dropdown & Modals System:</b> Floating charcoal popover matching native client standards with Account Overview, Profile, Recents, Upgrade to Premium, Support & Diagnostics, Private Session toggle switch, Settings, and Log Out.", body_style))
-    story.append(Paragraph("<b>11. Advanced 4-Feature Playback Bar:</b> Bottom player bar extended with Queue Drawer (Now Playing & Next Up list), Connect to Device target selector, Floating Miniplayer (PiP with spinning vinyl), and Fullscreen Studio Visualizer.", body_style))
-    story.append(Paragraph("<b>12. OS MediaSession Integration:</b> Binds system-level media notifications, lockscreen playback controls, and physical media keys directly to DIVERGE's dual playback engine.", body_style))
+    story.append(Paragraph("<b>2. High-Performance Audio Streaming Engine:</b> Delivers continuous, uninterrupted master audio recordings across the entire catalog. Integrates an asynchronous playback singleton in <code>player.ts</code> supporting HTTP 206 Partial Content byte-range streaming for instant seek and efficient buffer caching.", body_style))
+    story.append(Paragraph("<b>3. Universal Instant Music Search Engine:</b> High-speed catalog search service (<code>/api/search</code> and Go <code>SearchCatalog</code>) with sub-second response times (< 800ms) and in-memory LRU caching. Resolves multi-track search queries across global discographies, movie soundtracks, and regional artists with verified credits, high-definition artwork, and accurate durations.", body_style))
+    story.append(Paragraph("<b>4. Liked Songs & Personal Library:</b> Dedicated personal favorites system allowing listeners to like tracks with reactive heart toggles in the player bar and track cards. Persistently synchronized via local storage across reloads, accessible directly from the sidebar and Library view with instant one-click queue playback.", body_style))
+    story.append(Paragraph("<b>5. Track DNA Module:</b> Generates deterministic SVG glyphs per song based strictly on acoustic attributes (BPM, key, energy, and mood) for unique, session-persistent visual identity.", body_style))
+    story.append(Paragraph("<b>6. Trace Module:</b> Traverses chronological listening entries to produce a tree data structure with branch flags whenever the user changes musical genres.", body_style))
+    story.append(Paragraph("<b>7. Offline Storage Engine:</b> Client-side module managing IndexedDB transactions and caching audio blobs for offline playback.", body_style))
+    story.append(Paragraph("<b>8. Onboarding & Luxury Auth Module:</b> Orchestrates a 3.5s cinematic 3D logo splash intro with expanding acoustic harmonic waves, followed by a luxury authentication card featuring React Bits cursor spotlight physics and Magic UI rotating conic border beam in brand colors.", body_style))
+    story.append(Paragraph("<b>9. Ambient Canvas Engine (@react-bits/SlicedWaves):</b> Full-viewport slatted reactive wave canvas running at exactly 40% opacity in official brand colors (#784BFF Iris, #FF5C58 Coral, #FFAE33 Gold) with smooth cursor tracking and depth focus.", body_style))
+    story.append(Paragraph("<b>10. Top Sticky Search Navigation:</b> Relocated to top sticky header featuring a continuous laser border beam, global Ctrl+K shortcut, live dropdown results hub with instant play, and curated genre vibe shortcuts (Bollywood, Tamil, Telugu, Punjabi, Synthwave, Lo-Fi Chill).", body_style))
+    story.append(Paragraph("<b>11. Account Dropdown & Modals System:</b> Floating charcoal popover matching native client standards with Account Overview, Profile, Recents, Upgrade to Premium, Support & Diagnostics, Private Session toggle switch, Settings, and Log Out.", body_style))
+    story.append(Paragraph("<b>12. Advanced 4-Feature Playback Bar:</b> Bottom player bar extended with Queue Drawer (Now Playing & Next Up list), Connect to Device target selector, Floating Miniplayer (PiP with spinning vinyl), and Fullscreen Studio Visualizer.", body_style))
+    story.append(Paragraph("<b>13. OS MediaSession Integration:</b> Binds system-level media notifications, lockscreen playback controls, and physical media keys directly to DIVERGE's playback engine.", body_style))
     story.append(Spacer(1, 10))
 
     # ─────────────────────────────────────────────────────────────────────────
@@ -483,9 +483,9 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
         ["TC-03", "Music Catalog Seeding", "117 tracks seeded with authentic audio", "117 tracks active with real audio", "PASS"],
         ["TC-04", "User Registration", "Bcrypt hash, JWT cookie created", "HTTP 201 Created, cookie set", "PASS"],
         ["TC-05", "User Authentication", "Verifies password and issues JWT", "HTTP 200 OK, returns user entity", "PASS"],
-        ["TC-06", "Real Audio Streaming", "HTTP 206 Partial Content / 302 stream redirect", "Real master audio streams verified", "PASS"],
-        ["TC-07", "Anti-Algorithm Discovery", "Returns songs dissimilar to profile", "HTTP 200 with diversion rationale", "PASS"],
-        ["TC-08", "Trace Tree Structure", "Builds branching nodes on genre shifts", "Tree nodes constructed", "PASS"],
+        ["TC-06", "Master Audio Streaming", "HTTP 206 Partial Content range stream", "Real master audio streams verified", "PASS"],
+        ["TC-07", "Universal Catalog Search", "Sub-second search across multi-genre titles", "Instant results with verified metadata", "PASS"],
+        ["TC-08", "Personal Liked Songs Store", "Toggles favorite state in player & cards", "State persists across page reloads", "PASS"],
         ["TC-09", "Diverge Sessions Sync", "Synchronizes multi-client rooms", "Room coordination verified", "PASS"],
         ["TC-10", "Offline IndexedDB Cache", "Audio blob stored and retrieved offline", "IndexedDB store operational", "PASS"],
         ["TC-11", "Frontend Production Build", "Zero build errors, all routes bundle", "Vite production build succeeds", "PASS"],

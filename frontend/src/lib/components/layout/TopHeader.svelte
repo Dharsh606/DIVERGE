@@ -32,12 +32,13 @@
   let supportSent = false;
 
   const quickPills = [
-    { label: '🔥 KGF Hits', q: 'KGF' },
     { label: 'Bollywood Hits', q: 'Arijit Singh' },
-    { label: 'Tamil & South', q: 'Anirudh Ravichander' },
+    { label: 'Tamil Hits', q: 'Anirudh Ravichander' },
+    { label: 'Punjabi Beats', q: 'Diljit Dosanjh' },
+    { label: 'Telugu Hits', q: 'Sid Sriram' },
     { label: 'A.R. Rahman', q: 'A.R. Rahman' },
     { label: 'Synthwave', q: 'Synthwave' },
-    { label: 'Lossless Hi-Fi', q: 'The Weeknd' }
+    { label: 'Lo-Fi Chill', q: 'Lo-Fi' }
   ];
 
   // React to keyboard shortcuts: Ctrl+K / Cmd+K / / to focus search
@@ -213,11 +214,8 @@
           <div class="results-preview-section">
             <div class="results-header">
               <span class="results-count">
-                {isSearching ? 'Scanning acoustic catalog...' : `${searchResults.length} Instant Matches`}
+                {isSearching ? 'Searching...' : `${searchResults.length} Results`}
               </span>
-              <button class="view-all-link" on:click={submitSearch}>
-                Open in Search Studio →
-              </button>
             </div>
 
             {#if isSearching}
@@ -876,14 +874,12 @@
     top: calc(100% + 8px);
     left: 0;
     right: 0;
-    background: rgba(18, 16, 27, 0.96);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
+    background: #12101B;
     border: 1px solid var(--color-border-hover);
     border-radius: var(--radius-lg);
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(120, 75, 255, 0.15);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(120, 75, 255, 0.25);
     padding: 1rem;
-    z-index: 100;
+    z-index: 1000;
     animation: fadeInSlide 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
 

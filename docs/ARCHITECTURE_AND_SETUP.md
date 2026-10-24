@@ -107,21 +107,22 @@ npm run dev -- --host 127.0.0.1 --port 5173
   - **Floating Miniplayer (PiP)**: Docked floating widget with rotating vinyl artwork, real-time waveform bars, and transport controls.
   - **Fullscreen Studio Visualizer**: Immersive full-screen visualizer featuring large artwork, typography, 24-bar audio spectrum visualizer, scrub slider, and complete controls.
 
-### Audio Delivery Architecture (Full-Length YouTube Music Engine & HTTP 206)
-* **Zero 30-Second Limit (100% Full-Length Songs)**:
-  - Completely replaced the legacy 30-second audio preview restriction with an open, high-performance streaming architecture powered by the YouTube Music InnerTube catalog.
-  - Full-length tracks (3–5+ minutes, complete movie soundtracks, and albums) play without interruptions.
-* **Hybrid Dual-Engine Audio Architecture (`player.ts`)**:
-  - **YouTube Music Engine**: Streams high-fidelity multi-minute audio via an offscreen YouTube Player bridge without server bandwidth cost, IP-binding 403 errors, or CORS restrictions.
-  - **HTML5 Audio Element (`audioEl`)**: Direct HTTP 206 Range streaming for local/server-hosted master audio files.
-  - Complete seamless state synchronization: DIVERGE's custom UI (bottom player bar, seek slider, volume knob, visualizer spectrum, queue drawer, miniplayer, and fullscreen mode) drives the playback engine.
-* **High-Speed YouTube Music Catalog Search**:
-  - Replaced slow third-party iTunes endpoints with direct YouTube Music InnerTube queries (`clientName: 'WEB_REMIX'` & `'WEB'`).
-  - Dual server implementation: SvelteKit serverless route (`/api/search`) and Go Fiber endpoint (`/api/songs/live-search`).
-  - In-memory 15-minute LRU search cache delivering sub-second response times (< 800ms) for regional queries (e.g. "KGF", "Arijit Singh", "Anirudh", "Diljit", "The Weeknd").
-  - Rich metadata parsing: Clean song titles, verified artists, HD album artwork, true durations, and 3D Sound Canvas coordinates (`acoustic_x`, `acoustic_y`, `acoustic_z`).
-* **OS MediaSession API Integration**:
-  - Registers lock screen metadata and system media keys (`play`, `pause`, `previoustrack`, `nexttrack`, `seekto`), allowing users to control playback directly from their OS media controls and headphones.
+### Audio Streaming & Playback Architecture
+* **Full-Length Audio Pipeline**:
+  - Delivers complete, uninterrupted multi-minute master tracks across the entire global and regional music catalog.
+  - Asynchronous audio engine in `player.ts` supporting both direct HTTP 206 Partial Content byte ranges and high-throughput streaming.
+  - Precise timeline scrubbing across full track durations with responsive time tracking and visualizer sync.
+* **Instant Universal Music Search**:
+  - High-performance search service (`/api/search` and Go `SearchCatalog`) delivering sub-second response times (< 800ms).
+  - Fast catalog resolution across movies, regional discographies (Tamil, Telugu, Hindi, Kannada, Punjabi), and international artists.
+  - In-memory LRU caching layer ensuring instant responses for frequent queries.
+  - Rich metadata parsing: clean song titles, artist credits, high-definition cover art, and true track durations.
+* **Personal Library & Liked Songs**:
+  - Dedicated Liked Songs collection with persistent local synchronization, instant favoriting, and one-click queue playback.
+  - Custom playlist management with drag ordering and public share links.
+  - Contextual tagging linking listening environments to songs.
+* **OS MediaSession Integration**:
+  - Integrates with operating system media controls, mobile lock screens, and hardware keyboard media keys (play, pause, seek, next, prev).
 
 ### Client-Side Offline Engine
 * **Service Worker (`sw.js`)**: Intercepts network calls to serve cached application shell assets.
@@ -129,7 +130,7 @@ npm run dev -- --host 127.0.0.1 --port 5173
 * Playback off-grid generates local `blob:http` URLs, ensuring complete playback continuity without network connectivity.
 
 ### Multi-Tier Session Persistence & Viewport Architecture
-* **Dual-Tier Session Cache**: Authenticated user state and guest exploration tokens synchronize across both encrypted cookie storage and persistent client-side session cache (`diverge_user`), completely eliminating repetitive splash animations and re-authentication loops upon page refresh.
+* **Dual-Tier Session Cache**: Authenticated user state and guest exploration tokens synchronize across both encrypted cookie storage and persistent client-side session cache (`diverge_user`), ensuring a frictionless experience across page refreshes.
 * **Balanced Viewport Height Proportioning**: Calibrated 14.4px root typography scale (exact 10% reduction from standard 16px baseline), 76px balanced bottom audio player, and 65px top navigation bar ensuring all cards, editorial moments, and exploration strips sit comfortably under the viewport height (100dvh) at 100% browser zoom with crisp, natural proportions.
 * **Zero-Conflict Overlay Hierarchy**: Strict z-index isolation hierarchy preventing UI occlusion:
   * Modals (Account, Premium, Help, Settings): `z-index: 10000` (Full viewport fixed backdrop)
@@ -139,13 +140,12 @@ npm run dev -- --host 127.0.0.1 --port 5173
   * Persistent Bottom Player: `z-index: 50`
   * SlicedWaves Ambient Canvas: `z-index: 0` (40% opacity, pointer-events none)
 
-### Signature Discovery Systems
-1. **Anti-Algorithm Engine**: Geometric centroid inversion engine that queries tracks structurally opposite to the user's historical listening profile.
-2. **Diverge Sessions**: Synchronized multi-client listening rooms utilizing lightweight real-time state coordination.
-3. **Track DNA**: Deterministic procedural SVG rendering using FNV-1a hashing of acoustic attributes (BPM, key, energy, valence).
+### Core Discovery & Library Systems
+1. **Liked Songs Collection**: Instant personal favorites hub with offline persistence and dedicated queue playback.
+2. **Track DNA**: Deterministic procedural SVG rendering using acoustic attributes (BPM, key, energy, valence).
+3. **Diverge Sessions**: Synchronized multi-client listening rooms utilizing lightweight real-time state coordination.
 4. **Trace Journey**: Branching tree visualization representing listening progression and sonic departures.
 5. **Context Tags**: Multi-dimensional tagging system linking acoustic profiles to environmental contexts.
-6. **Multi-Attribute Discovery**: Real-time debounced catalog search across titles, artists, and genres with instant preview playback.
 
 ### Design System Tokens (Extracted from 3D Brand Logo)
 | Token | Hex / Value | Architectural Role |

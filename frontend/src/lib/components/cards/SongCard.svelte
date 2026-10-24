@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { Song } from '$lib/types';
-  import { player } from '$lib/stores/player';
+  import { player, formatTime } from '$lib/stores/player';
+  import { likedSongs } from '$lib/stores/liked';
   import TrackDNA from '$lib/components/dna/TrackDNA.svelte';
-  import { formatTime } from '$lib/stores/player';
 
   export let song: Song;
   export let queue: Song[] = [];
@@ -10,6 +10,9 @@
 
   $: isCurrentSong = $player.currentSong?.id === song.id;
   $: isPlaying = isCurrentSong && $player.state === 'playing';
+  $: isLiked = $likedSongs.some(
+    s => s.id === song?.id || (song?.youtube_id && s.youtube_id === song?.youtube_id)
+  );
 
   function handlePlay() {
     if (isCurrentSong) {
@@ -50,6 +53,17 @@
       <span class="row-title" class:text-primary={isCurrentSong}>{song.title}</span>
       <span class="row-artist text-muted">{song.artist?.name ?? ''}</span>
     </div>
+
+    <button
+      class="row-like-btn"
+      class:liked={isLiked}
+      on:click|stopPropagation={() => likedSongs.toggleLike(song)}
+      aria-label={isLiked ? "Unlike" : "Like"}
+    >
+      <svg viewBox="0 0 24 24" fill={isLiked ? "#FF5C58" : "none"} stroke={isLiked ? "#FF5C58" : "currentColor"} stroke-width="2" width="15" height="15">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+      </svg>
+    </button>
 
     <div class="row-dna" aria-hidden="true">
       <TrackDNA {song} size={28} />
@@ -99,12 +113,21 @@
     <div class="card-body">
       <div class="card-header-row">
         <TrackDNA {song} size={24} />
-        {#if song.genre}
-          <span class="badge badge-primary">{song.genre}</span>
-        {/if}
-        {#if song.youtube_id || (song.duration_seconds && song.duration_seconds > 60)}
-          <span class="full-track-pill" title="100% Full Song • Hi-Fi Audio">Full Track</span>
-        {/if}
+        <div class="card-header-actions">
+          {#if song.genre}
+            <span class="badge badge-primary">{song.genre}</span>
+          {/if}
+          <button
+            class="card-like-btn"
+            class:liked={isLiked}
+            on:click|stopPropagation={() => likedSongs.toggleLike(song)}
+            aria-label={isLiked ? "Unlike" : "Like"}
+          >
+            <svg viewBox="0 0 24 24" fill={isLiked ? "#FF5C58" : "none"} stroke={isLiked ? "#FF5C58" : "currentColor"} stroke-width="2" width="14" height="14">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          </button>
+        </div>
       </div>
       <p class="card-title text-ellipsis" title={song.title}>{song.title}</p>
       <p class="card-artist text-ellipsis text-muted" title={song.artist?.name}>{song.artist?.name ?? ''}</p>
@@ -116,7 +139,7 @@
   /* ─── List Row ─────────────────────────────────────────────────────────── */
   .song-row {
     display: grid;
-    grid-template-columns: 44px 1fr auto auto;
+    grid-template-columns: 44px 1fr auto auto auto;
     align-items: center;
     gap: 0.75rem;
     padding: 0.5rem 0.75rem;
@@ -125,6 +148,35 @@
     transition: background var(--t-fast) ease;
   }
   .song-row:hover { background: var(--color-surface-raised); }
+
+  .row-like-btn,
+  .card-like-btn {
+    background: none;
+    border: none;
+    color: var(--color-text-faint);
+    cursor: pointer;
+    padding: 0.2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    transition: transform var(--t-fast) ease, color var(--t-fast) ease;
+  }
+  .row-like-btn:hover,
+  .card-like-btn:hover {
+    color: #FF5C58;
+    transform: scale(1.18);
+  }
+  .row-like-btn.liked,
+  .card-like-btn.liked {
+    color: #FF5C58;
+  }
+
+  .card-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
   .song-row.active { background: var(--color-primary-dim); }
 
   .row-art {

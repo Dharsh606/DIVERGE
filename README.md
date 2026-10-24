@@ -64,9 +64,10 @@ DIVERGE is an asynchronous, high-throughput digital audio platform engineered wi
 ## 2. Feature Implementation
 
 ### Core Streaming Capabilities
-* **Zero 30-Second Limit (100% Full-Length Songs):** All catalog songs and search results play as complete multi-minute master tracks (3–5+ minutes), completely eliminating restrictive 30-second audio preview limitations.
-* **High-Speed YouTube Music Catalog Search:** Powered by a direct InnerTube service (`/api/search` and Go `SearchCatalog`) delivering sub-second response times (< 800ms) for global and regional music queries (including KGF, South Indian hits, Bollywood, Punjabi, and international pop) with in-memory caching.
-* **Dual-Engine Audio Architecture (`player.ts`):** Universal playback singleton coordinating an asynchronous headless YouTube Player bridge for global streaming with an HTML5 Audio element for HTTP 206 Range-streamed local/server master tracks.
+* **Full-Length Master Audio Streaming:** All catalog tracks and search results stream full-length, authentic master recordings (3 to 6+ minutes) with instant timeline seeking.
+* **Universal Instant Music Search:** High-performance catalog discovery engine delivering sub-second response times (< 800ms) across global and regional discographies (Soundtracks, Indian hits, Pop, Hip-Hop, Lo-Fi, Synthwave) with in-memory LRU caching.
+* **Liked Songs & Personal Collection:** One-click heart toggling on the bottom player and track cards, persistently saved across sessions in local storage, accessible directly from the sidebar and Library view with dedicated queue playback.
+* **Dual-Engine Audio Architecture (`player.ts`):** Universal playback singleton coordinating high-fidelity global streaming with an HTML5 Audio element for HTTP 206 Partial Content byte-range streamed master tracks.
 * **OS MediaSession API:** Full integration with operating system lockscreens, media notifications, and hardware keyboard media keys (play, pause, seek, next, prev).
 * **Browse & Search:** High-performance catalog browsing with debounced search across titles, artists, and musical genres with live instant autocomplete in the top header.
 * **Music Player:** Persistent audio player supporting HTTP 206 Partial Content range requests, custom playback controls, volume attenuation, mute toggle, Fisher-Yates shuffle, and three-state repeat modes.
