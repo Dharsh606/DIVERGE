@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
   import { goto } from '$app/navigation';
+  import { page } from '$app/state';
   import { browser } from '$app/environment';
   import { songs as songsAPI } from '$lib/services/api';
   import { player } from '$lib/stores/player';
@@ -16,6 +17,12 @@
   let isSearching = false;
   let searchDebounce: any = null;
   let searchInputEl: HTMLInputElement;
+
+  // Sync search input with ?q= parameter on /search page
+  $: currentUrlQ = page.url.searchParams.get('q');
+  $: if (currentUrlQ !== null && page.url.pathname === '/search' && !searchFocused && searchQuery !== currentUrlQ) {
+    searchQuery = currentUrlQ;
+  }
 
   // Account dropdown state
   let accountMenuOpen = false;

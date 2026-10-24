@@ -119,7 +119,7 @@ function createPlayerStore() {
         container = document.createElement('div');
         container.id = 'diverge-yt-container';
         container.style.cssText =
-          'position: fixed; bottom: -9999px; left: -9999px; width: 200px; height: 200px; opacity: 0; pointer-events: none; z-index: -9999;';
+          'position: fixed; bottom: 0; right: 0; width: 2px; height: 2px; opacity: 0.01; pointer-events: none; z-index: -1;';
         const playerDiv = document.createElement('div');
         playerDiv.id = 'diverge-yt-iframe';
         container.appendChild(playerDiv);
@@ -133,8 +133,8 @@ function createPlayerStore() {
         }
         try {
           ytPlayer = new (window as any).YT.Player('diverge-yt-iframe', {
-            height: '200',
-            width: '200',
+            height: '2',
+            width: '2',
             playerVars: {
               autoplay: 1,
               controls: 0,
@@ -144,8 +144,7 @@ function createPlayerStore() {
               iv_load_policy: 3,
               modestbranding: 1,
               playsinline: 1,
-              rel: 0,
-              origin: window.location.origin
+              rel: 0
             },
             events: {
               onReady: () => {
@@ -331,11 +330,29 @@ function createPlayerStore() {
     subscribe,
 
     // ─── Play a song directly (100% full song via YouTube Music engine) ───
-    playSong(song: Song, queue: Song[] = []) {
+    async playSong(song: Song, queue: Song[] = []) {
       const queueToUse = queue.length ? queue : [song];
       const idx = queueToUse.findIndex(s => s.id === song.id);
 
-      const ytId = extractYouTubeId(song);
+      let ytId = extractYouTubeId(song);
+
+      // Auto-resolve YouTube Music video ID if not yet bound
+      if (!ytId && song.title) {
+        try {
+          const query = `${song.title} ${song.artist?.name || ''}`.trim();
+          const searchRes = await songsAPI.searchLive(query, 1);
+          if (searchRes && searchRes.songs && searchRes.songs.length > 0 && searchRes.songs[0].youtube_id) {
+            ytId = searchRes.songs[0].youtube_id;
+            song.youtube_id = ytId;
+            song.audio_url = `youtube:${ytId}`;
+            if (searchRes.songs[0].duration_seconds) {
+              song.duration_seconds = searchRes.songs[0].duration_seconds;
+            }
+          }
+        } catch (e) {
+          console.warn('Auto-resolving YouTube track failed:', e);
+        }
+      }
 
       if (ytId) {
         // High-definition YouTube Music streaming (Full 3-5+ minute tracks)
@@ -351,7 +368,7 @@ function createPlayerStore() {
           queueIndex: idx >= 0 ? idx : 0,
           state: 'loading',
           currentTime: 0,
-          duration: song.duration_seconds || 0,
+          duration: song.duration_seconds || 220,
           playbackEngine: 'youtube'
         }));
 
@@ -371,16 +388,19 @@ function createPlayerStore() {
           }
         });
       } else {
-        // Standard audio file playback via HTML Audio Element
+        // Fallback playback via HTML Audio Element only if direct audio_url is available
         update(s => ({
           ...s,
           currentSong: song,
           queue: queueToUse,
           queueIndex: idx >= 0 ? idx : 0,
           currentTime: 0,
-          duration: song.duration_seconds || 0,
-          playbackEngine: 'audio'
+          duration: song.duration_seconds || 220,
+          playbackEngine: 'audio',
+          state: 'loading'
         }));
+        playStartTime = Date.now();
+        updateMediaSession(song);
         playViaAudioEl(song);
       }
     },

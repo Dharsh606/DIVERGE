@@ -178,38 +178,76 @@ const FALLBACK_SONGS: Song[] = [
     acoustic_x: -0.15,
     acoustic_y: -0.75,
     acoustic_z: -0.42,
+  },
+  {
+    id: 109,
+    title: 'Neruppu Da',
+    youtube_id: 'Vqd2nyeyy-8',
+    artist: { id: 8, name: 'Santhosh Narayanan & Rajinikanth', bio: '', image_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/10/7c/49/107c4912-70b8-2a13-4628-97ff5f58da75/886445989182.jpg/600x600bb.jpg' },
+    album: { id: 18, title: 'Kabali (Original Motion Picture Soundtrack)', cover_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/10/7c/49/107c4912-70b8-2a13-4628-97ff5f58da75/886445989182.jpg/600x600bb.jpg', artist_id: 8, release_year: 2016 },
+    duration_seconds: 218,
+    audio_url: 'youtube:Vqd2nyeyy-8',
+    bpm: 128,
+    energy: 0.95,
+    valence: 0.70,
+    danceability: 0.82,
+    genre: 'Tamil Hits',
+    acoustic_x: 0.88,
+    acoustic_y: 0.12,
+    acoustic_z: 0.75,
+  },
+  {
+    id: 110,
+    title: 'Saahore Baahubali',
+    youtube_id: 'j__Q0RD1r-k',
+    artist: { id: 9, name: 'M.M. Keeravaani, Daler Mehndi', bio: '', image_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music118/v4/a9/9e/1f/a99e1f57-8dfc-0cf3-ca98-33bc21272719/886446487199.jpg/600x600bb.jpg' },
+    album: { id: 19, title: 'Baahubali 2: The Conclusion', cover_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music118/v4/a9/9e/1f/a99e1f57-8dfc-0cf3-ca98-33bc21272719/886446487199.jpg/600x600bb.jpg', artist_id: 9, release_year: 2017 },
+    duration_seconds: 202,
+    audio_url: 'youtube:j__Q0RD1r-k',
+    bpm: 115,
+    energy: 0.91,
+    valence: 0.85,
+    danceability: 0.71,
+    genre: 'Soundtrack',
+    acoustic_x: 0.72,
+    acoustic_y: 0.61,
+    acoustic_z: 0.80,
+  },
+  {
+    id: 111,
+    title: 'Badass',
+    youtube_id: 'aR-KAldshAE',
+    artist: { id: 2, name: 'Anirudh Ravichander', bio: '', image_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/d5/43/d3/d543d3b7-789a-0268-bc2d-5f3fc11fca31/8903431980890.jpg/600x600bb.jpg' },
+    album: { id: 20, title: 'Leo (Original Motion Picture Soundtrack)', cover_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/d5/43/d3/d543d3b7-789a-0268-bc2d-5f3fc11fca31/8903431980890.jpg/600x600bb.jpg', artist_id: 2, release_year: 2023 },
+    duration_seconds: 232,
+    audio_url: 'youtube:aR-KAldshAE',
+    bpm: 132,
+    energy: 0.96,
+    valence: 0.60,
+    danceability: 0.85,
+    genre: 'Tamil Hits',
+    acoustic_x: 0.92,
+    acoustic_y: -0.20,
+    acoustic_z: 0.65,
+  },
+  {
+    id: 112,
+    title: 'Naatu Naatu',
+    youtube_id: 'OsU0CGZoV8E',
+    artist: { id: 9, name: 'Rahul Sipligunj, Kaala Bhairava & M.M. Keeravaani', bio: '', image_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/eb/b1/7b/ebb17bb1-8e50-9831-29cf-82e143093282/8903431872881.jpg/600x600bb.jpg' },
+    album: { id: 21, title: 'RRR (Original Motion Picture Soundtrack)', cover_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/eb/b1/7b/ebb17bb1-8e50-9831-29cf-82e143093282/8903431872881.jpg/600x600bb.jpg', artist_id: 9, release_year: 2022 },
+    duration_seconds: 215,
+    audio_url: 'youtube:OsU0CGZoV8E',
+    bpm: 150,
+    energy: 0.98,
+    valence: 0.95,
+    danceability: 0.88,
+    genre: 'Telugu Hits',
+    acoustic_x: 0.80,
+    acoustic_y: 0.88,
+    acoustic_z: 0.70,
   }
 ];
-
-// Helper to map iTunes raw song to DIVERGE model
-function mapItunesTrack(item: any): Song {
-  const art600 = item.artworkUrl100
-    ? item.artworkUrl100.replace('100x100bb', '600x600bb').replace('100x100', '600x600')
-    : '';
-
-  // Generate deterministic pseudo acoustic coordinates from trackId
-  const idNum = Number(item.trackId) || 100;
-  const acoustic_x = Math.sin(idNum * 0.17);
-  const acoustic_y = Math.cos(idNum * 0.23);
-  const acoustic_z = Math.sin(idNum * 0.31);
-
-  return {
-    id: item.trackId,
-    title: item.trackName || 'Unknown Title',
-    artist: { id: item.artistId || 1, name: item.artistName || 'Unknown Artist', bio: '', image_url: '' },
-    album: { id: item.collectionId || 1, title: item.collectionName || item.trackName || '', cover_url: art600, artist_id: item.artistId || 1, release_year: 2024 },
-    duration_seconds: Math.round((item.trackTimeMillis || 180000) / 1000),
-    audio_url: item.previewUrl || '',
-    genre: item.primaryGenreName || 'Curated',
-    bpm: 120,
-    energy: 0.75,
-    valence: 0.65,
-    danceability: 0.70,
-    acoustic_x,
-    acoustic_y,
-    acoustic_z,
-  };
-}
 
 // ─── Auth ──────────────────────────────────────────────────────────────────
 

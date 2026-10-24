@@ -11,7 +11,6 @@
   let genres: string[] = [];
   let results: Song[] = [];
   let loading = false;
-  let debounceTimer: any = null;
 
   // Reactively track URL parameter changes from TopHeader or direct links
   $: urlQ = page.url.searchParams.get('q');
@@ -46,20 +45,6 @@
 
     executeSearch();
   });
-
-  function handleInput() {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => {
-      executeSearch();
-    }, 240);
-  }
-
-  function handleKeydown(e: KeyboardEvent) {
-    if (e.key === 'Enter') {
-      clearTimeout(debounceTimer);
-      executeSearch();
-    }
-  }
 
   async function executeSearch() {
     loading = true;
@@ -106,34 +91,35 @@
 </svelte:head>
 
 <div class="search-page">
-  <!-- Search input bar -->
-  <div class="search-bar-wrap">
-    <div class="search-input-box">
-      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-      </svg>
-      <input
-        type="search"
-        class="search-input"
-        placeholder="Search any song, movie, or artist (e.g. Baahubali, Kaththi, Arijit Singh, Anirudh)..."
-        bind:value={query}
-        on:input={handleInput}
-        on:keydown={handleKeydown}
-        aria-label="Search tracks"
-      />
-      {#if query}
-        <button
-          class="clear-btn"
-          on:click={() => {
-            query = '';
-            executeSearch();
-          }}
-          aria-label="Clear search"
-        >
-          &times;
-        </button>
+  <!-- Search Page Header Banner -->
+  <div class="search-hero">
+    <div class="search-hero-content">
+      {#if query.trim()}
+        <h1 class="search-hero-title">
+          Results for <span class="accent-text">"{query.trim()}"</span>
+        </h1>
+        <p class="search-hero-subtitle text-muted">
+          Found {results.length} full-length {results.length === 1 ? 'track' : 'tracks'}
+        </p>
+      {:else if selectedGenre}
+        <h1 class="search-hero-title">{selectedGenre} Showcase</h1>
+        <p class="search-hero-subtitle text-muted">Curated full-length tracks in this frequency band</p>
+      {:else}
+        <h1 class="search-hero-title">Search & Music Discovery</h1>
+        <p class="search-hero-subtitle text-muted">Explore movies, artists, and full-length releases via the top search bar</p>
       {/if}
     </div>
+    {#if query.trim()}
+      <button
+        class="btn btn-ghost btn-sm clear-query-btn"
+        on:click={() => {
+          query = '';
+          executeSearch();
+        }}
+      >
+        Clear Filter ✕
+      </button>
+    {/if}
   </div>
 
   <!-- Quick discovery pills -->
@@ -225,60 +211,36 @@
     padding-bottom: 2.5rem;
   }
 
-  .search-bar-wrap {
-    display: flex;
-    gap: 0.75rem;
-    width: 100%;
-  }
-
-  .search-input-box {
-    position: relative;
-    flex: 1;
+  .search-hero {
     display: flex;
     align-items: center;
-  }
-
-  .search-icon {
-    position: absolute;
-    left: 1.1rem;
-    width: 18px;
-    height: 18px;
-    color: var(--color-text-faint);
-    pointer-events: none;
-  }
-
-  .search-input {
-    width: 100%;
-    padding: 0.85rem 2.75rem 0.85rem 3rem;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    color: var(--color-text);
-    font-size: var(--text-base);
-    font-family: inherit;
-    transition: all var(--t-fast) ease;
+    border-radius: var(--radius-lg);
   }
 
-  .search-input:focus {
-    outline: none;
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(120, 75, 255, 0.2);
-    background: var(--color-surface-raised);
+  .search-hero-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin: 0;
   }
 
-  .clear-btn {
-    position: absolute;
-    right: 1rem;
-    background: none;
-    border: none;
-    color: var(--color-text-faint);
-    font-size: 1.25rem;
-    cursor: pointer;
-    line-height: 1;
-    padding: 0.2rem;
+  .accent-text {
+    background: linear-gradient(135deg, #784BFF 0%, #FF5C58 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
-  .clear-btn:hover {
-    color: var(--color-text);
+
+  .search-hero-subtitle {
+    font-size: var(--text-sm);
+    margin: 0.25rem 0 0 0;
+  }
+
+  .clear-query-btn {
+    flex-shrink: 0;
   }
 
   .quick-pills-row {
