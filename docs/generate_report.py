@@ -321,7 +321,7 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
         ["Audio Identity", "Generic album art only", "Deterministic generative Track DNA glyphs"],
         ["History Visualization", "Flat linear list of timestamps", "Branching Trace tree of divergent genre and mood shifts"],
         ["Offline Architecture", "Proprietary DRM or absent in web clients", "Open IndexedDB blob storage + Service Worker app shell"],
-        ["Design Aesthetic", "Generic AI templates & blurry glassmorphism", "Bespoke human-crafted design tokens from 3D logo with React Bits spotlight & border beam"]
+        ["Design Aesthetic", "Generic cookie-cutter templates & blurry glassmorphism", "Bespoke human-crafted design tokens from 3D logo with React Bits spotlight & border beam"]
     ]
     comparison_table_data = []
     for r_idx, row in enumerate(comparison_data):
