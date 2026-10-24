@@ -3,7 +3,7 @@ import type { RequestHandler } from './$types';
 import { searchYouTubeMusic } from '$lib/server/youtube';
 
 export const GET: RequestHandler = async ({ url }) => {
-  const query = url.searchParams.get('q') || '';
+  const query = url.searchParams.get('q') || url.searchParams.get('search') || '';
   const limit = Math.min(30, Math.max(1, Number(url.searchParams.get('limit') || 25)));
 
   if (!query.trim()) {

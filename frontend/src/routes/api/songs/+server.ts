@@ -4,7 +4,7 @@ import { searchYouTubeMusic } from '$lib/server/youtube';
 
 export const GET: RequestHandler = async ({ url }) => {
   const genre = url.searchParams.get('genre') || '';
-  const search = url.searchParams.get('search') || '';
+  const search = url.searchParams.get('search') || url.searchParams.get('q') || '';
   const limit = Math.min(30, Math.max(1, Number(url.searchParams.get('limit') || 20)));
   const page = Math.max(1, Number(url.searchParams.get('page') || 1));
 
