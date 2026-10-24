@@ -13,9 +13,6 @@ export default defineConfig({
 	},
 	plugins: [
 		sveltekit({
-			compilerOptions: {
-				runes: undefined
-			},
 			alias: {
 				'$lib': 'src/lib',
 				'$lib/*': 'src/lib/*'

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { page } from '$app/state';
+  import { page } from '$app/stores';
   import { songs as songsAPI, tags as tagsAPI, playlists as playlistsAPI } from '$lib/services/api';
   import type { Song, Playlist } from '$lib/types';
   import { player, formatTime } from '$lib/stores/player';
@@ -16,7 +16,7 @@
   let addedToPlaylistMsg = '';
   let copied = false;
 
-  $: songId = Number(page.params.id);
+  $: songId = Number($page.params.id);
 
   onMount(async () => {
     try {

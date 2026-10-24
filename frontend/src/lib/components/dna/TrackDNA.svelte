@@ -21,13 +21,13 @@
   }
 
   // Seed from stable song properties
-  $: seed = `${song.id}-${song.title}-${song.bpm}-${song.genre}`;
+  $: seed = song ? `${song.id || 1}-${song.title || ''}-${song.bpm || 120}-${song.genre || ''}` : 'track-dna-default';
   $: h = hash(seed);
 
   // Derive glyph parameters deterministically
-  $: energy  = song.energy_score  ?? (((h >> 0)  & 0xFF) / 255);
-  $: mood    = song.mood_score    ?? (((h >> 8)  & 0xFF) / 255);
-  $: bpmNorm = Math.min(song.bpm  / 200, 1) || (((h >> 16) & 0xFF) / 255);
+  $: energy  = song?.energy_score  ?? (((h >> 0)  & 0xFF) / 255);
+  $: mood    = song?.mood_score    ?? (((h >> 8)  & 0xFF) / 255);
+  $: bpmNorm = Math.min((song?.bpm || 120) / 200, 1) || (((h >> 16) & 0xFF) / 255);
 
   // Number of petals: 3–7 based on hash
   $: petals = 3 + ((h & 0x7) % 5);

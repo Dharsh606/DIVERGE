@@ -152,6 +152,10 @@ a:hover { opacity: 0.85; }
 .app-shell.sidebar-open {
   grid-template-columns: var(--sidebar-width) 1fr;
 }
+.app-shell.auth-mode {
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+}
 
 /* ─── Main Column & Content Area ─────────────────────────────────────────── */
 .main-column {
@@ -164,6 +168,9 @@ a:hover { opacity: 0.85; }
   overflow: hidden;
   position: relative;
 }
+.main-column.full-width {
+  grid-column: 1;
+}
 
 .main-content {
   flex: 1;
@@ -171,6 +178,9 @@ a:hover { opacity: 0.85; }
   overflow-x: hidden;
   padding: 1.5rem 2rem;
   scroll-padding-top: 0.85rem;
+}
+.main-content.no-pad {
+  padding: 0;
 }
 
 /* ─── Grounded Human Surfaces ───────────────────────────────────────────── */

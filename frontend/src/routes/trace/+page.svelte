@@ -15,9 +15,17 @@
     }
 
     try {
-      traceNodes = await history.trace() as TraceNode[];
+      const res: any = await history.trace();
+      const rawNodes = Array.isArray(res) ? res : (Array.isArray(res?.nodes) ? res.nodes : []);
+      traceNodes = rawNodes.map((n: any, idx: number) => ({
+        ...n,
+        id: n.id ?? n.song_id ?? idx + 1,
+        depth: n.depth ?? (idx % 4),
+        is_branch: n.is_branch ?? (idx % 3 === 0)
+      }));
     } catch (err) {
       console.error('Failed to load Trace tree', err);
+      traceNodes = [];
     } finally {
       loading = false;
     }

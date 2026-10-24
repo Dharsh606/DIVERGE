@@ -8,11 +8,11 @@
   export let queue: Song[] = [];
   export let compact = false; // list-view vs card-view
 
-  $: isCurrentSong = $player.currentSong?.id === song.id;
+  $: isCurrentSong = Boolean($player.currentSong?.id && song?.id && $player.currentSong.id === song.id);
   $: isPlaying = isCurrentSong && $player.state === 'playing';
-  $: isLiked = $likedSongs.some(
-    s => s.id === song?.id || (song?.youtube_id && s.youtube_id === song?.youtube_id)
-  );
+  $: isLiked = Boolean(song && $likedSongs.some(
+    s => (song.id && s.id === song.id) || (song.youtube_id && s.youtube_id === song.youtube_id)
+  ));
 
   function handlePlay() {
     if (isCurrentSong) {

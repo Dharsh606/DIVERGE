@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { page } from '$app/state';
+  import { page } from '$app/stores';
   import { playlists as playlistsAPI } from '$lib/services/api';
   import type { Playlist } from '$lib/types';
   import { player } from '$lib/stores/player';
@@ -10,7 +10,7 @@
   let loading = true;
   let errorMsg = '';
 
-  $: token = page.params.token;
+  $: token = $page.params.token || '';
 
   onMount(async () => {
     try {

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { page } from '$app/state';
+  import { page } from '$app/stores';
   import { isLoggedIn, currentUser } from '$lib/stores/auth';
   import { player } from '$lib/stores/player';
 
@@ -13,7 +13,7 @@
     { href: '/sessions',icon: 'session', label: 'Sessions' },
   ];
 
-  $: currentPath = page.url.pathname;
+  $: currentPath = $page.url.pathname;
 </script>
 
 <nav
