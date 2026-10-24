@@ -24,14 +24,14 @@
   }
 
   const quickPills = [
+    { label: '🔥 KGF & South Hits', q: 'KGF' },
     { label: 'Bollywood Hits', q: 'Arijit Singh' },
-    { label: 'Tamil & South', q: 'Anirudh Ravichander' },
+    { label: 'Tamil & Anirudh', q: 'Anirudh Ravichander' },
     { label: 'Punjabi Beats', q: 'Diljit Dosanjh' },
     { label: 'Telugu Melodies', q: 'Sid Sriram' },
     { label: 'A.R. Rahman', q: 'A.R. Rahman' },
     { label: 'World Pop', q: 'The Weeknd' },
-    { label: 'Alternative Rock', q: 'Coldplay' },
-    { label: 'Piano & Ambient', q: 'Ludovico Einaudi' }
+    { label: 'Coldplay & Alt', q: 'Coldplay' }
   ];
 
   onMount(async () => {
@@ -67,24 +67,22 @@
   async function executeSearch() {
     loading = true;
     try {
-      if (searchScope === 'live' || (query.trim().length > 0 && searchScope !== 'all')) {
-        const res = await songsAPI.searchLive(query.trim() || 'Indian Top Hits', 25);
-        results = res.songs || [];
-      } else {
-        // First search local PostgreSQL
+      const q = query.trim();
+      if (q.length > 0) {
+        // High-speed YouTube Music live search (sub-second response, full catalog)
+        const liveRes = await songsAPI.searchLive(q, 25);
+        results = liveRes.songs || [];
+      } else if (selectedGenre) {
         const res = await songsAPI.list({
-          search: query.trim() || undefined,
-          genre: selectedGenre || undefined,
+          genre: selectedGenre,
           limit: 30
         }) as PaginatedSongs;
-        
-        // If local has 0 matches and user typed a query, automatically fetch from live Indian & World catalog
-        if ((!res.songs || res.songs.length === 0) && query.trim().length > 2) {
-          const liveRes = await songsAPI.searchLive(query.trim(), 20);
-          results = liveRes.songs || [];
-        } else {
-          results = res.songs || [];
-        }
+        results = res.songs || [];
+      } else {
+        const res = await songsAPI.list({
+          limit: 30
+        }) as PaginatedSongs;
+        results = res.songs || [];
       }
     } catch (err) {
       console.error('Search failed', err);
@@ -163,7 +161,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
         <circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
       </svg>
-      <span>Live Network (Indian & World)</span>
+      <span>Live YouTube Music (Full Tracks)</span>
     </button>
   </div>
 
@@ -176,7 +174,7 @@
       <input
         type="search"
         class="search-input"
-        placeholder={searchScope === 'live' ? "Search any song, artist (e.g. Arijit Singh, Anirudh, Diljit, The Weeknd)..." : "Search local library catalog..."}
+        placeholder="Search any song, movie, or artist (e.g. KGF, Arijit Singh, Anirudh, Diljit, The Weeknd)..."
         bind:value={query}
         on:input={handleInput}
         aria-label="Search tracks"

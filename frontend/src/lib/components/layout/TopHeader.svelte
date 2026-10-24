@@ -32,12 +32,12 @@
   let supportSent = false;
 
   const quickPills = [
+    { label: '🔥 KGF Hits', q: 'KGF' },
     { label: 'Bollywood Hits', q: 'Arijit Singh' },
     { label: 'Tamil & South', q: 'Anirudh Ravichander' },
-    { label: 'Synthwave', q: 'Synthwave' },
     { label: 'A.R. Rahman', q: 'A.R. Rahman' },
-    { label: 'Lossless Hi-Fi', q: 'Lossless' },
-    { label: 'Lo-Fi Chill', q: 'Lo-Fi' }
+    { label: 'Synthwave', q: 'Synthwave' },
+    { label: 'Lossless Hi-Fi', q: 'The Weeknd' }
   ];
 
   // React to keyboard shortcuts: Ctrl+K / Cmd+K / / to focus search
@@ -76,7 +76,7 @@
     isSearching = true;
     searchDebounce = setTimeout(async () => {
       try {
-        const res = await songsAPI.list({ search: searchQuery.trim(), limit: 6 });
+        const res = await songsAPI.searchLive(searchQuery.trim(), 6);
         searchResults = res.songs || [];
       } catch (e) {
         console.error('Search error', e);

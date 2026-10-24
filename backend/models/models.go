@@ -61,6 +61,7 @@ type Song struct {
 	FilePath  string `json:"file_path"`  // local file if downloaded offline
 	FileSize  int64  `json:"file_size"`
 	JamendoID string `gorm:"uniqueIndex" json:"jamendo_id,omitempty"`
+	YouTubeID string `json:"youtube_id,omitempty"`
 	// Sound Canvas + Track DNA metadata
 	BPM           float64 `json:"bpm"`
 	MusicalKey    string  `json:"musical_key"`

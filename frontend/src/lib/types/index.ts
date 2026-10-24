@@ -28,20 +28,27 @@ export interface Album {
 export interface Song {
   id: number;
   title: string;
-  album_id: number;
+  album_id?: number;
   album?: Album;
-  artist_id: number;
+  artist_id?: number;
   artist?: Artist;
   duration_seconds: number;
   audio_url: string;
-  jamendo_id: string;
-  bpm: number;
-  musical_key: string;
-  energy_score: number;  // 0.0–1.0
-  mood_score: number;    // 0.0–1.0
-  tempo_category: 'slow' | 'mid' | 'fast';
-  genre: string;
-  share_token: string;
+  youtube_id?: string;
+  jamendo_id?: string;
+  bpm?: number;
+  musical_key?: string;
+  energy_score?: number;  // 0.0–1.0
+  mood_score?: number;    // 0.0–1.0
+  tempo_category?: 'slow' | 'mid' | 'fast';
+  genre?: string;
+  share_token?: string;
+  energy?: number;
+  valence?: number;
+  danceability?: number;
+  acoustic_x?: number;
+  acoustic_y?: number;
+  acoustic_z?: number;
 }
 
 export interface TrackDNA {

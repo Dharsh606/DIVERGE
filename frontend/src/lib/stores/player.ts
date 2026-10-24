@@ -1,5 +1,6 @@
 // DIVERGE — Music Player Store
 // Central state for playback: current song, queue, controls, position
+// Supports both HTML Audio and YouTube Music Player Engine for 100% full-length songs
 
 import { writable, derived, get } from 'svelte/store';
 import type { Song, PlayerState, RepeatMode } from '$lib/types';
@@ -18,11 +19,51 @@ interface PlayerStoreState {
   shuffle: boolean;
   repeat: RepeatMode;
   showFullscreen: boolean;
+  playbackEngine: 'youtube' | 'audio';
 }
 
-// The actual HTML Audio element — lives outside the store
 let audioEl: HTMLAudioElement | null = null;
+let ytPlayer: any = null;
+let ytIframeReady = false;
+let ytPendingVideoId: string | null = null;
+let ytScriptLoading = false;
+let tickerInterval: any = null;
 let playStartTime = 0;
+
+function extractYouTubeId(song: Song): string | null {
+  if (song.youtube_id && song.youtube_id.trim().length > 0) {
+    return song.youtube_id.trim();
+  }
+  if (song.audio_url) {
+    if (song.audio_url.startsWith('youtube:')) {
+      return song.audio_url.replace('youtube:', '').trim();
+    }
+    const match = song.audio_url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/))([\w-]{11})/);
+    if (match) return match[1];
+  }
+  return null;
+}
+
+function updateMediaSession(song: Song | null) {
+  if (typeof navigator !== 'undefined' && 'mediaSession' in navigator && song) {
+    try {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: song.title,
+        artist: song.artist?.name || 'DIVERGE Artist',
+        album: song.album?.title || 'DIVERGE Music',
+        artwork: [
+          {
+            src: song.album?.cover_url || '/logo.png',
+            sizes: '512x512',
+            type: 'image/jpeg'
+          }
+        ]
+      });
+    } catch {
+      // Ignore if MediaMetadata is restricted in some environments
+    }
+  }
+}
 
 function createPlayerStore() {
   const { subscribe, set, update } = writable<PlayerStoreState>({
@@ -37,7 +78,149 @@ function createPlayerStore() {
     shuffle: false,
     repeat: 'none',
     showFullscreen: false,
+    playbackEngine: 'youtube'
   });
+
+  function startTicker() {
+    stopTicker();
+    tickerInterval = setInterval(() => {
+      const s = get({ subscribe });
+      if (s.playbackEngine === 'youtube' && ytPlayer && ytIframeReady) {
+        try {
+          const cur = ytPlayer.getCurrentTime();
+          const dur = ytPlayer.getDuration();
+          update(st => ({
+            ...st,
+            currentTime: typeof cur === 'number' && !isNaN(cur) ? cur : st.currentTime,
+            duration: dur && dur > 0 ? dur : st.duration || st.currentSong?.duration_seconds || 0
+          }));
+        } catch {
+          // Player state transitioning
+        }
+      }
+    }, 250);
+  }
+
+  function stopTicker() {
+    if (tickerInterval) {
+      clearInterval(tickerInterval);
+      tickerInterval = null;
+    }
+  }
+
+  function initYouTube(): Promise<any> {
+    if (typeof window === 'undefined') return Promise.resolve(null);
+    if (ytPlayer && ytIframeReady) return Promise.resolve(ytPlayer);
+
+    return new Promise(resolve => {
+      // Ensure hidden container exists in document body
+      let container = document.getElementById('diverge-yt-container');
+      if (!container) {
+        container = document.createElement('div');
+        container.id = 'diverge-yt-container';
+        container.style.cssText =
+          'position: fixed; bottom: -9999px; left: -9999px; width: 200px; height: 200px; opacity: 0; pointer-events: none; z-index: -9999;';
+        const playerDiv = document.createElement('div');
+        playerDiv.id = 'diverge-yt-iframe';
+        container.appendChild(playerDiv);
+        document.body.appendChild(container);
+      }
+
+      const onAPIReady = () => {
+        if (ytPlayer) {
+          resolve(ytPlayer);
+          return;
+        }
+        try {
+          ytPlayer = new (window as any).YT.Player('diverge-yt-iframe', {
+            height: '200',
+            width: '200',
+            playerVars: {
+              autoplay: 1,
+              controls: 0,
+              disablekb: 1,
+              enablejsapi: 1,
+              fs: 0,
+              iv_load_policy: 3,
+              modestbranding: 1,
+              playsinline: 1,
+              rel: 0,
+              origin: window.location.origin
+            },
+            events: {
+              onReady: () => {
+                ytIframeReady = true;
+                const curVol = get({ subscribe }).volume;
+                ytPlayer.setVolume(curVol * 100);
+                if (get({ subscribe }).muted) ytPlayer.mute();
+
+                if (ytPendingVideoId) {
+                  const vid = ytPendingVideoId;
+                  ytPendingVideoId = null;
+                  ytPlayer.loadVideoById(vid, 0);
+                  ytPlayer.playVideo();
+                }
+                resolve(ytPlayer);
+              },
+              onStateChange: (event: any) => {
+                // -1 unstarted, 0 ended, 1 playing, 2 paused, 3 buffering, 5 cued
+                if (event.data === 1) {
+                  const dur = ytPlayer.getDuration();
+                  update(st => ({
+                    ...st,
+                    state: 'playing',
+                    duration: dur && dur > 0 ? dur : st.duration || st.currentSong?.duration_seconds || 0
+                  }));
+                  startTicker();
+                  updateMediaSession(get({ subscribe }).currentSong);
+                } else if (event.data === 2) {
+                  update(st => ({ ...st, state: 'paused' }));
+                  stopTicker();
+                } else if (event.data === 3) {
+                  update(st => ({ ...st, state: 'loading' }));
+                } else if (event.data === 0) {
+                  stopTicker();
+                  logCurrentPlay(true);
+                  store.next();
+                }
+              },
+              onError: (err: any) => {
+                console.warn('YouTube Player error code:', err?.data);
+                stopTicker();
+                const s = get({ subscribe });
+                if (s.currentSong?.audio_url && !s.currentSong.audio_url.startsWith('youtube:')) {
+                  // Fallback to HTML audio element
+                  playViaAudioEl(s.currentSong);
+                } else {
+                  update(st => ({ ...st, state: 'error' }));
+                }
+              }
+            }
+          });
+        } catch (e) {
+          console.warn('Error instantiating YT.Player:', e);
+          resolve(null);
+        }
+      };
+
+      if ((window as any).YT && (window as any).YT.Player) {
+        onAPIReady();
+      } else {
+        if (!ytScriptLoading) {
+          ytScriptLoading = true;
+          const tag = document.createElement('script');
+          tag.id = 'diverge-yt-script';
+          tag.src = 'https://www.youtube.com/iframe_api';
+          document.head.appendChild(tag);
+        }
+        const prev = (window as any).onYouTubeIframeAPIReady;
+        (window as any).onYouTubeIframeAPIReady = () => {
+          if (typeof prev === 'function') prev();
+          onAPIReady();
+        };
+      }
+    });
+  }
 
   function getAudio(): HTMLAudioElement {
     if (!audioEl) {
@@ -46,44 +229,77 @@ function createPlayerStore() {
       audioEl.volume = get({ subscribe }).volume;
 
       audioEl.addEventListener('timeupdate', () => {
-        update(s => ({ ...s, currentTime: audioEl!.currentTime }));
+        const s = get({ subscribe });
+        if (s.playbackEngine === 'audio') {
+          update(st => ({ ...st, currentTime: audioEl!.currentTime }));
+        }
       });
       audioEl.addEventListener('loadedmetadata', () => {
-        update(s => ({ ...s, duration: audioEl!.duration, state: 'playing' }));
+        const s = get({ subscribe });
+        if (s.playbackEngine === 'audio') {
+          update(st => ({ ...st, duration: audioEl!.duration, state: 'playing' }));
+        }
       });
       audioEl.addEventListener('play', () => {
-        update(s => ({ ...s, state: 'playing' }));
-        playStartTime = Date.now();
+        const s = get({ subscribe });
+        if (s.playbackEngine === 'audio') {
+          update(st => ({ ...st, state: 'playing' }));
+          playStartTime = Date.now();
+          updateMediaSession(s.currentSong);
+        }
       });
       audioEl.addEventListener('pause', () => {
-        update(s => ({ ...s, state: 'paused' }));
-        logCurrentPlay();
+        const s = get({ subscribe });
+        if (s.playbackEngine === 'audio') {
+          update(st => ({ ...st, state: 'paused' }));
+          logCurrentPlay();
+        }
       });
       audioEl.addEventListener('ended', () => {
-        logCurrentPlay(true);
-        store.next();
+        const s = get({ subscribe });
+        if (s.playbackEngine === 'audio') {
+          logCurrentPlay(true);
+          store.next();
+        }
       });
       audioEl.addEventListener('error', () => {
-        update(s => ({ ...s, state: 'error' }));
+        const s = get({ subscribe });
+        if (s.playbackEngine === 'audio') {
+          update(st => ({ ...st, state: 'error' }));
+        }
       });
       audioEl.addEventListener('waiting', () => {
-        update(s => ({ ...s, state: 'loading' }));
+        const s = get({ subscribe });
+        if (s.playbackEngine === 'audio') {
+          update(st => ({ ...st, state: 'loading' }));
+        }
       });
       audioEl.addEventListener('canplay', () => {
         const s = get({ subscribe });
-        if (s.state === 'loading') {
-          update(s => ({ ...s, state: 'playing' }));
+        if (s.playbackEngine === 'audio' && s.state === 'loading') {
+          update(st => ({ ...st, state: 'playing' }));
         }
       });
     }
     return audioEl;
   }
 
-  async function logCurrentPlay(completed = false) {
-    if (get(preferences).privateSession) {
-      // Private session active: skip logging play history & trace
-      return;
+  function playViaAudioEl(song: Song) {
+    stopTicker();
+    if (ytPlayer && ytIframeReady) {
+      try {
+        ytPlayer.pauseVideo();
+      } catch {}
     }
+    const audio = getAudio();
+    update(s => ({ ...s, playbackEngine: 'audio', state: 'loading' }));
+    audio.src = songsAPI.stream(song.id);
+    audio.load();
+    audio.play().catch(() => update(s => ({ ...s, state: 'error' })));
+  }
+
+  async function logCurrentPlay(completed = false) {
+    if (get(preferences).privateSession) return;
     const s = get({ subscribe });
     if (!s.currentSong) return;
     const duration = Math.round((Date.now() - playStartTime) / 1000);
@@ -91,66 +307,145 @@ function createPlayerStore() {
       await history.log({
         song_id: s.currentSong.id,
         play_duration_seconds: duration,
-        completed,
+        completed
       });
-    } catch { /* silent — don't break playback on history errors */ }
+    } catch {
+      /* silent */
+    }
+  }
+
+  // Bind navigator.mediaSession controls once
+  if (typeof navigator !== 'undefined' && 'mediaSession' in navigator) {
+    try {
+      navigator.mediaSession.setActionHandler('play', () => store.toggle());
+      navigator.mediaSession.setActionHandler('pause', () => store.toggle());
+      navigator.mediaSession.setActionHandler('previoustrack', () => store.prev());
+      navigator.mediaSession.setActionHandler('nexttrack', () => store.next());
+      navigator.mediaSession.setActionHandler('seekto', details => {
+        if (details.seekTime !== undefined) store.seek(details.seekTime);
+      });
+    } catch {}
   }
 
   const store = {
     subscribe,
 
-    // ─── Play a song directly ─────────────────────────────────────────────
+    // ─── Play a song directly (100% full song via YouTube Music engine) ───
     playSong(song: Song, queue: Song[] = []) {
-      const audio = getAudio();
       const queueToUse = queue.length ? queue : [song];
       const idx = queueToUse.findIndex(s => s.id === song.id);
 
-      update(s => ({
-        ...s,
-        currentSong: song,
-        queue: queueToUse,
-        queueIndex: idx >= 0 ? idx : 0,
-        state: 'loading',
-        currentTime: 0,
-        duration: 0,
-      }));
+      const ytId = extractYouTubeId(song);
 
-      audio.src = songsAPI.stream(song.id);
-      audio.load();
-      audio.play().catch(() => update(s => ({ ...s, state: 'error' })));
+      if (ytId) {
+        // High-definition YouTube Music streaming (Full 3-5+ minute tracks)
+        if (audioEl) {
+          audioEl.pause();
+          audioEl.currentTime = 0;
+        }
+
+        update(s => ({
+          ...s,
+          currentSong: song,
+          queue: queueToUse,
+          queueIndex: idx >= 0 ? idx : 0,
+          state: 'loading',
+          currentTime: 0,
+          duration: song.duration_seconds || 0,
+          playbackEngine: 'youtube'
+        }));
+
+        playStartTime = Date.now();
+        updateMediaSession(song);
+
+        initYouTube().then(player => {
+          if (player && ytIframeReady) {
+            try {
+              player.loadVideoById(ytId, 0);
+              player.playVideo();
+            } catch (e) {
+              console.warn('Failed to start YouTube video playback:', e);
+            }
+          } else {
+            ytPendingVideoId = ytId;
+          }
+        });
+      } else {
+        // Standard audio file playback via HTML Audio Element
+        update(s => ({
+          ...s,
+          currentSong: song,
+          queue: queueToUse,
+          queueIndex: idx >= 0 ? idx : 0,
+          currentTime: 0,
+          duration: song.duration_seconds || 0,
+          playbackEngine: 'audio'
+        }));
+        playViaAudioEl(song);
+      }
     },
 
     // ─── Play / Pause toggle ──────────────────────────────────────────────
     toggle() {
-      const audio = getAudio();
       const s = get({ subscribe });
-      if (s.state === 'playing') {
-        audio.pause();
-      } else if (s.currentSong) {
-        audio.play();
+      if (!s.currentSong) return;
+
+      if (s.playbackEngine === 'youtube' && ytPlayer && ytIframeReady) {
+        if (s.state === 'playing') {
+          ytPlayer.pauseVideo();
+        } else {
+          ytPlayer.playVideo();
+        }
+      } else {
+        const audio = getAudio();
+        if (s.state === 'playing') {
+          audio.pause();
+        } else {
+          audio.play();
+        }
       }
     },
 
     // ─── Seek ─────────────────────────────────────────────────────────────
     seek(time: number) {
-      const audio = getAudio();
-      audio.currentTime = time;
-      update(s => ({ ...s, currentTime: time }));
+      const s = get({ subscribe });
+      const targetTime = Math.max(0, time);
+
+      if (s.playbackEngine === 'youtube' && ytPlayer && ytIframeReady) {
+        try {
+          ytPlayer.seekTo(targetTime, true);
+          update(st => ({ ...st, currentTime: targetTime }));
+        } catch {}
+      } else {
+        const audio = getAudio();
+        audio.currentTime = targetTime;
+        update(st => ({ ...st, currentTime: targetTime }));
+      }
     },
 
     // ─── Volume ───────────────────────────────────────────────────────────
     setVolume(vol: number) {
-      const audio = getAudio();
       const clamped = Math.max(0, Math.min(1, vol));
-      audio.volume = clamped;
+      if (audioEl) audioEl.volume = clamped;
+      if (ytPlayer && ytIframeReady) {
+        try {
+          ytPlayer.setVolume(clamped * 100);
+        } catch {}
+      }
       update(s => ({ ...s, volume: clamped, muted: clamped === 0 }));
     },
 
     toggleMute() {
-      const audio = getAudio();
       const s = get({ subscribe });
-      audio.muted = !s.muted;
-      update(st => ({ ...st, muted: !st.muted }));
+      const nextMuted = !s.muted;
+      if (audioEl) audioEl.muted = nextMuted;
+      if (ytPlayer && ytIframeReady) {
+        try {
+          if (nextMuted) ytPlayer.mute();
+          else ytPlayer.unMute();
+        } catch {}
+      }
+      update(st => ({ ...st, muted: nextMuted }));
     },
 
     // ─── Next track ───────────────────────────────────────────────────────
@@ -176,17 +471,16 @@ function createPlayerStore() {
 
     // ─── Previous track ───────────────────────────────────────────────────
     prev() {
-      const audio = getAudio();
       const s = get({ subscribe });
-
-      // If more than 3s played, restart. Otherwise go previous.
       if (s.currentTime > 3) {
-        audio.currentTime = 0;
+        store.seek(0);
         return;
       }
 
       const prevIdx = Math.max(0, s.queueIndex - 1);
-      store.playSong(s.queue[prevIdx], s.queue);
+      if (s.queue[prevIdx]) {
+        store.playSong(s.queue[prevIdx], s.queue);
+      }
     },
 
     // ─── Shuffle toggle ───────────────────────────────────────────────────
@@ -239,7 +533,7 @@ function createPlayerStore() {
     // ─── Fullscreen player toggle ─────────────────────────────────────────
     toggleFullscreen() {
       update(s => ({ ...s, showFullscreen: !s.showFullscreen }));
-    },
+    }
   };
 
   return store;
@@ -254,7 +548,7 @@ export const progressPercent = derived(player, $p =>
 );
 
 export function formatTime(secs: number): string {
-  if (!secs || isNaN(secs)) return '0:00';
+  if (!secs || isNaN(secs) || secs < 0) return '0:00';
   const m = Math.floor(secs / 60);
   const s = Math.floor(secs % 60);
   return `${m}:${s.toString().padStart(2, '0')}`;

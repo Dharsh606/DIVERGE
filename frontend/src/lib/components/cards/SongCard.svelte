@@ -102,6 +102,9 @@
         {#if song.genre}
           <span class="badge badge-primary">{song.genre}</span>
         {/if}
+        {#if song.youtube_id || (song.duration_seconds && song.duration_seconds > 60)}
+          <span class="full-track-pill" title="100% Full Song • Hi-Fi Audio">Full Track</span>
+        {/if}
       </div>
       <p class="card-title text-ellipsis" title={song.title}>{song.title}</p>
       <p class="card-artist text-ellipsis text-muted" title={song.artist?.name}>{song.artist?.name ?? ''}</p>
@@ -269,7 +272,21 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 0.35rem;
     margin-bottom: 0.4rem;
+  }
+
+  .full-track-pill {
+    font-size: 0.6rem;
+    font-weight: 700;
+    padding: 0.12rem 0.4rem;
+    border-radius: 9999px;
+    background: rgba(120, 75, 255, 0.18);
+    color: #FFAE33;
+    border: 1px solid rgba(255, 174, 51, 0.35);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
   }
 
   .card-title {

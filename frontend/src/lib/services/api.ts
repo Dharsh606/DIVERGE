@@ -46,10 +46,11 @@ const FALLBACK_SONGS: Song[] = [
   {
     id: 101,
     title: 'Chaleya',
-    artist: { id: 1, name: 'Arijit Singh, Shilpa Rao & Anirudh Ravichander' },
-    album: { id: 10, title: 'Jawan (Original Motion Picture Soundtrack)', cover_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/a4/bc/f8/a4bcf84e-333e-b8d2-8be0-c75c87a55259/8902894361546.jpg/600x600bb.jpg' },
+    youtube_id: 'VAdGW7QDJiU',
+    artist: { id: 1, name: 'Arijit Singh, Shilpa Rao & Anirudh Ravichander', bio: '', image_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/a4/bc/f8/a4bcf84e-333e-b8d2-8be0-c75c87a55259/8902894361546.jpg/600x600bb.jpg' },
+    album: { id: 10, title: 'Jawan (Original Motion Picture Soundtrack)', cover_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/a4/bc/f8/a4bcf84e-333e-b8d2-8be0-c75c87a55259/8902894361546.jpg/600x600bb.jpg', artist_id: 1, release_year: 2023 },
     duration_seconds: 200,
-    audio_url: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/71/84/01/71840134-8c83-0975-f5ae-8f9215099238/mzaf_1773099908020846174.plus.aac.p.m4a',
+    audio_url: 'youtube:VAdGW7QDJiU',
     bpm: 108,
     energy: 0.74,
     valence: 0.82,
@@ -62,10 +63,11 @@ const FALLBACK_SONGS: Song[] = [
   {
     id: 102,
     title: 'Hukum - Thalaivar Alappara',
-    artist: { id: 2, name: 'Anirudh Ravichander' },
-    album: { id: 11, title: 'Jailer (Original Motion Picture Soundtrack)', cover_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/dc/8e/31/dc8e3170-13f5-7c15-ea81-a6783f8d6ea9/8903431976077.jpg/600x600bb.jpg' },
+    youtube_id: '1F3hm6MfR1k',
+    artist: { id: 2, name: 'Anirudh Ravichander', bio: '', image_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/dc/8e/31/dc8e3170-13f5-7c15-ea81-a6783f8d6ea9/8903431976077.jpg/600x600bb.jpg' },
+    album: { id: 11, title: 'Jailer (Original Motion Picture Soundtrack)', cover_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/dc/8e/31/dc8e3170-13f5-7c15-ea81-a6783f8d6ea9/8903431976077.jpg/600x600bb.jpg', artist_id: 2, release_year: 2023 },
     duration_seconds: 238,
-    audio_url: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/ae/2e/30/ae2e308f-7e8c-84d4-6510-6395dcdd4b82/mzaf_10444393666245136869.plus.aac.p.m4a',
+    audio_url: 'youtube:1F3hm6MfR1k',
     bpm: 130,
     energy: 0.94,
     valence: 0.68,
@@ -78,10 +80,11 @@ const FALLBACK_SONGS: Song[] = [
   {
     id: 103,
     title: 'Midnight City',
-    artist: { id: 3, name: 'M83' },
-    album: { id: 12, title: 'Hurry Up, We\'re Dreaming', cover_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/55/96/02/559602e1-4c6e-2144-ec8f-28c0b561fae4/724596951054.jpg/600x600bb.jpg' },
+    youtube_id: 'dX3k_QDnzHE',
+    artist: { id: 3, name: 'M83', bio: '', image_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/55/96/02/559602e1-4c6e-2144-ec8f-28c0b561fae4/724596951054.jpg/600x600bb.jpg' },
+    album: { id: 12, title: 'Hurry Up, We\'re Dreaming', cover_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/55/96/02/559602e1-4c6e-2144-ec8f-28c0b561fae4/724596951054.jpg/600x600bb.jpg', artist_id: 3, release_year: 2011 },
     duration_seconds: 243,
-    audio_url: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/33/c4/85/33c485eb-e362-d273-0599-236b2f4f228d/mzaf_17208365287421832431.plus.aac.p.m4a',
+    audio_url: 'youtube:dX3k_QDnzHE',
     bpm: 105,
     energy: 0.88,
     valence: 0.65,
@@ -94,10 +97,11 @@ const FALLBACK_SONGS: Song[] = [
   {
     id: 104,
     title: 'Kesariya',
-    artist: { id: 4, name: 'Arijit Singh & Pritam' },
-    album: { id: 13, title: 'Brahmastra (Original Motion Picture Soundtrack)', cover_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/ce/22/e2/ce22e28a-788b-ae00-c97b-bbd7e008fa97/196589332223.jpg/600x600bb.jpg' },
+    youtube_id: 'BddP6PYo2gs',
+    artist: { id: 4, name: 'Arijit Singh & Pritam', bio: '', image_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/ce/22/e2/ce22e28a-788b-ae00-c97b-bbd7e008fa97/196589332223.jpg/600x600bb.jpg' },
+    album: { id: 13, title: 'Brahmastra (Original Motion Picture Soundtrack)', cover_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/ce/22/e2/ce22e28a-788b-ae00-c97b-bbd7e008fa97/196589332223.jpg/600x600bb.jpg', artist_id: 4, release_year: 2022 },
     duration_seconds: 268,
-    audio_url: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview122/v4/c3/0f/6c/c30f6cbe-039c-bc4a-ae5a-db821b033d6b/mzaf_7829281781216503920.plus.aac.p.m4a',
+    audio_url: 'youtube:BddP6PYo2gs',
     bpm: 94,
     energy: 0.68,
     valence: 0.72,
@@ -110,10 +114,11 @@ const FALLBACK_SONGS: Song[] = [
   {
     id: 105,
     title: 'Blinding Lights',
-    artist: { id: 5, name: 'The Weeknd' },
-    album: { id: 14, title: 'After Hours', cover_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/d5/9c/0b/d59c0b11-5344-966e-6368-23c3b0eb2028/20UMGIM08204.rgb.jpg/600x600bb.jpg' },
+    youtube_id: '4NRXx6U8ABQ',
+    artist: { id: 5, name: 'The Weeknd', bio: '', image_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/d5/9c/0b/d59c0b11-5344-966e-6368-23c3b0eb2028/20UMGIM08204.rgb.jpg/600x600bb.jpg' },
+    album: { id: 14, title: 'After Hours', cover_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/d5/9c/0b/d59c0b11-5344-966e-6368-23c3b0eb2028/20UMGIM08204.rgb.jpg/600x600bb.jpg', artist_id: 5, release_year: 2020 },
     duration_seconds: 200,
-    audio_url: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/44/2e/0f/442e0fa5-3a05-592f-b44e-d67b2d28dc1c/mzaf_10672199042594611598.plus.aac.p.m4a',
+    audio_url: 'youtube:4NRXx6U8ABQ',
     bpm: 171,
     energy: 0.80,
     valence: 0.38,
@@ -126,10 +131,11 @@ const FALLBACK_SONGS: Song[] = [
   {
     id: 106,
     title: 'Jai Ho',
-    artist: { id: 6, name: 'A.R. Rahman, Sukhwinder Singh & Tanvi Shah' },
-    album: { id: 15, title: 'Slumdog Millionaire', cover_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music/v4/e5/22/e1/e522e17e-77d0-1c39-df06-a2dbd5a085b3/00602517926214.rgb.jpg/600x600bb.jpg' },
+    youtube_id: 'xwwAVRyNmgQ',
+    artist: { id: 6, name: 'A.R. Rahman, Sukhwinder Singh & Tanvi Shah', bio: '', image_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music/v4/e5/22/e1/e522e17e-77d0-1c39-df06-a2dbd5a085b3/00602517926214.rgb.jpg/600x600bb.jpg' },
+    album: { id: 15, title: 'Slumdog Millionaire', cover_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music/v4/e5/22/e1/e522e17e-77d0-1c39-df06-a2dbd5a085b3/00602517926214.rgb.jpg/600x600bb.jpg', artist_id: 6, release_year: 2008 },
     duration_seconds: 319,
-    audio_url: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/ba/65/59/ba6559b1-ec59-5f25-ce5a-3375836fa5a8/mzaf_3991206103347594950.plus.aac.p.m4a',
+    audio_url: 'youtube:xwwAVRyNmgQ',
     bpm: 135,
     energy: 0.92,
     valence: 0.89,
@@ -142,10 +148,11 @@ const FALLBACK_SONGS: Song[] = [
   {
     id: 107,
     title: 'Starboy',
-    artist: { id: 5, name: 'The Weeknd ft. Daft Punk' },
-    album: { id: 16, title: 'Starboy', cover_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/bf/f9/57/bff957ae-90aa-0847-f370-9883584d41fa/16UMGIM60601.rgb.jpg/600x600bb.jpg' },
+    youtube_id: '34Na4j8AVgA',
+    artist: { id: 5, name: 'The Weeknd ft. Daft Punk', bio: '', image_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/bf/f9/57/bff957ae-90aa-0847-f370-9883584d41fa/16UMGIM60601.rgb.jpg/600x600bb.jpg' },
+    album: { id: 16, title: 'Starboy', cover_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/bf/f9/57/bff957ae-90aa-0847-f370-9883584d41fa/16UMGIM60601.rgb.jpg/600x600bb.jpg', artist_id: 5, release_year: 2016 },
     duration_seconds: 230,
-    audio_url: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/ec/3b/b1/ec3bb1fb-789a-dc1d-ee31-01b3bfa09fbc/mzaf_6717592476579691949.plus.aac.p.m4a',
+    audio_url: 'youtube:34Na4j8AVgA',
     bpm: 186,
     energy: 0.59,
     valence: 0.49,
@@ -158,10 +165,11 @@ const FALLBACK_SONGS: Song[] = [
   {
     id: 108,
     title: 'Resonance',
-    artist: { id: 7, name: 'HOME' },
-    album: { id: 17, title: 'Odyssey', cover_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music4/v4/57/02/75/5702759e-1f74-3236-4191-c91fae5e6e30/859712711685_cover.jpg/600x600bb.jpg' },
+    youtube_id: '8GW6sLrK40k',
+    artist: { id: 7, name: 'HOME', bio: '', image_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music4/v4/57/02/75/5702759e-1f74-3236-4191-c91fae5e6e30/859712711685_cover.jpg/600x600bb.jpg' },
+    album: { id: 17, title: 'Odyssey', cover_url: 'https://is1-ssl.mzstatic.com/image/thumb/Music4/v4/57/02/75/5702759e-1f74-3236-4191-c91fae5e6e30/859712711685_cover.jpg/600x600bb.jpg', artist_id: 7, release_year: 2014 },
     duration_seconds: 212,
-    audio_url: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview114/v4/f5/66/d8/f566d871-2dc0-58fe-89dc-0639d6718d7f/mzaf_16887557165037180425.plus.aac.p.m4a',
+    audio_url: 'youtube:8GW6sLrK40k',
     bpm: 170,
     energy: 0.65,
     valence: 0.55,
@@ -268,6 +276,7 @@ export const songs = {
 
   stream: (id: number) => {
     const s = FALLBACK_SONGS.find(item => item.id === id);
+    if (s && s.youtube_id) return `youtube:${s.youtube_id}`;
     if (s && s.audio_url) return s.audio_url;
     return `${BASE}/songs/${id}/stream`;
   },
@@ -298,35 +307,43 @@ export const songs = {
     }
   },
 
-  searchLive: async (query: string, limit = 20): Promise<{ songs: Song[]; query: string; count: number }> => {
-    if (!query.trim()) {
+  searchLive: async (query: string, limit = 25): Promise<{ songs: Song[]; query: string; count: number }> => {
+    const cleanQ = query.trim();
+    if (!cleanQ) {
       return { songs: FALLBACK_SONGS.slice(0, limit), query: '', count: FALLBACK_SONGS.length };
     }
-    try {
-      return await request<{ songs: Song[]; query: string; count: number }>(
-        `/songs/live-search?q=${encodeURIComponent(query)}&limit=${limit}`
-      );
-    } catch {
-      // Live iTunes API query (Worldwide CDN, CORS enabled)
-      try {
-        const itunesUrl = `https://itunes.apple.com/search?term=${encodeURIComponent(query.trim())}&entity=song&limit=${limit}`;
-        const resp = await fetch(itunesUrl);
-        if (resp.ok) {
-          const data = await resp.json();
-          const mapped = (data.results || []).map(mapItunesTrack);
-          return { songs: mapped, query, count: mapped.length };
-        }
-      } catch (itunesErr) {
-        console.warn('iTunes direct query failed', itunesErr);
-      }
 
-      // Filter local fallback catalog
-      const q = query.toLowerCase();
-      const localMatches = FALLBACK_SONGS.filter(s =>
-        s.title.toLowerCase().includes(q) || s.artist?.name.toLowerCase().includes(q)
-      );
-      return { songs: localMatches, query, count: localMatches.length };
+    // 1. Primary: SvelteKit high-speed YouTube Music search endpoint (/api/search)
+    try {
+      const res = await fetch(`/api/search?q=${encodeURIComponent(cleanQ)}&limit=${limit}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && Array.isArray(data.songs) && data.songs.length > 0) {
+          return { songs: data.songs, query: cleanQ, count: data.songs.length };
+        }
+      }
+    } catch (e) {
+      // Fall through to backend or direct fallback
     }
+
+    // 2. Secondary: Go backend live-search endpoint (/api/songs/live-search)
+    try {
+      const res = await request<{ songs: Song[]; query: string; count: number }>(
+        `/songs/live-search?q=${encodeURIComponent(cleanQ)}&limit=${limit}`
+      );
+      if (res && Array.isArray(res.songs) && res.songs.length > 0) {
+        return res;
+      }
+    } catch {
+      // Fall through
+    }
+
+    // 3. Fallback: filter local curated catalog
+    const qLower = cleanQ.toLowerCase();
+    const localMatches = FALLBACK_SONGS.filter(s =>
+      s.title.toLowerCase().includes(qLower) || s.artist?.name.toLowerCase().includes(qLower)
+    );
+    return { songs: localMatches, query: cleanQ, count: localMatches.length };
   },
 
   genres: async (): Promise<string[]> => {
