@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import { songs as songsAPI } from '$lib/services/api';
   import type { Song, PaginatedSongs } from '$lib/types';
   import SongCard from '$lib/components/cards/SongCard.svelte';
@@ -14,7 +14,7 @@
   let debounceTimer: any = null;
 
   // Reactively track URL parameter changes from TopHeader or direct links
-  $: urlQ = $page.url.searchParams.get('q');
+  $: urlQ = page.url.searchParams.get('q');
   $: if (urlQ !== null && urlQ !== query) {
     query = urlQ;
     executeSearch();

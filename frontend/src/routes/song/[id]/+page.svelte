@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import { songs as songsAPI, tags as tagsAPI, playlists as playlistsAPI } from '$lib/services/api';
   import type { Song, Playlist } from '$lib/types';
   import { player, formatTime } from '$lib/stores/player';
@@ -16,7 +16,7 @@
   let addedToPlaylistMsg = '';
   let copied = false;
 
-  $: songId = Number($page.params.id);
+  $: songId = Number(page.params.id);
 
   onMount(async () => {
     try {
@@ -148,7 +148,7 @@
     <div class="stats-grid">
       <div class="stat-card card">
         <span class="stat-label text-muted">BPM</span>
-        <span class="stat-value">{song.bpm}</span>
+        <span class="stat-value">{song.bpm ?? 120}</span>
       </div>
       <div class="stat-card card">
         <span class="stat-label text-muted">Musical Key</span>
@@ -156,11 +156,11 @@
       </div>
       <div class="stat-card card">
         <span class="stat-label text-muted">Energy Score</span>
-        <span class="stat-value">{(song.energy_score * 100).toFixed(0)}%</span>
+        <span class="stat-value">{typeof song.energy_score === 'number' ? (song.energy_score * 100).toFixed(0) : '75'}%</span>
       </div>
       <div class="stat-card card">
         <span class="stat-label text-muted">Mood Valence</span>
-        <span class="stat-value">{(song.mood_score * 100).toFixed(0)}%</span>
+        <span class="stat-value">{typeof song.mood_score === 'number' ? (song.mood_score * 100).toFixed(0) : '65'}%</span>
       </div>
       <div class="stat-card card">
         <span class="stat-label text-muted">Duration</span>

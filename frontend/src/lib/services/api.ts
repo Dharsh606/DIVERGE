@@ -196,8 +196,8 @@ function mapItunesTrack(item: any): Song {
   return {
     id: item.trackId,
     title: item.trackName || 'Unknown Title',
-    artist: { id: item.artistId || 1, name: item.artistName || 'Unknown Artist' },
-    album: { id: item.collectionId || 1, title: item.collectionName || item.trackName || '', cover_url: art600 },
+    artist: { id: item.artistId || 1, name: item.artistName || 'Unknown Artist', bio: '', image_url: '' },
+    album: { id: item.collectionId || 1, title: item.collectionName || item.trackName || '', cover_url: art600, artist_id: item.artistId || 1, release_year: 2024 },
     duration_seconds: Math.round((item.trackTimeMillis || 180000) / 1000),
     audio_url: item.previewUrl || '',
     genre: item.primaryGenreName || 'Curated',
@@ -257,9 +257,11 @@ export const songs = {
       }
       return {
         songs: list,
-        total: list.length,
-        page: params.page || 1,
-        limit: params.limit || 20,
+        meta: {
+          total: list.length,
+          page: params.page || 1,
+          limit: params.limit || 20,
+        }
       };
     }
   },

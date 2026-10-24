@@ -90,6 +90,7 @@ function createAuthStore() {
           id: 1,
           username: cleanName.charAt(0).toUpperCase() + cleanName.slice(1),
           email: email,
+          avatar_url: '',
           created_at: new Date().toISOString()
         };
       }
@@ -122,6 +123,7 @@ function createAuthStore() {
           id: Date.now(),
           username: username.trim() || email.split('@')[0],
           email: email.trim(),
+          avatar_url: '',
           created_at: new Date().toISOString()
         };
       }

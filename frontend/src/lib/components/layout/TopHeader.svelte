@@ -941,16 +941,6 @@
     font-weight: 600;
   }
 
-  .view-all-link {
-    background: none;
-    border: none;
-    color: var(--color-accent);
-    font-weight: 600;
-    cursor: pointer;
-    font-size: var(--text-xs);
-  }
-  .view-all-link:hover { text-decoration: underline; }
-
   .instant-results-list {
     display: flex;
     flex-direction: column;

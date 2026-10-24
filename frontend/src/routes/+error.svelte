@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
 </script>
 
 <svelte:head>
@@ -18,11 +18,11 @@
       <span>Off-Route Destination</span>
     </div>
 
-    <h1 class="error-code">{$page.status || 404}</h1>
+    <h1 class="error-code">{page.status || 404}</h1>
     <h2 class="error-title">Sonic Drift Detected</h2>
     <p class="error-desc">
-      {$page.error?.message && $page.error.message !== 'Internal Error' && !$page.error.message.includes('\n')
-        ? $page.error.message
+      {page.error?.message && page.error.message !== 'Internal Error' && !page.error.message.includes('\n')
+        ? page.error.message
         : 'The frequency you are tuned into could not be resolved. Let us guide you back to the main discovery flow.'}
     </p>
 

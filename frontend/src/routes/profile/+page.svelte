@@ -22,7 +22,8 @@
         history.trace().catch(() => ({ nodes: [] }))
       ]);
       userPlaylists = plist as Playlist[];
-      historyCount = hist?.nodes ? hist.nodes.length : 0;
+      const histData = hist as { nodes?: any[] };
+      historyCount = histData?.nodes ? histData.nodes.length : 0;
     } catch {
       // Graceful fallback
     } finally {

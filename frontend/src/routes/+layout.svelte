@@ -1,7 +1,7 @@
 <script lang="ts">
   import '../app.css';
   import { onMount } from 'svelte';
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import { authStore } from '$lib/stores/auth';
   import Sidebar from '$lib/components/layout/Sidebar.svelte';
   import TopHeader from '$lib/components/layout/TopHeader.svelte';
@@ -10,8 +10,7 @@
 
   let sidebarOpen = false;
 
-  // Pages that don't show the standard shell chrome
-  $: currentPath = $page.url.pathname;
+  $: currentPath = page.url.pathname;
   $: isAuthPage = currentPath.startsWith('/login') ||
                   currentPath.startsWith('/register') ||
                   currentPath.startsWith('/signup') ||

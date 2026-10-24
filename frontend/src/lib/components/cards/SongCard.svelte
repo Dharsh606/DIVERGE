@@ -328,19 +328,6 @@
     margin-bottom: 0.4rem;
   }
 
-  .full-track-pill {
-    font-size: 0.6rem;
-    font-weight: 700;
-    padding: 0.12rem 0.4rem;
-    border-radius: 9999px;
-    background: rgba(120, 75, 255, 0.18);
-    color: #FFAE33;
-    border: 1px solid rgba(255, 174, 51, 0.35);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-
   .card-title {
     font-size: var(--text-sm);
     font-weight: 600;

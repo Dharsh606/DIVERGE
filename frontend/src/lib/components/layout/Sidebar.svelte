@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import { isLoggedIn, currentUser } from '$lib/stores/auth';
   import { player } from '$lib/stores/player';
 
@@ -12,8 +12,6 @@
     { href: '/trace',   icon: 'trace',   label: 'Trace' },
     { href: '/sessions',icon: 'session', label: 'Sessions' },
   ];
-
-  $: currentPath = $page.url.pathname;
 </script>
 
 <nav
@@ -40,6 +38,7 @@
   <!-- Nav links -->
   <ul class="nav-list" role="list">
     {#each navItems as item}
+      {@const currentPath = page.url.pathname}
       {@const isActive = currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href))}
       <li>
         <a
@@ -58,9 +57,9 @@
             {:else if item.icon === 'library'}
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
             {:else if item.icon === 'heart'}
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              <svg viewBox="0 0 24 24" fill="#FF5C58" stroke="#FF5C58" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
             {:else if item.icon === 'trace'}
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 L12 12 M12 12 L6 18 M12 12 L18 18"/><circle cx="12" cy="2" r="1.5"/><circle cx="6" cy="18" r="1.5"/><circle cx="18" cy="18" r="1.5"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
             {:else if item.icon === 'session'}
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             {/if}
@@ -73,21 +72,30 @@
     {/each}
   </ul>
 
-  <!-- Bottom: user / login -->
+  <!-- Bottom section with user profile link or login prompt -->
   <div class="sidebar-footer">
     {#if $isLoggedIn && $currentUser}
-      <a href="/profile" class="user-chip" class:compact={!open} data-tooltip={!open ? $currentUser.username : undefined}>
-        <div class="user-avatar">
-          {$currentUser.username[0].toUpperCase()}
-        </div>
+      <a href="/profile" class="user-chip" class:open>
+        {#if $currentUser.avatar_url}
+          <img src={$currentUser.avatar_url} alt={$currentUser.username} class="avatar avatar-sm" />
+        {:else}
+          <div class="avatar avatar-sm avatar-placeholder">
+            {$currentUser.username.charAt(0).toUpperCase()}
+          </div>
+        {/if}
         {#if open}
-          <span class="user-name">{$currentUser.username}</span>
+          <div class="user-meta text-ellipsis">
+            <span class="username text-ellipsis">{$currentUser.username}</span>
+            <span class="user-sub text-muted text-xs">Profile</span>
+          </div>
         {/if}
       </a>
     {:else}
-      <a href="/login" class="btn btn-ghost login-btn" class:compact={!open} data-tooltip={!open ? 'Log in' : undefined}>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-        {#if open}<span>Log in</span>{/if}
+      <a href="/login" class="login-prompt-btn" class:open>
+        <span class="avatar avatar-sm avatar-placeholder">?</span>
+        {#if open}
+          <span class="text-sm">Sign in</span>
+        {/if}
       </a>
     {/if}
   </div>
@@ -95,22 +103,29 @@
 
 <style>
   .sidebar {
-    grid-row: 1;
-    grid-column: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 1rem 0;
+    width: var(--sidebar-collapsed);
     background: var(--color-surface);
     border-right: 1px solid var(--color-border);
-    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     transition: width var(--t-normal) var(--ease-out-expo);
-    z-index: 10;
+    overflow: hidden;
+    position: relative;
+    z-index: 20;
+    user-select: none;
+    box-shadow: 2px 0 16px rgba(0, 0, 0, 0.4);
   }
 
+  .sidebar.open {
+    width: var(--sidebar-width);
+  }
+
+  /* ── Header / Logo ──────────────────────────────────────────────────────── */
   .sidebar-header {
-    padding: 0 0.75rem 1rem;
-    border-bottom: 1px solid var(--color-border-subtle);
-    margin-bottom: 0.5rem;
+    padding: 1.15rem 0.85rem;
+    display: flex;
+    align-items: center;
   }
 
   .logo-btn {
@@ -120,142 +135,143 @@
     background: none;
     border: none;
     cursor: pointer;
-    padding: 0.5rem;
-    border-radius: var(--radius-sm);
+    padding: 0;
+    color: var(--color-text);
     width: 100%;
-    transition: background var(--t-fast) ease;
+    text-align: left;
+    outline: none;
   }
-  .logo-btn:hover { background: var(--color-surface-raised); }
 
   .logo-mark {
-    width: 31px;
-    height: 31px;
+    width: 32px;
+    height: 32px;
     object-fit: contain;
     flex-shrink: 0;
+    filter: drop-shadow(0 2px 8px rgba(120, 75, 255, 0.35));
+    transition: transform var(--t-normal) var(--ease-out-expo);
+  }
+
+  .logo-btn:hover .logo-mark {
+    transform: scale(1.08) rotate(-4deg);
   }
 
   .logo-wordmark {
-    font-size: 0.82rem;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    color: var(--color-text);
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    background: linear-gradient(135deg, #FFFFFF 0%, #C4AEFF 55%, #FFA39E 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     white-space: nowrap;
   }
 
+  /* ── Navigation List ────────────────────────────────────────────────────── */
   .nav-list {
     list-style: none;
-    flex: 1;
-    padding: 0 0.45rem;
+    padding: 0.5rem 0.65rem;
     display: flex;
     flex-direction: column;
-    gap: 3px;
-    overflow-y: auto;
+    gap: 0.35rem;
+    flex: 1;
   }
 
   .nav-item {
     display: flex;
     align-items: center;
-    gap: 0.7rem;
-    padding: 0.58rem 0.72rem;
-    border-radius: var(--radius-sm);
+    gap: 0.85rem;
+    padding: 0.65rem 0.75rem;
+    border-radius: var(--radius-md);
     color: var(--color-text-muted);
-    font-size: var(--text-sm);
-    font-weight: 500;
-    transition:
-      background var(--t-fast) ease,
-      color var(--t-fast) ease,
-      border-color var(--t-fast) ease;
-    text-decoration: none;
+    transition: color var(--t-fast), background var(--t-fast);
+    position: relative;
     white-space: nowrap;
-    border: 1px solid transparent;
+    outline: none;
   }
+
   .nav-item:hover {
-    background: var(--color-surface-raised);
     color: var(--color-text);
-    border-color: var(--color-border-subtle);
+    background: var(--color-surface-raised);
   }
+
   .nav-item.active {
+    color: var(--color-text);
     background: var(--color-primary-dim);
-    color: #FFFFFF;
-    font-weight: 600;
-    border-color: rgba(120, 75, 255, 0.25);
+    box-shadow: inset 0 0 0 1px var(--color-primary-glow);
   }
-  .nav-item.active .nav-icon svg {
-    stroke: var(--color-primary);
+
+  .nav-item.active .nav-icon {
+    color: var(--color-primary);
   }
 
   .nav-icon {
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
   }
+
   .nav-icon svg {
-    width: 20px;
-    height: 20px;
+    width: 19px;
+    height: 19px;
   }
 
   .nav-label {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    font-size: var(--text-sm);
+    font-weight: 500;
   }
 
+  /* ── Footer ─────────────────────────────────────────────────────────────── */
   .sidebar-footer {
-    padding: 0.75rem 0.75rem 0;
-    border-top: 1px solid var(--color-border-subtle);
-    margin-top: auto;
+    padding: 0.85rem 0.65rem;
+    border-top: 1px solid var(--color-border);
   }
 
-  .user-chip {
+  .user-chip, .login-prompt-btn {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.5rem;
-    border-radius: var(--radius-sm);
-    text-decoration: none;
-    transition: background var(--t-fast) ease;
+    padding: 0.45rem;
+    border-radius: var(--radius-md);
     color: var(--color-text-muted);
-    border: 1px solid transparent;
+    text-decoration: none;
+    transition: background var(--t-fast);
+    overflow: hidden;
   }
-  .user-chip:hover {
-    background: var(--color-surface-raised);
-    border-color: var(--color-border-subtle);
-  }
-  .user-chip.compact { justify-content: center; }
 
-  .user-avatar {
-    width: 32px;
-    height: 32px;
+  .user-chip:hover, .login-prompt-btn:hover {
+    background: var(--color-surface-raised);
+    color: var(--color-text);
+  }
+
+  .avatar {
+    width: 30px;
+    height: 30px;
     border-radius: var(--radius-full);
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .avatar-placeholder {
     background: var(--color-primary);
-    color: #FFFFFF;
-    font-weight: 700;
-    font-size: var(--text-xs);
+    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    font-size: 0.85rem;
+    font-weight: 700;
   }
 
-  .user-name {
+  .user-meta {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .username {
     font-size: var(--text-sm);
     font-weight: 600;
     color: var(--color-text);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .login-btn {
-    width: 100%;
-    justify-content: center;
-  }
-  .login-btn.compact {
-    padding: 0.5rem;
-    width: auto;
   }
 </style>

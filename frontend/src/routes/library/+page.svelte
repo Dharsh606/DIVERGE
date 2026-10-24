@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import { playlists as playlistsAPI, tags as tagsAPI } from '$lib/services/api';
   import type { Playlist, ContextTag } from '$lib/types';
   import { isLoggedIn } from '$lib/stores/auth';
@@ -19,7 +19,7 @@
   let activeTab: 'liked' | 'playlists' | 'tags' | 'offline' = 'liked';
   let copiedId: number | null = null;
 
-  $: paramTab = $page.url.searchParams.get('tab');
+  $: paramTab = page.url.searchParams.get('tab');
   $: if (
     paramTab === 'liked' ||
     paramTab === 'playlists' ||
