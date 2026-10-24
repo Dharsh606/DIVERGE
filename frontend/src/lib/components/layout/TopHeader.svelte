@@ -5,6 +5,7 @@
   import { browser } from '$app/environment';
   import { songs as songsAPI } from '$lib/services/api';
   import { player } from '$lib/stores/player';
+  import { searchStore } from '$lib/stores/search';
   import { authStore, isLoggedIn, currentUser } from '$lib/stores/auth';
   import { guestStore } from '$lib/stores/guest';
   import { preferences, availableDevices } from '$lib/stores/preferences';
@@ -13,15 +14,17 @@
   // Search state
   let searchQuery = '';
   let searchFocused = false;
-  let searchResults: Song[] = [];
-  let isSearching = false;
-  let searchDebounce: any = null;
   let searchInputEl: HTMLInputElement;
 
-  // Sync search input with ?q= parameter on /search page
+  // Reactively bind to central searchStore
+  $: searchResults = $searchStore.results.slice(0, 8);
+  $: isSearching = $searchStore.loading;
+
+  // Sync search input with ?q= parameter on /search page or direct external links
   $: currentUrlQ = page.url.searchParams.get('q');
   $: if (currentUrlQ !== null && page.url.pathname === '/search' && !searchFocused && searchQuery !== currentUrlQ) {
     searchQuery = currentUrlQ;
+    searchStore.setQuery(currentUrlQ, true);
   }
 
   // Account dropdown state
@@ -39,13 +42,17 @@
   let supportSent = false;
 
   const quickPills = [
-    { label: 'Bollywood Hits', q: 'Arijit Singh' },
-    { label: 'Tamil Hits', q: 'Anirudh Ravichander' },
-    { label: 'Punjabi Beats', q: 'Diljit Dosanjh' },
-    { label: 'Telugu Hits', q: 'Sid Sriram' },
+    { label: 'Bollywood Hits', q: 'Bollywood Hits' },
+    { label: 'Tamil Hits', q: 'Tamil Hits' },
+    { label: 'Telugu Hits', q: 'Telugu Hits' },
+    { label: 'Kannada Hits', q: 'Kannada Hits' },
+    { label: 'Punjabi Beats', q: 'Punjabi Hits' },
+    { label: 'Hip Hop / Rap', q: 'Hip Hop India' },
     { label: 'A.R. Rahman', q: 'A.R. Rahman' },
-    { label: 'Synthwave', q: 'Synthwave' },
-    { label: 'Lo-Fi Chill', q: 'Lo-Fi' }
+    { label: 'Anirudh Hits', q: 'Anirudh Ravichander' },
+    { label: 'World Pop', q: 'World Pop Hits' },
+    { label: 'Country', q: 'Country Music' },
+    { label: 'Lo-Fi Chill', q: 'Lo-Fi Chill' }
   ];
 
   // React to keyboard shortcuts: Ctrl+K / Cmd+K / / to focus search
@@ -74,48 +81,44 @@
   }
 
   function handleSearchInput() {
-    clearTimeout(searchDebounce);
-    if (!searchQuery.trim()) {
-      searchResults = [];
-      isSearching = false;
-      return;
-    }
-
-    isSearching = true;
-    searchDebounce = setTimeout(async () => {
-      try {
-        const res = await songsAPI.searchLive(searchQuery.trim(), 6);
-        searchResults = res.songs || [];
-      } catch (e) {
-        console.error('Search error', e);
-      } finally {
-        isSearching = false;
-      }
-    }, 240);
+    searchStore.setQuery(searchQuery);
   }
 
   function selectPill(q: string) {
     searchQuery = q;
-    handleSearchInput();
+    searchStore.setQuery(q, true);
     searchInputEl?.focus();
+    if (page.url.pathname !== '/search') {
+      goto(`/search?q=${encodeURIComponent(q)}`);
+    } else {
+      window.history.replaceState(null, '', `/search?q=${encodeURIComponent(q)}`);
+    }
   }
 
   function playSearchResult(s: Song) {
-    player.playSong(s, searchResults);
+    player.playSong(s, $searchStore.results);
     searchFocused = false;
   }
 
   function submitSearch() {
     if (searchQuery.trim()) {
-      goto(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      searchStore.setQuery(searchQuery.trim(), true);
       searchFocused = false;
+      if (page.url.pathname !== '/search') {
+        goto(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      } else {
+        window.history.replaceState(null, '', `/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      }
     }
   }
 
   function clearSearch() {
     searchQuery = '';
-    searchResults = [];
+    searchStore.clear();
     searchInputEl?.focus();
+    if (page.url.pathname === '/search') {
+      window.history.replaceState(null, '', '/search');
+    }
   }
 
   function toggleAccountMenu() {
@@ -204,7 +207,7 @@
       <div class="search-dropdown-hub">
         <!-- Quick Vibe Pills -->
         <div class="quick-pills-row">
-          <span class="pills-title">Quick Vibe:</span>
+          <span class="pills-title">Trending:</span>
           {#each quickPills as pill}
             <button
               class="vibe-pill"
@@ -267,9 +270,9 @@
               </div>
             {:else}
               <div class="no-results-box">
-                <p>No local matches for "{searchQuery}".</p>
+                <p>No tracks found for "{searchQuery}".</p>
                 <button class="btn btn-primary btn-sm" on:click={submitSearch}>
-                  Search Live World Catalog
+                  Search Full Catalog
                 </button>
               </div>
             {/if}

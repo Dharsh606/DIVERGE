@@ -1,37 +1,50 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { page } from '$app/state';
+  import { searchStore } from '$lib/stores/search';
   import { songs as songsAPI } from '$lib/services/api';
-  import type { Song, PaginatedSongs } from '$lib/types';
   import SongCard from '$lib/components/cards/SongCard.svelte';
   import { player } from '$lib/stores/player';
 
-  let query = '';
-  let selectedGenre = '';
-  let genres: string[] = [];
-  let results: Song[] = [];
-  let loading = false;
-
-  // Reactively track URL parameter changes from TopHeader or direct links
-  $: urlQ = page.url.searchParams.get('q');
-  $: if (urlQ !== null && urlQ !== query) {
-    query = urlQ;
-    executeSearch();
-  }
+  let genres: string[] = [
+    'Bollywood',
+    'Tamil Hits',
+    'Telugu Hits',
+    'Kannada Hits',
+    'Punjabi Beats',
+    'Hip Hop',
+    'Indian Hits',
+    'World Pop',
+    'A.R. Rahman',
+    'Soundtrack',
+    'Lo-Fi Chill',
+    'Country'
+  ];
 
   const quickPills = [
-    { label: 'Bollywood Hits', q: 'Arijit Singh' },
-    { label: 'Tamil Hits', q: 'Anirudh Ravichander' },
-    { label: 'Punjabi Beats', q: 'Diljit Dosanjh' },
-    { label: 'Telugu Hits', q: 'Sid Sriram' },
+    { label: 'Bollywood Hits', q: 'Bollywood Hits' },
+    { label: 'Tamil Hits', q: 'Tamil Hits' },
+    { label: 'Telugu Hits', q: 'Telugu Hits' },
+    { label: 'Kannada Hits', q: 'Kannada Hits' },
+    { label: 'Punjabi Beats', q: 'Punjabi Hits' },
+    { label: 'Hip Hop / Rap', q: 'Hip Hop India' },
     { label: 'A.R. Rahman', q: 'A.R. Rahman' },
-    { label: 'World Pop', q: 'The Weeknd' },
-    { label: 'Lo-Fi Chill', q: 'Lo-Fi' }
+    { label: 'Anirudh Hits', q: 'Anirudh Ravichander' },
+    { label: 'World Pop', q: 'World Pop Hits' },
+    { label: 'Soundtrack', q: 'Movie Soundtracks' },
+    { label: 'Country', q: 'Country Music' },
+    { label: 'Lo-Fi Chill', q: 'Lo-Fi Chill' }
   ];
+
+  $: query = $searchStore.query;
+  $: selectedGenre = $searchStore.selectedGenre;
+  $: results = $searchStore.results;
+  $: loading = $searchStore.loading;
 
   onMount(async () => {
     try {
-      genres = await songsAPI.genres();
+      const g = await songsAPI.genres();
+      if (g && g.length > 0) genres = g;
     } catch (e) {
       console.error('Failed to load genres', e);
     }
@@ -40,48 +53,32 @@
     const initialQuery = urlParams.get('q');
     const initialGenre = urlParams.get('genre');
 
-    if (initialQuery) query = initialQuery;
-    if (initialGenre) selectedGenre = initialGenre;
-
-    executeSearch();
+    if (initialQuery) {
+      searchStore.setQuery(initialQuery, true);
+    } else if (initialGenre) {
+      searchStore.setGenre(initialGenre);
+    } else if (!results.length) {
+      searchStore.refresh();
+    }
   });
 
-  async function executeSearch() {
-    loading = true;
-    const cleanQ = query.trim();
-    try {
-      if (cleanQ.length > 0) {
-        // High-speed search returning full-length master tracks
-        const liveRes = await songsAPI.searchLive(cleanQ, 30);
-        results = liveRes.songs || [];
-      } else if (selectedGenre) {
-        const res = (await songsAPI.list({
-          genre: selectedGenre,
-          limit: 30
-        })) as PaginatedSongs;
-        results = res.songs || [];
-      } else {
-        const res = (await songsAPI.list({
-          limit: 30
-        })) as PaginatedSongs;
-        results = res.songs || [];
-      }
-    } catch (err) {
-      console.error('Search failed', err);
-    } finally {
-      loading = false;
+  function applyQuickPill(q: string) {
+    searchStore.setQuery(q, true);
+    window.history.replaceState(null, '', `/search?q=${encodeURIComponent(q)}`);
+  }
+
+  function selectGenre(g: string) {
+    searchStore.setGenre(g);
+    if (g) {
+      window.history.replaceState(null, '', `/search?genre=${encodeURIComponent(g)}`);
+    } else {
+      window.history.replaceState(null, '', '/search');
     }
   }
 
-  function applyQuickPill(q: string) {
-    query = q;
-    selectedGenre = '';
-    executeSearch();
-  }
-
-  async function selectGenre(g: string) {
-    selectedGenre = selectedGenre === g ? '' : g;
-    executeSearch();
+  function handleClearFilter() {
+    searchStore.clear();
+    window.history.replaceState(null, '', '/search');
   }
 </script>
 
@@ -109,13 +106,10 @@
         <p class="search-hero-subtitle text-muted">Explore movies, artists, and full-length releases via the top search bar</p>
       {/if}
     </div>
-    {#if query.trim()}
+    {#if query.trim() || selectedGenre}
       <button
         class="btn btn-ghost btn-sm clear-query-btn"
-        on:click={() => {
-          query = '';
-          executeSearch();
-        }}
+        on:click={handleClearFilter}
       >
         Clear Filter ✕
       </button>
@@ -128,7 +122,7 @@
     {#each quickPills as pill}
       <button
         class="pill-chip"
-        class:active={query === pill.q}
+        class:active={query.toLowerCase() === pill.q.toLowerCase()}
         on:click={() => applyQuickPill(pill.q)}
       >
         {pill.label}
@@ -149,10 +143,10 @@
       {#each genres as g}
         <button
           class="genre-chip"
-          class:active={selectedGenre === g}
+          class:active={selectedGenre.toLowerCase() === g.toLowerCase()}
           on:click={() => selectGenre(g)}
         >
-          {g.charAt(0).toUpperCase() + g.slice(1)}
+          {g}
         </button>
       {/each}
     </div>
@@ -162,7 +156,7 @@
   <div class="results-header">
     <span class="results-count text-muted">
       {#if loading}
-        Searching...
+        Searching catalog...
       {:else if query.trim()}
         Showing {results.length} {results.length === 1 ? 'track' : 'tracks'} for "{query.trim()}"
       {:else if selectedGenre}
