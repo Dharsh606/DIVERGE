@@ -18,8 +18,11 @@ frontend/.env
 frontend/.env.*
 !frontend/.env.example
 
-# Logs and runtime caches
+# Logs, local automation, and runtime caches
 *.log
+*.bat
+*.cmd
+*.py
 __pycache__/
 *.pyc
 .DS_Store

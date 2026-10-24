@@ -72,7 +72,7 @@
     {/each}
   </ul>
 
-  <!-- Bottom section with user profile link or login prompt -->
+  <!-- Bottom section with user profile link or sign-in link -->
   <div class="sidebar-footer">
     {#if $isLoggedIn && $currentUser}
       <a href="/profile" class="user-chip" class:open>
@@ -91,7 +91,7 @@
         {/if}
       </a>
     {:else}
-      <a href="/login" class="login-prompt-btn" class:open>
+      <a href="/login" class="login-cta-btn" class:open>
         <span class="avatar avatar-sm avatar-placeholder">?</span>
         {#if open}
           <span class="text-sm">Sign in</span>
@@ -228,7 +228,7 @@
     border-top: 1px solid var(--color-border);
   }
 
-  .user-chip, .login-prompt-btn {
+  .user-chip, .login-cta-btn {
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -240,7 +240,7 @@
     overflow: hidden;
   }
 
-  .user-chip:hover, .login-prompt-btn:hover {
+  .user-chip:hover, .login-cta-btn:hover {
     background: var(--color-surface-raised);
     color: var(--color-text);
   }
