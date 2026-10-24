@@ -20,30 +20,35 @@ frontend/src/
 │   │   ├── background/
 │   │   │   └── SlicedWaves.svelte  # @react-bits ambient canvas wave slats at 40% opacity
 │   │   ├── cards/
-│   │   │   └── SongCard.svelte     # Curated song card & compact list row with hover play overlay
+│   │   │   └── SongCard.svelte     # Curated song card & compact list row with hover play overlay & Full Track pill
 │   │   ├── dna/
 │   │   │   └── TrackDNA.svelte     # Deterministic FNV-1a procedural SVG music glyph generator
 │   │   ├── layout/
 │   │   │   ├── Sidebar.svelte      # Grounded obsidian navigation bar (Home, Library, Trace, Sessions)
-│   │   │   └── TopHeader.svelte    # Artistic Top Search Bar (conic beam) & Account Dropdown Menu
+│   │   │   └── TopHeader.svelte    # Artistic Top Search Bar (conic beam, live autocomplete) & Account Menu
 │   │   └── player/
 │   │       └── MusicPlayer.svelte  # Player bar with Queue drawer, Device selector, Miniplayer & Fullscreen
+│   ├── server/
+│   │   └── youtube.ts              # High-speed YouTube Music InnerTube search & metadata extractor with cache
 │   ├── services/
-│   │   ├── api.ts                  # REST API client with automatic token & origin management
+│   │   ├── api.ts                  # REST API client with automatic token & YouTube search fallback
 │   │   └── offline.ts              # IndexedDB binary blob audio caching engine
 │   ├── stores/
 │   │   ├── auth.ts                 # Reactive authentication state store (User, JWT session)
-│   │   ├── player.ts               # Audio playback state (queue management, position, shuffle, repeat)
+│   │   ├── player.ts               # Dual-Engine playback state (YouTube Player bridge + HTML5 audio, MediaSession)
 │   │   ├── preferences.ts          # Private session, audio quality, crossfade, devices, and UI toggles
 │   │   └── guest.ts                # Session-persisted guest catalog exploration store
 │   └── types/
 │       └── index.ts                # TypeScript interfaces (Song, Album, Artist, User, Playlist, Trace)
 └── routes/
+    ├── api/
+    │   ├── search/+server.ts       # SvelteKit serverless endpoint for ultra-fast YouTube Music search
+    │   └── songs/live-search/+server.ts # Live search endpoint proxying YouTube Music InnerTube
     ├── +layout.svelte              # Universal shell orchestrator (conditional sidebar & bottom player)
     ├── +page.svelte                # Root route (orchestrates cinematic intro -> luxury auth -> home reveal)
     ├── login/+page.svelte          # Standalone Sign In route with spotlight & border-beam effects
     ├── register/+page.svelte       # Standalone Create Account route with password strength meter
-    ├── search/+page.svelte         # Debounced catalog search across Indian & World master tracks
+    ├── search/+page.svelte         # High-speed YouTube Music search (Full Tracks, KGF, Indian & World hits)
     ├── library/+page.svelte        # Playlist management, context tags, and offline cache inspector
     ├── trace/+page.svelte          # Branching tree graph mapping personal listening departures
     ├── sessions/+page.svelte       # Collaborative synchronized listening rooms

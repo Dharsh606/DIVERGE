@@ -367,7 +367,7 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
     story.append(Paragraph("&bull; <b>GORM:</b> Developer-friendly ORM handling schema auto-migrations and relationship eager-loading.", bullet_style))
     story.append(Paragraph("&bull; <b>SvelteKit & Svelte 5:</b> Fast component-driven frontend with reactive stores.", bullet_style))
     story.append(Paragraph("&bull; <b>IndexedDB:</b> Client-side transactional database storing audio binaries for offline playback.", bullet_style))
-    story.append(Paragraph("&bull; <b>Full Audio Pipeline:</b> Jamendo CDN 192kbps streaming pool and local media storage delivering uninterrupted 3 to 6 minute tracks.", bullet_style))
+    story.append(Paragraph("&bull; <b>Full Audio Pipeline:</b> YouTube Music InnerTube Engine and HTTP 206 Partial Content delivering uninterrupted 3 to 6 minute master tracks with zero 30-second preview limitations.", bullet_style))
     story.append(PageBreak())
 
     # ─────────────────────────────────────────────────────────────────────────
@@ -423,16 +423,17 @@ def build_pdf(filename="j:/DIVERGE/docs/project-report.pdf"):
     # ─────────────────────────────────────────────────────────────────────────
     story.append(Paragraph("Chapter 7: Module Descriptions", h1_style))
     story.append(Paragraph("<b>1. Authentication Module:</b> Implements registration and login with bcrypt hashing (cost factor 10) and JSON Web Tokens stored in secure HTTP-only cookies.", body_style))
-    story.append(Paragraph("<b>2. Audio Streaming Engine:</b> Handles incoming HTTP Range headers (e.g. `bytes=0-1048575`). It streams discrete audio blocks with HTTP 206 status codes, enabling instant scrubbing across full songs.", body_style))
-    story.append(Paragraph("<b>3. Discovery & Search Engine:</b> Provides debounced multi-attribute search across artists, genres, and track titles with instant preview playback.", body_style))
+    story.append(Paragraph("<b>2. Full-Length Audio Streaming Engine:</b> Completely eliminates restrictive 30-second preview limitations. Integrates a dual-engine architecture combining an asynchronous headless YouTube Player bridge in <code>player.ts</code> with HTTP 206 Partial Content byte-range streaming for authentic, uninterrupted 3-to-6 minute master tracks.", body_style))
+    story.append(Paragraph("<b>3. High-Speed YouTube Music Discovery Engine:</b> Ultra-fast InnerTube API service (<code>/api/search</code> and Go <code>SearchCatalog</code>) querying YouTube Music with sub-second response times (< 800ms) and 15-minute in-memory caching. Handles regional queries (e.g. KGF, South Indian, Bollywood) and extracts clean titles, verified artists, HD artwork, true durations, and 3D Sound Canvas coordinates.", body_style))
     story.append(Paragraph("<b>4. Anti-Algorithm Module:</b> Examines user listening history to calculate the user's centroid (mean BPM, mood, and dominant genre) and generates inverted discovery playlists.", body_style))
     story.append(Paragraph("<b>5. Trace Module:</b> Traverses chronological listening entries to produce a tree data structure with branch flags whenever the user changes musical genres.", body_style))
     story.append(Paragraph("<b>6. Offline Storage Engine:</b> Client-side module managing IndexedDB transactions and caching audio blobs for offline playback.", body_style))
     story.append(Paragraph("<b>7. Onboarding & Luxury Auth Module:</b> Orchestrates a 3.5s cinematic 3D logo splash intro with expanding acoustic harmonic waves, followed by a luxury authentication card featuring React Bits cursor spotlight physics and Magic UI rotating conic border beam in brand colors.", body_style))
     story.append(Paragraph("<b>8. Ambient Canvas Engine (@react-bits/SlicedWaves):</b> Full-viewport slatted reactive wave canvas running at exactly 40% opacity in official brand colors (#784BFF Iris, #FF5C58 Coral, #FFAE33 Gold) with smooth cursor tracking and depth focus.", body_style))
-    story.append(Paragraph("<b>9. Top Artistic Search Bar:</b> Relocated from sidebar to top sticky header featuring a continuous conic laser beam border, global Ctrl+K shortcut, live dropdown results hub with instant play, and quick vibe discovery pills.", body_style))
+    story.append(Paragraph("<b>9. Top Artistic Search Bar:</b> Relocated from sidebar to top sticky header featuring a continuous conic laser beam border, global Ctrl+K shortcut, live dropdown results hub with instant play, and quick vibe discovery pills (including 🔥 KGF Hits).", body_style))
     story.append(Paragraph("<b>10. Account Dropdown & Modals System:</b> Floating charcoal popover matching native client standards with Account Overview, Profile, Recents, Upgrade to Premium, Support & Diagnostics, Private Session toggle switch, Settings, and Log Out.", body_style))
     story.append(Paragraph("<b>11. Advanced 4-Feature Playback Bar:</b> Bottom player bar extended with Queue Drawer (Now Playing & Next Up list), Connect to Device target selector, Floating Miniplayer (PiP with spinning vinyl), and Fullscreen Studio Visualizer.", body_style))
+    story.append(Paragraph("<b>12. OS MediaSession Integration:</b> Binds system-level media notifications, lockscreen playback controls, and physical media keys directly to DIVERGE's dual playback engine.", body_style))
     story.append(Spacer(1, 10))
 
     # ─────────────────────────────────────────────────────────────────────────

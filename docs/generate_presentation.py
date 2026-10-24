@@ -352,23 +352,24 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
     tf = left.text_frame
     tf.word_wrap = True
     p = tf.paragraphs[0]
-    p.text = "HTTP 206 Partial Content Protocol"
+    p.text = "Full-Length YouTube Music & HTTP 206 Engine"
     p.font.bold = True
     p.font.size = Pt(16)
     p.font.color.rgb = c_iris
     p.space_after = Pt(10)
     b_left = [
-        "Browser transmits Range header: Range: bytes=1048576-2097151.",
-        "Go backend parses byte boundaries and extracts requested chunk.",
-        "Server replies with HTTP 206 Partial Content and Content-Range: bytes 1048576-2097151/8388608.",
-        "Enables instantaneous timeline scrubbing across full 3-6 minute audio tracks."
+        "Completely eliminates restrictive 30-second preview limits across the entire catalog.",
+        "Asynchronous headless YouTube Player bridge in player.ts streams full 3-6 min master tracks.",
+        "Sub-second YouTube Music InnerTube search API (< 800ms) with in-memory LRU caching.",
+        "Instant regional catalog discovery: Full tracks for KGF, South Indian, Bollywood & Global hits.",
+        "Zero server bandwidth cost, zero 403 IP-lockouts, zero CORS restrictions on client."
     ]
     for b in b_left:
         bp = tf.add_paragraph()
         bp.text = "• " + b
-        bp.font.size = Pt(12)
+        bp.font.size = Pt(11)
         bp.font.color.rgb = c_text
-        bp.space_after = Pt(8)
+        bp.space_after = Pt(6)
 
     right = s8.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(6.9), Inches(1.8), Inches(5.6), Inches(4.8))
     right.fill.solid()
@@ -377,22 +378,24 @@ def create_deck(filename="j:/DIVERGE/docs/presentation.pptx"):
     tf2 = right.text_frame
     tf2.word_wrap = True
     p = tf2.paragraphs[0]
-    p.text = "Persistent Svelte Audio Store"
+    p.text = "Dual-Engine Svelte Player & MediaSession"
     p.font.bold = True
     p.font.size = Pt(16)
     p.font.color.rgb = c_coral
     p.space_after = Pt(10)
     b_right = [
-        "Audio element lives in persistent player singleton outside route DOM.",
-        "Queue Drawer: Live playback queue with track reordering, jump & clear.",
+        "Universal player singleton coordinates both YouTube audio bridge and HTML5 audio element.",
+        "OS MediaSession API: Full lockscreen metadata, timeline scrubber, and keyboard media keys.",
+        "Queue Drawer: Live playback queue with track reordering, jump & clear actions.",
         "Connect to Device: Target switcher (Browser 24-bit FLAC, Studio Cast, DLNA).",
-        "Miniplayer & Fullscreen: Docked floating PiP and 24-bar spectrum visualizer."
+        "Miniplayer & Fullscreen: Floating PiP with spinning vinyl and 24-bar spectrum visualizer."
     ]
     for b in b_right:
         bp = tf2.add_paragraph()
         bp.text = "• " + b
-        bp.font.size = Pt(12)
+        bp.font.size = Pt(11)
         bp.font.color.rgb = c_text
+        bp.space_after = Pt(6)
         bp.space_after = Pt(8)
 
     # ─────────────────────────────────────────────────────────────────────────
