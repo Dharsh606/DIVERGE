@@ -27,22 +27,34 @@ async function request<T>(
     }
   }
 
-  const res = await fetch(`${BASE}${path}`, {
-    credentials: 'include', // send httpOnly cookie
-    headers,
-    ...options,
-  });
+  // Strict 3.2s timeout so the UI never hangs on slow networks
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 3200);
 
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({ error: 'Request failed' }));
-    throw new APIError(res.status, err.error || 'Request failed');
+  try {
+    const res = await fetch(`${BASE}${path}`, {
+      credentials: 'include',
+      headers,
+      signal: options.signal || controller.signal,
+      ...options,
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ error: 'Request failed' }));
+      throw new APIError(res.status, err.error || 'Request failed');
+    }
+
+    return res.json();
+  } catch (err: any) {
+    clearTimeout(timeoutId);
+    throw err;
   }
-
-  return res.json();
 }
 
 // ─── Curated Fallback Music Catalog (For Edge/Vercel and Offline Mode) ─────────
-const FALLBACK_SONGS: Song[] = [
+export const FALLBACK_SONGS: Song[] = [
   {
     id: 101,
     title: 'Chaleya',

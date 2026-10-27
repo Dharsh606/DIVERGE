@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { songs as songsAPI, recommendations } from '$lib/services/api';
+  import { songs as songsAPI, recommendations, FALLBACK_SONGS } from '$lib/services/api';
   import type { Song, PaginatedSongs, RecommendationResult } from '$lib/types';
   import SongCard from '$lib/components/cards/SongCard.svelte';
   import { player } from '$lib/stores/player';
@@ -8,12 +8,12 @@
   import { guestStore } from '$lib/stores/guest';
   import AuthAndIntroExperience from '$lib/components/auth/AuthAndIntroExperience.svelte';
 
-  let trending: Song[] = [];
-  let recommended: Song[] = [];
-  let genres: string[] = [];
+  let trending: Song[] = FALLBACK_SONGS.slice(0, 8);
+  let recommended: Song[] = FALLBACK_SONGS.slice(2, 8);
+  let genres: string[] = ['Bollywood', 'Soundtrack', 'Tamil Hits', 'Telugu Hits', 'Punjabi', 'Hip Hop', 'Synthwave', 'World Pop'];
   let selectedGenre = '';
-  let browseSongs: Song[] = [];
-  let loading = true;
+  let browseSongs: Song[] = FALLBACK_SONGS;
+  let loading = false; // Zero waiting! Instant content rendering
   let browseLoading = false;
   let replayingIntro = false;
 
