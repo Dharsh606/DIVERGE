@@ -31,6 +31,10 @@
     <a href="https://diverge-music.vercel.app">
       <img src="https://img.shields.io/badge/%F0%9F%9A%80%20LAUNCH%20LIVE%20APPLICATION-https%3A%2F%2Fdiverge--music.vercel.app-784BFF?style=for-the-badge&labelColor=12101B" height="40" alt="Launch App" />
     </a>
+    &nbsp;
+    <a href="https://drive.google.com/drive/folders/1sH8__JBExhQXRdiQBAk-ezA1-2RXRVys?usp=sharing">
+      <img src="https://img.shields.io/badge/%F0%9F%93%A6%20DOWNLOAD%20FULL%20PACKAGE%20(DRIVE)-1.1%20GB%20ZIP-FFAE33?style=for-the-badge&labelColor=12101B" height="40" alt="Download Full Package (Google Drive)" />
+    </a>
   </div>
 
 </div>
@@ -57,6 +61,10 @@
   <tr>
     <td><b>Official Deployment</b></td>
     <td><a href="https://diverge-music.vercel.app"><b>https://diverge-music.vercel.app</b></a></td>
+  </tr>
+  <tr>
+    <td><b>Source Code & Package (Google Drive)</b></td>
+    <td><a href="https://drive.google.com/drive/folders/1sH8__JBExhQXRdiQBAk-ezA1-2RXRVys?usp=sharing"><b>Download Full Project Package (.zip)</b></a></td>
   </tr>
   <tr>
     <td><b>Portfolio</b></td>
@@ -270,6 +278,7 @@ The application utilizes 9 normalized relational entities managed through GORM a
     <strong>DIVERGE — Capstone Engineering Project Submission for Tech Vedhu</strong><br/>
     Designed & Developed by <strong>Dharshan V</strong> &bull; 
     <a href="https://diverge-music.vercel.app">Launch Application</a> &bull; 
+    <a href="https://drive.google.com/drive/folders/1sH8__JBExhQXRdiQBAk-ezA1-2RXRVys?usp=sharing">Source Code Package (Google Drive)</a> &bull; 
     <a href="https://dharshanvportfolio.netlify.app/">Portfolio</a> &bull; 
     <a href="https://www.linkedin.com/in/dharshanvreddy">LinkedIn</a>
   </p>

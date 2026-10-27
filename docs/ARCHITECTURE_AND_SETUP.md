@@ -6,6 +6,7 @@
 > **Backend**: Go 1.22 (Fiber, GORM) • **Frontend**: SvelteKit (Svelte 5, TypeScript)  
 > **Database**: PostgreSQL 16 • **Audio Engine**: HTTP 206 Partial Content (Full-Length Songs) • **Offline**: IndexedDB & Service Worker  
 > **Live Web App**: [https://diverge-music.vercel.app](https://diverge-music.vercel.app)  
+> **Source Code & Project Package (Google Drive)**: [Download Complete Archive](https://drive.google.com/drive/folders/1sH8__JBExhQXRdiQBAk-ezA1-2RXRVys?usp=sharing)  
 > **Contact**: +91 6382546285 | dharshan.vreddy2819@gmail.com | [Portfolio](https://dharshanvportfolio.netlify.app/) | [GitHub](https://github.com/Dharsh606)
 
 ---

@@ -23,6 +23,8 @@ frontend/.env.*
 *.bat
 *.cmd
 *.py
+*.zip
+DIVERGE/
 __pycache__/
 *.pyc
 .DS_Store
