@@ -1,12 +1,26 @@
 {
   "name": "DIVERGE",
   "short_name": "DIVERGE",
-  "description": "Music streaming service taking the uncommon route",
+  "description": "High-Performance Digital Audio Platform & Musicology Discovery System",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#111019",
-  "theme_color": "#111019",
+  "orientation": "any",
+  "background_color": "#0A0912",
+  "theme_color": "#784BFF",
   "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
     {
       "src": "/favicon.svg",
       "sizes": "any",

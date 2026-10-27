@@ -473,17 +473,22 @@ function createPlayerStore() {
       const s = get({ subscribe });
       if (!s.queue.length) return;
 
+      if (s.queue.length === 1) {
+        store.seek(0);
+        return;
+      }
+
       let nextIdx: number;
       if (s.repeat === 'one') {
-        nextIdx = s.queueIndex;
+        store.seek(0);
+        return;
       } else if (s.shuffle) {
         nextIdx = Math.floor(Math.random() * s.queue.length);
-      } else {
-        nextIdx = s.queueIndex + 1;
-        if (nextIdx >= s.queue.length) {
-          if (s.repeat === 'all') nextIdx = 0;
-          else return;
+        if (nextIdx === s.queueIndex && s.queue.length > 1) {
+          nextIdx = (nextIdx + 1) % s.queue.length;
         }
+      } else {
+        nextIdx = (s.queueIndex + 1) % s.queue.length;
       }
 
       store.playSong(s.queue[nextIdx], s.queue);
@@ -497,7 +502,14 @@ function createPlayerStore() {
         return;
       }
 
-      const prevIdx = Math.max(0, s.queueIndex - 1);
+      if (!s.queue.length) return;
+
+      if (s.queue.length === 1) {
+        store.seek(0);
+        return;
+      }
+
+      const prevIdx = (s.queueIndex - 1 + s.queue.length) % s.queue.length;
       if (s.queue[prevIdx]) {
         store.playSong(s.queue[prevIdx], s.queue);
       }

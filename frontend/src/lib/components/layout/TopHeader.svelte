@@ -128,11 +128,35 @@
     }
   }
 
-  function handleLogout() {
+  let deferredInstallPrompt: any = null;
+  let canInstall = false;
+
+  async function triggerInstallApp() {
+    if (deferredInstallPrompt) {
+      try {
+        deferredInstallPrompt.prompt();
+        const choice = await deferredInstallPrompt.userChoice;
+        if (choice && choice.outcome === 'accepted') {
+          canInstall = false;
+        }
+        deferredInstallPrompt = null;
+      } catch (err) {
+        console.warn('Install prompt error:', err);
+      }
+    } else {
+      alert('To install DIVERGE on your desktop, look for the "Install DIVERGE" icon (desktop monitor with download arrow) in your Chrome/Edge address bar next to extensions and bookmarks.');
+    }
+  }
+
+  async function handleLogout() {
     accountMenuOpen = false;
-    authStore.logout();
+    closeAllModals();
+    try {
+      player.pause();
+    } catch {}
     guestStore.disableGuest();
-    goto('/');
+    await authStore.logout();
+    goto('/login');
   }
 
   // Click outside listener for dropdowns
@@ -146,10 +170,23 @@
     }
   }
 
+  function handleBeforeInstallPrompt(e: Event) {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    canInstall = true;
+  }
+
+  function handleAppInstalled() {
+    deferredInstallPrompt = null;
+    canInstall = false;
+  }
+
   onMount(() => {
     if (browser) {
       window.addEventListener('keydown', handleGlobalKeyDown);
       window.addEventListener('click', handleClickOutside);
+      window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.addEventListener('appinstalled', handleAppInstalled);
     }
   });
 
@@ -157,6 +194,8 @@
     if (browser) {
       window.removeEventListener('keydown', handleGlobalKeyDown);
       window.removeEventListener('click', handleClickOutside);
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener('appinstalled', handleAppInstalled);
     }
   });
 </script>
@@ -292,6 +331,21 @@
       </div>
     {/if}
 
+    <!-- Web App Install Option -->
+    <button
+      class="install-app-pill"
+      on:click={triggerInstallApp}
+      title="Install DIVERGE as a Web App (Desktop / Mobile)"
+      aria-label="Install DIVERGE Web App"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+        <line x1="8" y1="21" x2="16" y2="21"/>
+        <line x1="12" y1="17" x2="12" y2="21"/>
+      </svg>
+      <span>Install App</span>
+    </button>
+
     <!-- Lossless Hi-Fi Studio Pill -->
     <div class="hi-fi-pill" title="Audio Engine: 24-bit 96kHz Master FLAC Direct">
       <span class="hi-fi-dot"></span>
@@ -391,7 +445,17 @@
             <span class="item-label">Settings</span>
           </button>
 
-          <!-- 8. Log out -->
+          <!-- 8. Install DIVERGE App -->
+          <button
+            class="menu-item"
+            role="menuitem"
+            on:click={() => { accountMenuOpen = false; triggerInstallApp(); }}
+          >
+            <span class="item-label">Install DIVERGE App</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="color: var(--color-brand-iris);"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </button>
+
+          <!-- 9. Log out -->
           <button
             class="menu-item"
             role="menuitem"
@@ -1107,6 +1171,29 @@
     font-weight: 600;
     letter-spacing: 0.02em;
     animation: fadeIn 0.2s ease;
+  }
+
+  .install-app-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--radius-full);
+    background: rgba(120, 75, 255, 0.14);
+    border: 1px solid rgba(120, 75, 255, 0.38);
+    color: #D3C5FF;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: all var(--t-fast);
+  }
+  .install-app-pill:hover {
+    background: rgba(120, 75, 255, 0.28);
+    border-color: var(--color-primary);
+    color: #FFFFFF;
+    transform: translateY(-1px);
+    box-shadow: 0 0 12px rgba(120, 75, 255, 0.35);
   }
 
   .hi-fi-pill {

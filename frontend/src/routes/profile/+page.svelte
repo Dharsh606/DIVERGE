@@ -3,6 +3,7 @@
   import { goto } from '$app/navigation';
   import { isLoggedIn, currentUser, authStore } from '$lib/stores/auth';
   import { guestStore } from '$lib/stores/guest';
+  import { player } from '$lib/stores/player';
   import { playlists as playlistsAPI, history } from '$lib/services/api';
   import type { Playlist } from '$lib/types';
 
@@ -32,6 +33,9 @@
   });
 
   async function handleLogout() {
+    try {
+      player.pause();
+    } catch {}
     guestStore.disableGuest();
     await authStore.logout();
     goto('/login');

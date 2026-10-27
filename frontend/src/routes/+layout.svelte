@@ -1,8 +1,12 @@
 <script lang="ts">
   import '../app.css';
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import { page } from '$app/state';
-  import { authStore } from '$lib/stores/auth';
+  import { authStore, isLoggedIn } from '$lib/stores/auth';
+  import { guestStore } from '$lib/stores/guest';
+  import { player, isPlaying } from '$lib/stores/player';
+  import { goto } from '$app/navigation';
+  import { browser } from '$app/environment';
   import Sidebar from '$lib/components/layout/Sidebar.svelte';
   import TopHeader from '$lib/components/layout/TopHeader.svelte';
   import MusicPlayer from '$lib/components/player/MusicPlayer.svelte';
@@ -14,10 +18,63 @@
   $: isAuthPage = currentPath.startsWith('/login') ||
                   currentPath.startsWith('/register') ||
                   currentPath.startsWith('/signup') ||
-                  currentPath.startsWith('/auth');
+                  currentPath.startsWith('/auth') ||
+                  (currentPath === '/' && !$isLoggedIn && !$guestStore);
+
+  // 10 minutes inactivity auto-logout (600,000 ms)
+  const INACTIVITY_LIMIT_MS = 10 * 60 * 1000;
+  let inactivityTimer: any = null;
+
+  function resetInactivityTimer() {
+    if (!browser) return;
+    if (inactivityTimer) clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(() => {
+      // If a track is actively playing, keep session alive
+      if ($isPlaying) {
+        resetInactivityTimer();
+      } else if ($isLoggedIn || $guestStore) {
+        performAutoLogout();
+      }
+    }, INACTIVITY_LIMIT_MS);
+  }
+
+  async function performAutoLogout() {
+    try {
+      player.pause();
+      guestStore.disableGuest();
+      await authStore.logout();
+      goto('/login');
+    } catch (e) {
+      console.warn('Auto logout error:', e);
+    }
+  }
+
+  function handleUserActivity() {
+    resetInactivityTimer();
+  }
 
   onMount(async () => {
     await authStore.init();
+
+    // Register Service Worker for PWA install & offline caching
+    if (browser && 'serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    }
+
+    // Attach user activity listeners
+    if (browser) {
+      const events = ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll', 'wheel'];
+      events.forEach((evt) => window.addEventListener(evt, handleUserActivity, { passive: true }));
+      resetInactivityTimer();
+    }
+  });
+
+  onDestroy(() => {
+    if (browser) {
+      if (inactivityTimer) clearTimeout(inactivityTimer);
+      const events = ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll', 'wheel'];
+      events.forEach((evt) => window.removeEventListener(evt, handleUserActivity));
+    }
   });
 </script>
 

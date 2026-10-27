@@ -3,6 +3,8 @@ const CACHE_NAME = 'diverge-v1';
 const STATIC_ASSETS = [
   '/',
   '/favicon.svg',
+  '/icon-192.png',
+  '/icon-512.png',
   '/manifest.json'
 ];
 

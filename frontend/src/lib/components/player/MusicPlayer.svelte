@@ -51,8 +51,96 @@
     if (showDevices) showQueue = false;
   }
 
-  function toggleMiniplayer() {
-    showMiniplayer = !showMiniplayer;
+  let showFsQueue = false;
+  let pipWindow: any = null;
+
+  async function toggleMiniplayer() {
+    if (pipWindow) {
+      try { pipWindow.close(); } catch {}
+      pipWindow = null;
+      showMiniplayer = false;
+      return;
+    }
+
+    if (showMiniplayer) {
+      showMiniplayer = false;
+      return;
+    }
+
+    // Attempt Document Picture-in-Picture API for native OS floating desktop window
+    if (browser && 'documentPictureInPicture' in window) {
+      try {
+        const pip = await (window as any).documentPictureInPicture.requestWindow({
+          width: 330,
+          height: 270,
+        });
+        pipWindow = pip;
+
+        // Copy styles
+        document.querySelectorAll('style, link[rel="stylesheet"]').forEach((el) => {
+          pip.document.head.appendChild(el.cloneNode(true));
+        });
+
+        pip.document.body.style.margin = '0';
+        pip.document.body.style.padding = '0';
+        pip.document.body.style.background = '#0A0912';
+        pip.document.body.style.color = '#F7F6FB';
+        pip.document.body.style.overflow = 'hidden';
+        pip.document.body.style.display = 'flex';
+        pip.document.body.style.alignItems = 'center';
+        pip.document.body.style.justifyContent = 'center';
+        pip.document.body.style.height = '100vh';
+
+        showMiniplayer = true;
+
+        setTimeout(() => {
+          const el = document.getElementById('diverge-floating-miniplayer');
+          if (el && pip.document) {
+            el.classList.add('in-pip-mode');
+            pip.document.body.appendChild(el);
+          }
+        }, 50);
+
+        pip.addEventListener('pagehide', () => {
+          const el = pip.document.getElementById('diverge-floating-miniplayer');
+          const slot = document.getElementById('diverge-miniplayer-slot');
+          if (el && slot) {
+            el.classList.remove('in-pip-mode');
+            slot.appendChild(el);
+          }
+          pipWindow = null;
+          showMiniplayer = false;
+        });
+
+        return;
+      } catch (err) {
+        console.info('Picture-in-Picture window not initialized; falling back to docked miniplayer:', err);
+      }
+    }
+
+    showMiniplayer = true;
+  }
+
+  function handleMiniplayerExpand() {
+    if (pipWindow) {
+      try { pipWindow.close(); } catch {}
+      pipWindow = null;
+    }
+    showMiniplayer = false;
+    if (browser) {
+      window.focus();
+    }
+    if (!showFullscreen) {
+      toggleFullscreen();
+    }
+  }
+
+  function closeMiniplayer() {
+    if (pipWindow) {
+      try { pipWindow.close(); } catch {}
+      pipWindow = null;
+    }
+    showMiniplayer = false;
   }
 
   function toggleFullscreen() {
@@ -62,6 +150,7 @@
         document.documentElement.requestFullscreen().catch(() => {});
       }
     } else if (browser && !showFullscreen) {
+      showFsQueue = false;
       if (document.fullscreenElement && document.exitFullscreen) {
         document.exitFullscreen().catch(() => {});
       }
@@ -474,66 +563,68 @@
 {/if}
 
 <!-- ═══════════════════════════════════════════════════════════════════════════
-     FEATURE 3: FLOATING DOCKED MINIPLAYER
+     FEATURE 3: FLOATING DOCKED MINIPLAYER (DOCUMENT PIP SUPPORTED)
      ═══════════════════════════════════════════════════════════════════════════ -->
-{#if showMiniplayer && song}
-  <div class="floating-miniplayer glass-raised" role="region" aria-label="Miniplayer">
-    <div class="miniplayer-top-row">
-      <span class="miniplayer-tag">MINIPLAYER</span>
-      <div class="miniplayer-top-actions">
-        <button class="mini-icon-btn" on:click={toggleFullscreen} title="Full Screen">⤢</button>
-        <button class="mini-icon-btn" on:click={() => (showMiniplayer = false)} title="Close Miniplayer">✕</button>
-      </div>
-    </div>
-
-    <div class="miniplayer-body">
-      <!-- Rotating Vinyl Artwork -->
-      <div class="vinyl-art-wrapper" class:vinyl-spinning={$isPlaying}>
-        {#if song.album?.cover_url}
-          <img src={song.album.cover_url} alt={song.title} class="mini-art-img" />
-        {:else}
-          <div class="mini-art-fallback">♫</div>
-        {/if}
-        <div class="vinyl-center-hole"></div>
-      </div>
-
-      <div class="miniplayer-track-info">
-        <h5 class="mini-title text-ellipsis">{song.title}</h5>
-        <span class="mini-artist text-ellipsis text-muted">{song.artist?.name || 'Artist'}</span>
-        
-        <!-- Live audio waveform bars -->
-        <div class="mini-waveform">
-          {#each Array(8) as _, i}
-            <span
-              class="waveform-bar"
-              style="animation-delay: {i * 0.1}s;"
-              class:wave-paused={!$isPlaying}
-            ></span>
-          {/each}
+<div id="diverge-miniplayer-slot">
+  {#if showMiniplayer && song}
+    <div id="diverge-floating-miniplayer" class="floating-miniplayer glass-raised" role="region" aria-label="Miniplayer">
+      <div class="miniplayer-top-row">
+        <span class="miniplayer-tag">MINIPLAYER</span>
+        <div class="miniplayer-top-actions">
+          <button class="mini-icon-btn" on:click={handleMiniplayerExpand} title="Open Fullscreen Studio to Change Songs">⤢</button>
+          <button class="mini-icon-btn" on:click={closeMiniplayer} title="Close Miniplayer">✕</button>
         </div>
       </div>
+
+      <div class="miniplayer-body">
+        <!-- Rotating Vinyl Artwork -->
+        <div class="vinyl-art-wrapper" class:vinyl-spinning={$isPlaying}>
+          {#if song.album?.cover_url}
+            <img src={song.album.cover_url} alt={song.title} class="mini-art-img" />
+          {:else}
+            <div class="mini-art-fallback">♫</div>
+          {/if}
+          <div class="vinyl-center-hole"></div>
+        </div>
+
+        <div class="miniplayer-track-info">
+          <h5 class="mini-title text-ellipsis">{song.title}</h5>
+          <span class="mini-artist text-ellipsis text-muted">{song.artist?.name || 'Artist'}</span>
+          
+          <!-- Live audio waveform bars -->
+          <div class="mini-waveform">
+            {#each Array(8) as _, i}
+              <span
+                class="waveform-bar"
+                style="animation-delay: {i * 0.1}s;"
+                class:wave-paused={!$isPlaying}
+              ></span>
+            {/each}
+          </div>
+        </div>
+      </div>
+
+      <!-- Mini transport controls -->
+      <div class="miniplayer-controls">
+        <button class="btn btn-icon btn-sm" on:click={() => player.prev()} aria-label="Previous Track" title="Previous Track">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
+        </button>
+
+        <button class="mini-play-btn" on:click={() => player.toggle()} aria-label={$isPlaying ? 'Pause' : 'Play'} title={$isPlaying ? 'Pause' : 'Play'}>
+          {#if $isPlaying}
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+          {:else}
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          {/if}
+        </button>
+
+        <button class="btn btn-icon btn-sm" on:click={() => player.next()} aria-label="Next Track" title="Next Track">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+        </button>
+      </div>
     </div>
-
-    <!-- Mini transport controls -->
-    <div class="miniplayer-controls">
-      <button class="btn btn-icon btn-sm" on:click={() => player.prev()} aria-label="Prev">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
-      </button>
-
-      <button class="mini-play-btn" on:click={() => player.toggle()} aria-label={$isPlaying ? 'Pause' : 'Play'}>
-        {#if $isPlaying}
-          <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
-        {:else}
-          <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        {/if}
-      </button>
-
-      <button class="btn btn-icon btn-sm" on:click={() => player.next()} aria-label="Next">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
-      </button>
-    </div>
-  </div>
-{/if}
+  {/if}
+</div>
 
 <!-- ═══════════════════════════════════════════════════════════════════════════
      FEATURE 4: IMMERSIVE FULLSCREEN VISUALIZER
@@ -630,10 +721,63 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
         </button>
 
-        <button class="btn btn-icon" on:click={() => player.cycleRepeat()} class:control-active={repeat !== 'none'} aria-label="Repeat">
+        <button class="btn btn-icon" on:click={() => player.cycleRepeat()} class:control-active={repeat !== 'none'} aria-label="Repeat" title="Repeat Mode">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
         </button>
+
+        <!-- Up Next / Queue Switcher in Fullscreen -->
+        <button
+          class="btn btn-icon fs-queue-btn"
+          class:control-active={showFsQueue}
+          on:click={() => (showFsQueue = !showFsQueue)}
+          aria-label="Queue"
+          title="Switch Track / Up Next Queue"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22">
+            <line x1="8" y1="6" x2="21" y2="6"/>
+            <line x1="8" y1="12" x2="21" y2="12"/>
+            <line x1="8" y1="18" x2="21" y2="18"/>
+            <line x1="3" y1="6" x2="3.01" y2="6"/>
+            <line x1="3" y1="12" x2="3.01" y2="12"/>
+            <line x1="3" y1="18" x2="3.01" y2="18"/>
+          </svg>
+        </button>
       </div>
+
+      <!-- Slide-in Queue Drawer inside Fullscreen to change songs -->
+      {#if showFsQueue}
+        <div class="fs-queue-panel glass-raised" role="region" aria-label="Fullscreen Queue">
+          <div class="fs-queue-header">
+            <h4>Up Next ({$player.queue.length})</h4>
+            <button class="btn btn-icon btn-sm" on:click={() => (showFsQueue = false)}>✕</button>
+          </div>
+          <div class="fs-queue-items">
+            {#each $player.queue as track, idx}
+              <button
+                type="button"
+                class="fs-queue-item"
+                class:active-track={idx === $player.queueIndex}
+                on:click={() => player.playSong(track, $player.queue)}
+              >
+                <div class="fs-q-art">
+                  {#if track.album?.cover_url}
+                    <img src={track.album.cover_url} alt={track.title} />
+                  {:else}
+                    <div class="fs-q-art-fallback">♫</div>
+                  {/if}
+                </div>
+                <div class="fs-q-meta">
+                  <span class="fs-q-title text-ellipsis">{track.title}</span>
+                  <span class="fs-q-artist text-ellipsis text-muted">{track.artist?.name || 'Artist'}</span>
+                </div>
+                {#if idx === $player.queueIndex}
+                  <div class="fs-playing-tag">PLAYING</div>
+                {/if}
+              </button>
+            {/each}
+          </div>
+        </div>
+      {/if}
     </div>
   </div>
 {/if}
@@ -1551,5 +1695,125 @@
     align-items: center;
     justify-content: center;
     color: var(--color-text-faint);
+  }
+
+  /* ─── Picture-in-Picture window mode styling ─────────────────────────────── */
+  .floating-miniplayer.in-pip-mode {
+    position: static !important;
+    bottom: auto !important;
+    right: auto !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    padding: 1rem !important;
+  }
+
+  /* ─── Fullscreen Queue Panel ────────────────────────────────────────────── */
+  .fs-queue-panel {
+    position: absolute;
+    right: 3rem;
+    bottom: 7.5rem;
+    width: 340px;
+    max-height: 380px;
+    background: rgba(18, 16, 27, 0.96);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 24px rgba(120, 75, 255, 0.25);
+    z-index: 100;
+    animation: fadeInSlideUp 0.2s ease;
+  }
+  .fs-queue-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.65rem;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 0.5rem;
+  }
+  .fs-queue-header h4 {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--color-text);
+  }
+  .fs-queue-items {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    max-height: 300px;
+  }
+  .fs-queue-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.45rem 0.6rem;
+    border-radius: var(--radius-md);
+    background: transparent;
+    border: none;
+    color: var(--color-text);
+    cursor: pointer;
+    text-align: left;
+    transition: background var(--t-fast);
+  }
+  .fs-queue-item:hover {
+    background: var(--color-surface-raised);
+  }
+  .fs-queue-item.active-track {
+    background: rgba(120, 75, 255, 0.2);
+    border: 1px solid rgba(120, 75, 255, 0.4);
+  }
+  .fs-q-art {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .fs-q-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .fs-q-art-fallback {
+    width: 100%;
+    height: 100%;
+    background: var(--color-surface-raised);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-brand-iris);
+    font-size: 0.9rem;
+  }
+  .fs-q-meta {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .fs-q-title {
+    font-size: var(--text-xs);
+    font-weight: 600;
+  }
+  .fs-q-artist {
+    font-size: 0.7rem;
+  }
+  .fs-playing-tag {
+    font-size: 0.6rem;
+    font-weight: 800;
+    color: var(--color-brand-gold);
+    background: rgba(255, 174, 51, 0.15);
+    padding: 0.15rem 0.4rem;
+    border-radius: var(--radius-full);
   }
 </style>
