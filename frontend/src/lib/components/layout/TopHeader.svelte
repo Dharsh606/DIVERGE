@@ -455,14 +455,25 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="color: var(--color-brand-iris);"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
           </button>
 
-          <!-- 9. Log out -->
-          <button
-            class="menu-item"
-            role="menuitem"
-            on:click={handleLogout}
-          >
-            <span class="item-label">Log out</span>
-          </button>
+          <!-- 9. Log out or Sign in -->
+          {#if $currentUser}
+            <button
+              class="menu-item"
+              role="menuitem"
+              on:click={handleLogout}
+            >
+              <span class="item-label">Log out</span>
+            </button>
+          {:else}
+            <button
+              class="menu-item"
+              role="menuitem"
+              on:click={() => { accountMenuOpen = false; goto('/login'); }}
+            >
+              <span class="item-label">Sign In / Register</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="color: var(--color-brand-iris);"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+            </button>
+          {/if}
 
           <!-- Divider -->
           <div class="menu-divider"></div>

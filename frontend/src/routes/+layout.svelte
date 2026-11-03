@@ -18,8 +18,7 @@
   $: isAuthPage = currentPath.startsWith('/login') ||
                   currentPath.startsWith('/register') ||
                   currentPath.startsWith('/signup') ||
-                  currentPath.startsWith('/auth') ||
-                  (currentPath === '/' && !$isLoggedIn && !$guestStore);
+                  currentPath.startsWith('/auth');
 
   // 10 minutes inactivity auto-logout (600,000 ms)
   const INACTIVITY_LIMIT_MS = 10 * 60 * 1000;

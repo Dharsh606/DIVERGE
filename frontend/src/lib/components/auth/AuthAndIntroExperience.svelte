@@ -11,11 +11,18 @@
 
   const dispatch = createEventDispatcher();
 
-  // Splash animation state: only play on very first visit if never seen before, or if user explicitly requested replay
-  const alreadySeenSplash = browser && (
-    sessionStorage.getItem('diverge_splash_seen') === 'true' ||
-    localStorage.getItem('diverge_splash_seen') === 'true'
-  );
+  function checkSeenSplash(): boolean {
+    if (!browser) return false;
+    try {
+      return (
+        sessionStorage.getItem('diverge_splash_seen') === 'true' ||
+        localStorage.getItem('diverge_splash_seen') === 'true'
+      );
+    } catch {
+      return false;
+    }
+  }
+  const alreadySeenSplash = checkSeenSplash();
   let splashActive = forceSplash || (!skipSplash && !alreadySeenSplash);
   let splashExiting = false;
   let splashProgress = 0;
@@ -74,8 +81,10 @@
 
   function finishSplash() {
     if (browser) {
-      sessionStorage.setItem('diverge_splash_seen', 'true');
-      localStorage.setItem('diverge_splash_seen', 'true');
+      try {
+        sessionStorage.setItem('diverge_splash_seen', 'true');
+        localStorage.setItem('diverge_splash_seen', 'true');
+      } catch {}
     }
     splashExiting = true;
     setTimeout(() => {

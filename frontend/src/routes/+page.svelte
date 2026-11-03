@@ -71,18 +71,18 @@
   <meta name="description" content="Discover music on DIVERGE. Curated tracks, trending releases, acoustic exploration, and collaborative sessions." />
 </svelte:head>
 
-{#if !hasAccess || replayingIntro}
+{#if replayingIntro}
   <!-- ═══════════════════════════════════════════════════════════════════════
-       STAGE 1 & 2: 3.5s DIVERGE LOGO ANIMATION + LUXURY AUTH EXPERIENCE
+       CINEMATIC 3.5s DIVERGE LOGO ANIMATION (Triggered via Intro pill)
        ═══════════════════════════════════════════════════════════════════════ -->
   <AuthAndIntroExperience
     skipSplash={false}
-    forceSplash={replayingIntro}
+    forceSplash={true}
     on:success={handleAuthSuccess}
   />
 {:else}
   <!-- ═══════════════════════════════════════════════════════════════════════
-       STAGE 3: NORMAL HOME EXPERIENCE (Shown after login, signup or guest)
+       OFFICIAL HOME EXPERIENCE — IMMEDIATE MUSIC CATALOG ACCESS
        ═══════════════════════════════════════════════════════════════════════ -->
   <div class="home">
     {#if loading}
