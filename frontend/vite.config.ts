@@ -17,7 +17,10 @@ export default defineConfig({
 				'$lib': 'src/lib',
 				'$lib/*': 'src/lib/*'
 			},
-			adapter: adapter()
+			adapter: adapter(),
+			paths: {
+				relative: false
+			}
 		})
 	]
 });
