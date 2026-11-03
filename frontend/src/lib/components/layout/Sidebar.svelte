@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { page } from '$app/state';
+  import { page } from '$app/stores';
   import { isLoggedIn, currentUser } from '$lib/stores/auth';
   import { player } from '$lib/stores/player';
 
@@ -38,7 +38,7 @@
   <!-- Nav links -->
   <ul class="nav-list" role="list">
     {#each navItems as item}
-      {@const currentPath = page.url.pathname}
+      {@const currentPath = $page.url.pathname}
       {@const isActive = currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href))}
       <li>
         <a

@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { page } from '$app/state';
   import { searchStore } from '$lib/stores/search';
   import { songs as songsAPI } from '$lib/services/api';
   import SongCard from '$lib/components/cards/SongCard.svelte';

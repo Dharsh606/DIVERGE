@@ -225,6 +225,14 @@
 
       <!-- Header with DIVERGE Emblem -->
       <div class="card-header">
+        <div class="header-nav-row">
+          <a href="/" class="back-home-btn" on:click|preventDefault={continueAsGuest} aria-label="Back to music catalog">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+            <span>Back to Music</span>
+          </a>
+        </div>
         <a href="/" class="brand-badge-link" aria-label="DIVERGE">
           <img src="/logo-mark.png" alt="DIVERGE" class="header-logo-icon" />
           <span class="header-brand-text">DIVERGE</span>
@@ -760,6 +768,32 @@
     margin-bottom: 1.75rem;
     position: relative;
     z-index: 5;
+  }
+
+  .header-nav-row {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 0.5rem;
+  }
+
+  .back-home-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    padding: 0.3rem 0.65rem;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all var(--t-fast) ease;
+  }
+
+  .back-home-btn:hover {
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
   }
 
   .brand-badge-link {

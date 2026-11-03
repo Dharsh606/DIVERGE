@@ -1,7 +1,7 @@
 <script lang="ts">
   import '../app.css';
   import { onMount, onDestroy } from 'svelte';
-  import { page } from '$app/state';
+  import { page } from '$app/stores';
   import { authStore, isLoggedIn } from '$lib/stores/auth';
   import { guestStore } from '$lib/stores/guest';
   import { player, isPlaying } from '$lib/stores/player';
@@ -14,7 +14,7 @@
 
   let sidebarOpen = false;
 
-  $: currentPath = page.url.pathname;
+  $: currentPath = $page.url.pathname;
   $: isAuthPage = currentPath.startsWith('/login') ||
                   currentPath.startsWith('/register') ||
                   currentPath.startsWith('/signup') ||
