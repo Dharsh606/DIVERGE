@@ -1,7 +1,7 @@
 <script lang="ts">
   import '../app.css';
   import { onMount, onDestroy } from 'svelte';
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import { authStore, isLoggedIn } from '$lib/stores/auth';
   import { guestStore } from '$lib/stores/guest';
   import { player, isPlaying } from '$lib/stores/player';
@@ -14,11 +14,12 @@
 
   let sidebarOpen = false;
 
-  $: currentPath = $page.url.pathname;
-  $: isAuthPage = currentPath.startsWith('/login') ||
-                  currentPath.startsWith('/register') ||
-                  currentPath.startsWith('/signup') ||
-                  currentPath.startsWith('/auth');
+  function isAuthPath(pathname: string): boolean {
+    return pathname.startsWith('/login') ||
+           pathname.startsWith('/register') ||
+           pathname.startsWith('/signup') ||
+           pathname.startsWith('/auth');
+  }
 
   // 10 minutes inactivity auto-logout (600,000 ms)
   const INACTIVITY_LIMIT_MS = 10 * 60 * 1000;
@@ -88,19 +89,19 @@
 <!-- Global @react-bits/SlicedWaves ambient background at 40% opacity -->
 <SlicedWaves opacity={0.4} />
 
-<div class="app-shell" class:sidebar-open={sidebarOpen} class:auth-mode={isAuthPage}>
-  {#if !isAuthPage}
+<div class="app-shell" class:sidebar-open={sidebarOpen} class:auth-mode={isAuthPath(page.url.pathname)}>
+  {#if !isAuthPath(page.url.pathname)}
     <Sidebar bind:open={sidebarOpen} />
   {/if}
-  <div class="main-column" class:full-width={isAuthPage}>
-    {#if !isAuthPage}
+  <div class="main-column" class:full-width={isAuthPath(page.url.pathname)}>
+    {#if !isAuthPath(page.url.pathname)}
       <TopHeader />
     {/if}
-    <main class="main-content" id="main-content" class:no-pad={isAuthPage}>
+    <main class="main-content" id="main-content" class:no-pad={isAuthPath(page.url.pathname)}>
       <slot />
     </main>
   </div>
-  {#if !isAuthPage}
+  {#if !isAuthPath(page.url.pathname)}
     <MusicPlayer />
   {/if}
 </div>

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import { playlists as playlistsAPI } from '$lib/services/api';
   import type { Playlist, Song } from '$lib/types';
   import { player, formatTime } from '$lib/stores/player';
@@ -11,7 +11,7 @@
   let loading = true;
   let copied = false;
 
-  $: playlistId = Number($page.params.id);
+  $: playlistId = Number(page.params.id);
   $: isOwner = $currentUser && playlist && $currentUser.id === playlist.user_id;
 
   onMount(async () => {

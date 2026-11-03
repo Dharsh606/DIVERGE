@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
   import { goto } from '$app/navigation';
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import { browser } from '$app/environment';
   import { songs as songsAPI } from '$lib/services/api';
   import { player } from '$lib/stores/player';
@@ -20,11 +20,9 @@
   $: searchResults = $searchStore.results.slice(0, 8);
   $: isSearching = $searchStore.loading;
 
-  // Sync search input with ?q= parameter on /search page or direct external links
-  $: currentUrlQ = $page.url.searchParams.get('q');
-  $: if (currentUrlQ !== null && $page.url.pathname === '/search' && !searchFocused && searchQuery !== currentUrlQ) {
-    searchQuery = currentUrlQ;
-    searchStore.setQuery(currentUrlQ, true);
+  // Sync search input with central searchStore
+  $: if (!searchFocused && $searchStore.query && searchQuery !== $searchStore.query) {
+    searchQuery = $searchStore.query;
   }
 
   // Account dropdown state
@@ -88,7 +86,7 @@
     searchQuery = q;
     searchStore.setQuery(q, true);
     searchInputEl?.focus();
-    if ($page.url.pathname !== '/search') {
+    if (page.url.pathname !== '/search') {
       goto(`/search?q=${encodeURIComponent(q)}`);
     } else {
       window.history.replaceState(null, '', `/search?q=${encodeURIComponent(q)}`);
@@ -104,7 +102,7 @@
     if (searchQuery.trim()) {
       searchStore.setQuery(searchQuery.trim(), true);
       searchFocused = false;
-      if ($page.url.pathname !== '/search') {
+      if (page.url.pathname !== '/search') {
         goto(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
       } else {
         window.history.replaceState(null, '', `/search?q=${encodeURIComponent(searchQuery.trim())}`);
@@ -116,7 +114,7 @@
     searchQuery = '';
     searchStore.clear();
     searchInputEl?.focus();
-    if ($page.url.pathname === '/search') {
+    if (page.url.pathname === '/search') {
       window.history.replaceState(null, '', '/search');
     }
   }
