@@ -55,9 +55,11 @@
   onMount(async () => {
     await authStore.init();
 
-    // Register Service Worker for PWA install & offline caching
+    // Register Service Worker for PWA install & offline caching (ensure cache is updated)
     if (browser && 'serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js').catch(() => {});
+      navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' })
+        .then((reg) => reg.update())
+        .catch(() => {});
     }
 
     // Attach user activity listeners
