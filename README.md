@@ -175,7 +175,7 @@ DIVERGE separates client presentation, high-throughput gateway routing, and pers
 
 ### 5. UI/UX Motion Engineering & Visual Craftsmanship
 * **@react-bits/SlicedWaves Ambient Canvas:** Full-viewport reactive background running at calibrated **40% opacity**, rendering slatted sine ribbons in official brand colors (`#784BFF`, `#FF5C58`, `#FFAE33`) with cursor depth tracking.
-* **Cinematic 3.5s Logo Onboarding:** Immersive introductory experience featuring concentric acoustic harmonic rings, the 3D DIVERGE emblem rising with spring physics, gradient wordmark tracking, and an audio frequency progress scrubber with instant skip capability.
+* **Cinematic 3.5s Logo Intro & Background Re-entry:** Immersive introductory experience featuring concentric acoustic harmonic rings, the 3D DIVERGE emblem rising with spring physics, gradient wordmark tracking, and an audio frequency progress scrubber with instant skip capability. Decoupled from authentication, the intro replays on demand via Home/Sidebar and auto-triggers upon return after 10+ minutes of idle background time before returning cleanly to the active music catalog.
 * **Luxury Spotlight & Border-Beam Authentication:** Bespoke auth card with real-time radial cursor spotlight tracking, continuous Magic UI rotating conic border beam, fluid segmented tab slider, and a 4-bar soundwave equalizer loader (`||||`).
 * **Enhanced 4-Feature Playback Player:**
   * **Queue Drawer:** Expandable slide-over panel displaying *Now Playing* with live animated equalizer bars and *Next Up* queue list with drag/jump actions.

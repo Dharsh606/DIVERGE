@@ -71,13 +71,16 @@ npm run dev -- --host 127.0.0.1 --port 5173
 ## 3. Engineering & Architectural Specifications
 
 ### UI/UX Motion Engineering & Onboarding Flow
-* **Cinematic 3.5s Logo Intro**:
+* **Cinematic 3.5s Logo Intro & Overlay Architecture (`IntroAnimationOverlay.svelte`)**:
   - Fullscreen Obsidian Midnight (`#0A0912`) canvas.
   - Three concentric acoustic harmonic rings pulsing outward from center, simulating speaker frequency displacement.
   - The official DIVERGE 3D emblem rises with smooth spring physics and a subtle iridescent aura glow (`#784BFF` to `#FF5C58`).
   - Staggered typographic expansion: "DIVERGE" tracking expands smoothly from `0.1em` to `0.32em` with dynamic gradient text clipping, followed by the tagline *"Take the uncommon route."*
   - Synchronized high-precision audio frequency progress scrubber with instant skip capability.
+  - **Decoupled Architecture**: Fully separated from authentication so the intro functions purely as a cinematic brand experience. When played on demand (via the Home pill or Sidebar button) or upon returning after 10+ minutes of background idle time, it dismisses cleanly and returns the user straight to their music catalog without gating access.
 * **Luxury Spotlight & Border-Beam Authentication (`AuthAndIntroExperience.svelte`)**:
+  - **Isolated Route Mode**: When navigating to `/login`, `/register`, or `/auth`, the shell isolates the viewport, hiding the sidebar, top header, and bottom player for a pure, distraction-free authentication experience.
+  - **One-Click Catalog Return**: Includes a prominent *"← Back to Music"* navigation button and *"Explore catalog without account →"* option for instantaneous return to the music interface.
   - **React Bits Spotlight Card**: Real-time cursor coordinates track across the card surface, projecting a dynamic radial spotlight (`#784BFF` / `#FF5C58`) beneath the mouse pointer.
   - **Magic UI Rotating Conic Border Beam**: A continuous traveling light beam along the 1px rounded border using pure CSS `conic-gradient` with mask composite exclusion.
   - **Fluid Segmented Switcher**: Instant spring slider transitioning between *Sign In* and *Create Account*.
@@ -131,7 +134,10 @@ npm run dev -- --host 127.0.0.1 --port 5173
 * Playback off-grid generates local `blob:http` URLs, ensuring complete playback continuity without network connectivity.
 
 ### Multi-Tier Session Persistence & Viewport Architecture
-* **Dual-Tier Session Cache**: Authenticated user state and guest exploration tokens synchronize across both encrypted cookie storage and persistent client-side session cache (`diverge_user`), ensuring a frictionless experience across page refreshes.
+* **Environment-Aware Session Management**:
+  - **Installed Desktop App (PWA)**: Detects standalone display mode (`(display-mode: standalone)`). Leverages permanent storage (`localStorage`), maintaining authenticated state permanently across restarts without session timeout until the user explicitly signs out.
+  - **Standard Browser Tabs**: Employs session-isolated storage (`sessionStorage`) with a calibrated 5-hour inactivity timeout rule. Closing the browser tab clears the temporary session; reopening in a fresh window starts clean without lingering credentials.
+  - **10-Minute Inactivity & Background Re-entry**: Tab minimization and idle states exceeding 10 minutes trigger the cinematic DIVERGE intro on re-focus before returning directly to the active music catalog with session intact.
 * **Balanced Viewport Height Proportioning**: Calibrated 14.4px root typography scale (exact 10% reduction from standard 16px baseline), 76px balanced bottom audio player, and 65px top navigation bar ensuring all cards, editorial moments, and exploration strips sit comfortably under the viewport height (100dvh) at 100% browser zoom with crisp, natural proportions.
 * **Zero-Conflict Overlay Hierarchy**: Strict z-index isolation hierarchy preventing UI occlusion:
   * Modals (Account, Premium, Help, Settings): `z-index: 10000` (Full viewport fixed backdrop)
