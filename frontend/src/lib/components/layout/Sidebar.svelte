@@ -2,6 +2,7 @@
   import { page } from '$app/state';
   import { isLoggedIn, currentUser } from '$lib/stores/auth';
   import { player } from '$lib/stores/player';
+  import { introStore } from '$lib/stores/intro';
 
   export let open = false;
 
@@ -70,6 +71,24 @@
         </a>
       </li>
     {/each}
+    <li>
+      <button
+        type="button"
+        class="nav-item intro-nav-btn"
+        on:click={() => introStore.play()}
+        aria-label="Play Intro Animation"
+        data-tooltip={!open ? 'Intro Animation' : undefined}
+      >
+        <span class="nav-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+        </span>
+        {#if open}
+          <span class="nav-label">Intro</span>
+        {/if}
+      </button>
+    </li>
   </ul>
 
   <!-- Bottom section with user profile link or sign-in link -->
@@ -186,6 +205,15 @@
     position: relative;
     white-space: nowrap;
     outline: none;
+  }
+
+  button.nav-item {
+    background: none;
+    border: none;
+    width: 100%;
+    font: inherit;
+    cursor: pointer;
+    text-align: left;
   }
 
   .nav-item:hover {

@@ -6,7 +6,7 @@
   import { player } from '$lib/stores/player';
   import { isLoggedIn } from '$lib/stores/auth';
   import { guestStore } from '$lib/stores/guest';
-  import AuthAndIntroExperience from '$lib/components/auth/AuthAndIntroExperience.svelte';
+  import { introStore } from '$lib/stores/intro';
 
   let trending: Song[] = FALLBACK_SONGS.slice(0, 8);
   let recommended: Song[] = FALLBACK_SONGS.slice(2, 8);
@@ -15,7 +15,6 @@
   let browseSongs: Song[] = FALLBACK_SONGS;
   let loading = false; // Zero waiting! Instant content rendering
   let browseLoading = false;
-  let replayingIntro = false;
 
   $: hasAccess = $isLoggedIn || $guestStore;
 
@@ -60,10 +59,6 @@
     await loadBrowse();
   }
 
-  function handleAuthSuccess() {
-    replayingIntro = false;
-    loadInitialData();
-  }
 </script>
 
 <svelte:head>
@@ -71,20 +66,7 @@
   <meta name="description" content="Discover music on DIVERGE. Curated tracks, trending releases, acoustic exploration, and collaborative sessions." />
 </svelte:head>
 
-{#if replayingIntro}
-  <!-- ═══════════════════════════════════════════════════════════════════════
-       CINEMATIC 3.5s DIVERGE LOGO ANIMATION (Triggered via Intro pill)
-       ═══════════════════════════════════════════════════════════════════════ -->
-  <AuthAndIntroExperience
-    skipSplash={false}
-    forceSplash={true}
-    on:success={handleAuthSuccess}
-  />
-{:else}
-  <!-- ═══════════════════════════════════════════════════════════════════════
-       OFFICIAL HOME EXPERIENCE — IMMEDIATE MUSIC CATALOG ACCESS
-       ═══════════════════════════════════════════════════════════════════════ -->
-  <div class="home">
+<div class="home">
     {#if loading}
       <!-- Loading state -->
       <div class="section-header">
@@ -116,7 +98,7 @@
                 {/if}
                 <button
                   class="replay-intro-pill"
-                  on:click={() => (replayingIntro = true)}
+                  on:click={() => introStore.play()}
                   title="Replay cinematic 3D logo intro"
                   aria-label="Replay intro animation"
                 >
@@ -218,7 +200,6 @@
       {/if}
     {/if}
   </div>
-{/if}
 
 <style>
   .home {

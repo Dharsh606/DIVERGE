@@ -8,6 +8,7 @@
   export let initialTab: 'login' | 'signup' = 'login';
   export let skipSplash = false;
   export let forceSplash = false;
+  export let introOnly = false;
 
   const dispatch = createEventDispatcher();
 
@@ -90,6 +91,10 @@
     setTimeout(() => {
       splashActive = false;
       splashExiting = false;
+      if (introOnly) {
+        dispatch('finish');
+        dispatch('success');
+      }
     }, 550);
   }
 
@@ -200,6 +205,7 @@
   <!-- ═══════════════════════════════════════════════════════════════════════
        STAGE 2: HIGH-END SPOTLIGHT & BORDER-BEAM AUTH CARD
        ═══════════════════════════════════════════════════════════════════════ -->
+  {#if !introOnly}
   <div class="auth-card-stage" class:revealed={!splashActive}>
     <div
       bind:this={cardRef}
@@ -413,6 +419,7 @@
       </div>
     </div>
   </div>
+  {/if}
 </div>
 
 <style>
